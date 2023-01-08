@@ -482,7 +482,7 @@
 									                                    aria-labelledby="holiday-tab" tabindex="0">
 									                                    
                                             <!-- one way search -->
-                                            <div class="row" >
+                                            <div class="row justify-content-center" >
                                                 <div class="col-8" >
                                                    <div class="search-pan row mx-0 theme-border-radius">
                                                 <div class="col-12 col-lg-4 col-xl-3 ps-0 mb-2 mb-xl-0 pe-0 pe-lg-2">
