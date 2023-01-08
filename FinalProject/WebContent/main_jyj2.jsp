@@ -1,4 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -40,11 +42,11 @@
             
             $("#searchMema").click(function() 
             {
-               var address = "index3.html?keyword="+$("#keyword").val();
-            $("#searchForm").attr("action", address);
-            alert($("#searchForm").attr("action"));
-            $("#searchForm").submit();
-         });
+            	var address = "index3.html?keyword="+$("#keyword").val();
+           		$("#searchForm").attr("action", address);
+            	alert($("#searchForm").attr("action"));
+            	$("#searchForm").submit();
+         	});
             
             $.datetimepicker.setLocale('ko');
             
@@ -69,6 +71,37 @@
             				 '19:30', '20:00', '20:30', '21:00', '21:30', '22:00', '22:30', '23:00', '24:00'  
             				 ]
             		});
+            
+            
+            // 동아리 리스트 출력 Ajax 구문
+            $("#club-tab").click(function()
+			{
+				// alert($("#club-tab").attr("id"));
+				var id = $("#club-tab").attr("id");
+				// alert(id);
+				var param = "id=" + id;
+				
+				$.ajax(
+				{
+					type : "POST"
+					, url : "ClubListAjax.jsp"
+					, data : param
+					, success : function(args)
+					{
+						$("#resultDiv").html(args);
+					}
+					, beforesend : showRequest
+					, error : function(e)
+					{
+						alert(e.responseText);
+					}
+				});
+			});
+            
+            function showRequest()
+			{
+				alert("현재 선택된 탭은 동아리탭 입니다.");
+			}
             
         });
     </script>
@@ -228,7 +261,7 @@
                                         aria-controls="hotel-tab-pane" aria-selected="false">끼니메이트</button>
                                 </li>
                                 <li class="nav-item" role="presentation">
-                                    <button class="nav-link" id="holiday-tab" data-bs-toggle="tab"
+                                    <button class="nav-link" id="club-tab" data-bs-toggle="tab"
                                         data-bs-target="#holiday-tab-pane" type="button" role="tab"
                                         aria-controls="holiday-tab-pane" aria-selected="false">동아리</button>
                                 </li>
@@ -246,7 +279,6 @@
                             
                             
                             <!-- 메뉴메이트 시작-->
-                            
                             <div class="tab-pane fade show active" id="flight-tab-pane" role="tabpanel"
 									                                    aria-labelledby="flight-tab" tabindex="0">
 									                                    
@@ -542,6 +574,7 @@
                  </div>
              </div>
     <!-- recommended section -->
+    <!-- 
     <section class="recommended" id="deals">
         <div class="container">
         
@@ -567,7 +600,7 @@
                 </div>
             </div>
             
-            <!-- recomended tours card -->
+            recomended tours card
             <div class="row mt-5">
                 <div class="col-12 col-md-6 col-lg-3 mb-4 mb-lg-0">
                     <div class="card-wrap">
@@ -591,7 +624,7 @@
                         </div>
                     </div>
                 </div>
-                <!-- repetable -->
+                repetable
                 <div class="col-12 col-md-6 col-lg-3 mb-4 mb-lg-0">
                     <div class="card-wrap">
                         <div class="con-img-wrap m-auto">
@@ -614,7 +647,7 @@
                         </div>
                     </div>
                 </div>
-                <!-- repetable -->
+                repetable
                 <div class="col-12 col-md-6 col-lg-3 mb-4 mb-lg-0">
                     <div class="card-wrap">
                         <div class="con-img-wrap m-auto">
@@ -637,7 +670,7 @@
                         </div>
                     </div>
                 </div>
-                <!-- repetable -->
+                repetable
                 <div class="col-12 col-md-6 col-lg-3 mb-4 mb-lg-0">
                     <div class="card-wrap">
                         <div class="con-img-wrap m-auto">
@@ -660,10 +693,21 @@
                         </div>
                     </div>
                 </div>
-                <!-- repetable -->
+                repetable
+                
+                <div id="resultDiv">
+                	ㅇㅇ
+                </div>
             </div>
         </div>
     </section>
+    
+     -->
+     
+     <div id="resultDiv">
+     
+     </div>
+    
     <!-- footer section-->
     <footer class="footer">
         <div class="container">
