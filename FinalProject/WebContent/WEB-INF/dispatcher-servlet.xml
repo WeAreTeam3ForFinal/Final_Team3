@@ -19,7 +19,7 @@
 	<!-- ※ Annotation 표기법으로 Controller 객체를 등록한다. -->
 	<!-- ※ FinalProject 베이직 패키지 작명 규칙 -->
 	<!--  => ex) com.club.mvc, com.mema.mvc, com.user.mvc, . . .-->
-	<context:component-scan base-package="com.test.mvc" />
+	<context:component-scan base-package="com.kkini.*" />
 	<!--
 	 -> base-package 속성에 Controller 객체가 포함된 패키지 경로를 지정해 사용 
 	-->
@@ -47,8 +47,8 @@
 		
 		<!-- ⑤ 매퍼 파일 등록 -> 매퍼 파일의 위치 전달 -->
 		<!-- ※ FinalProject 매퍼 파일 등록 규칙 -->
-		<!-- classpath:com/club/mybatis/mapper/*.xml . . . -->
-		<property name="mapperLocations" value="classpath:com/test/mybatis/mapper/*.xml"></property>
+		<!-- classpath:com/kkini/mybatis/mapper/*.xml . . . -->
+		<property name="mapperLocations" value="classpath:com/kkini/mybatis/mapper/*.xml"></property>
 	</bean>
 	
 	<!-- ⑥ mybatis 등록 과정에서 생겨나는 추가 코드 3 -->

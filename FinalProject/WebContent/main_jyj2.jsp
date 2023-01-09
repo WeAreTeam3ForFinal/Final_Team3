@@ -74,6 +74,7 @@
             
             
             // 동아리 리스트 출력 Ajax 구문
+            /*
             $("#club-tab").click(function()
 			{
 				// alert($("#club-tab").attr("id"));
@@ -84,7 +85,7 @@
 				$.ajax(
 				{
 					type : "POST"
-					, url : "ClubListAjax.jsp"
+					, url : "ClubListAjax.kkini"
 					, data : param
 					, success : function(args)
 					{
@@ -102,6 +103,13 @@
 			{
 				alert("현재 선택된 탭은 동아리탭 입니다.");
 			}
+            */
+            
+            $("#club-tab").click(function()
+			{
+				$("#tab-form").attr("action","clubList.kkini");
+				$("#tab-form").submit();
+			});
             
         });
     </script>
@@ -243,6 +251,7 @@
 <div class="row mt-0 mt-lg-5">
                         <div class="col-12 col-lg-10 offset-lg-1 mb-5 text-center position-relative">
                             <!-- product main tab list -->
+                            <form action="" method="get" id="tab-form">
                             <ul class="nav nav-tabs d-flex justify-content-center border-0 cust-tab" id="myTab"
                                 role="tablist">
                                 <li class="nav-item" role="presentation">
@@ -266,6 +275,7 @@
                                         aria-controls="holiday-tab-pane" aria-selected="false">동아리</button>
                                 </li>
                             </ul>
+                            </form>
                             <!-- product main tab content -->
                             <div class="tab-content mt-3" id="myTabContent">
                             
@@ -273,7 +283,7 @@
                               <div class="tab-pane fade" id="recommend-tab-pane" role="tabpanel"
 									                                    aria-labelledby="recommend-tab" tabindex="0">
                             
-                                            </div>
+                             </div>
                             
                             <!-- 추천 끝 -->
                             
