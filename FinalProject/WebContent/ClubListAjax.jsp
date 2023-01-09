@@ -32,94 +32,46 @@
             </div>
             
             <div class="row mt-5">
-                <div class="col-12 col-md-6 col-lg-3 mb-4 mb-lg-0">
-                    <div class="card-wrap">
-                        <div class="con-img-wrap m-auto">
-                            <img src="assets/images/recommended/offers01.png" class="img-fluid mx-auto d-block"
-                                alt="product picture">
-                            <div class="offer-tag bg-warning">Best Deal</div>
-                            <span class="wishlist-tag"><i class="bi bi-heart"></i></span>
-                        </div>
-                        <div class="con-wrap mt-4">
-                            <h2 class="fs-6 mt-4 fw-bold text-truncate">The Montcalm At Brewery London City</h2>
-                            <p class="mb-2 theme-text-accent-two small">Westminster Borough, London</p>
-                            <div class="d-flex bottom mb-2">
-                                <div class="rating-cover">
-                                    <span class="p-1 small rounded-1 bg-warning theme-text-white">4.8</span>
-                                    <span class="me-2 small theme-text-accent-one">Exceptional</span>
-                                    <span class="small">3,014 reviews</span>
-                                </div>
-                            </div>
-                            <p class="mb-0 theme-text-accent-one">Starting from US$72</p>
-                        </div>
-                    </div>
+            	<!-- 기존 카드내용 삭제 및 부트스트랩 속성 추가 -->
+                <div class="col-12 col-md-6 col-lg-3 mb-4 mb-lg-0 h-50 border border-warning rounded">
+                	<div>
+	                    <p id="club-title" class="h4 text-center mt-3 fw-bold">한국판 고독한 미식가</p>
+	                    <p id="club-region"><i class="bi bi-geo-alt-fill ms-2 me-2"></i>부산</p>
+	                    <p id="club-food-ctg"><i class="bi bi-heart-fill ms-2 me-2"></i>일식</p>
+	                    <p id="club-member-count"><i class="bi bi-people-fill ms-2 me-2" ></i>28명</p>
+	                    <i class="bi bi-tags-fill ms-2 me-2"></i><span class="text-muted">#고미팸 #일식러버 #오겡끼데스까</span>
+                	</div>
                 </div>
-                <div class="col-12 col-md-6 col-lg-3 mb-4 mb-lg-0">
-                    <div class="card-wrap">
-                        <div class="con-img-wrap m-auto">
-                            <img src="assets/images/recommended/offers02.png" class="img-fluid mx-auto d-block"
-                                alt="product picture">
-                            <div class="offer-tag  bg-info">Best Deal</div>
-                            <span class="wishlist-tag"><i class="bi bi-heart"></i></span>
-                        </div>
-                        <div class="con-wrap mt-4">
-                            <h2 class="fs-6 mt-4 fw-bold text-truncate">Flying Over Bali</h2>
-                            <p class="mb-2 theme-text-accent-two small">Beautiful Lands, Indonasia</p>
-                            <div class="d-flex bottom mb-2">
-                                <div class="rating-cover">
-                                    <span class="p-1 small rounded-1 bg-danger theme-text-white">4.7</span>
-                                    <span class="me-2 small theme-text-accent-one">Exceptional</span>
-                                    <span class="small">4,114 reviews</span>
-                                </div>
-                            </div>
-                            <p class="mb-0 theme-text-accent-one">Starting from US$89</p>
-                        </div>
-                    </div>
+                
+                <div class="col-12 col-md-6 col-lg-3 mb-4 mb-lg-0 h-50 border border-warning rounded">
+                	<div>
+	                    <p id="club-title" class="h4 text-center mt-3 fw-bold">한국판 고독한 미식가</p>
+	                    <p id="club-region"><i class="bi bi-geo-alt-fill ms-2 me-2"></i>부산</p>
+	                    <p id="club-food-ctg"><i class="bi bi-heart-fill ms-2 me-2"></i>일식</p>
+	                    <p id="club-member-count"><i class="bi bi-people-fill ms-2 me-2" ></i>28명</p>
+	                    <i class="bi bi-tags-fill ms-2 me-2"></i><span class="text-muted">#고미팸 #일식러버 #오겡끼데스까</span>
+                	</div>
                 </div>
-                <div class="col-12 col-md-6 col-lg-3 mb-4 mb-lg-0">
-                    <div class="card-wrap">
-                        <div class="con-img-wrap m-auto">
-                            <img src="assets/images/recommended/offers03.png" class="img-fluid mx-auto d-block"
-                                alt="product picture">
-                            <div class="offer-tag bg-success">Best Deal</div>
-                            <span class="wishlist-tag"><i class="bi bi-heart"></i></span>
-                        </div>
-                        <div class="con-wrap mt-4">
-                            <h2 class="fs-6 mt-4 fw-bold text-truncate">American Landscapes</h2>
-                            <p class="mb-2 theme-text-accent-two small">Pestminster Worough, USA</p>
-                            <div class="d-flex bottom mb-2">
-                                <div class="rating-cover">
-                                    <span class="p-1 small rounded-1 bg-success theme-text-white">4.9</span>
-                                    <span class="me-2 small theme-text-accent-one">Exceptional</span>
-                                    <span class="small">3,894 reviews</span>
-                                </div>
-                            </div>
-                            <p class="mb-0 theme-text-accent-one">Starting from US$88</p>
-                        </div>
-                    </div>
+                
+                <div class="col-12 col-md-6 col-lg-3 mb-4 mb-lg-0 h-50 border border-warning rounded">
+                	<div>
+	                    <p id="club-title" class="h4 text-center mt-3 fw-bold">한국판 고독한 미식가</p>
+	                    <p id="club-region"><i class="bi bi-geo-alt-fill ms-2 me-2"></i>부산</p>
+	                    <p id="club-food-ctg"><i class="bi bi-heart-fill ms-2 me-2"></i>일식</p>
+	                    <p id="club-member-count"><i class="bi bi-people-fill ms-2 me-2" ></i>28명</p>
+	                    <i class="bi bi-tags-fill ms-2 me-2"></i><span class="text-muted">#고미팸 #일식러버 #오겡끼데스까</span>
+                	</div>
                 </div>
-                <div class="col-12 col-md-6 col-lg-3 mb-4 mb-lg-0">
-                    <div class="card-wrap">
-                        <div class="con-img-wrap m-auto">
-                            <img src="assets/images/recommended/offers04.png" class="img-fluid mx-auto d-block"
-                                alt="product picture">
-                            <div class="offer-tag">Best Deal</div>
-                            <span class="wishlist-tag"><i class="bi bi-heart"></i></span>
-                        </div>
-                        <div class="con-wrap mt-4">
-                            <h2 class="fs-6 mt-4 fw-bold text-truncate">The Beauty of Scotland</h2>
-                            <p class="mb-2 theme-text-accent-two small">Mestminster Gorough, UK</p>
-                            <div class="d-flex bottom mb-2">
-                                <div class="rating-cover">
-                                    <span class="p-1 small rounded-1 bg-info theme-text-white">4.5</span>
-                                    <span class="me-2 small theme-text-accent-one">Exceptional</span>
-                                    <span class="small">2,914 reviews</span>
-                                </div>
-                            </div>
-                            <p class="mb-0 theme-text-accent-one">Starting from US$69</p>
-                        </div>
-                    </div>
-               </div>
-               </div>
-               </div>
+                
+                <div class="col-12 col-md-6 col-lg-3 mb-4 mb-lg-0 h-50 border border-warning rounded">
+                	<div>
+	                    <p id="club-title" class="h4 text-center mt-3 fw-bold">한국판 고독한 미식가</p>
+	                    <p id="club-region"><i class="bi bi-geo-alt-fill ms-2 me-2"></i>부산</p>
+	                    <p id="club-food-ctg"><i class="bi bi-heart-fill ms-2 me-2"></i>일식</p>
+	                    <p id="club-member-count"><i class="bi bi-people-fill ms-2 me-2" ></i>28명</p>
+	                    <i class="bi bi-tags-fill ms-2 me-2"></i><span class="text-muted">#고미팸 #일식러버 #오겡끼데스까</span>
+                	</div>
+                </div>
+             </div>
+          </div>
        </section>

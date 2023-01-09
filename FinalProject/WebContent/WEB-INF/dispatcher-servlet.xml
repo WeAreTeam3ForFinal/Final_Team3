@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="
+						http://www.springframework.org/schema/beans
+						http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+						http://www.springframework.org/schema/context
+						http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+						
+	<!-- ※ Annotation 표기법으로 Controller 객체 등록 -->
+	<!--
+	 Annotation 표기법으로 작성된 Controller 객체를 
+	스프링 컨테이너가 자동으로 스캔하여 찾아낼 수 있도록 처리 
+	-->					
+	
+	<!-- ① 기존 코드 -->
+	<!-- ※ Annotation 표기법으로 Controller 객체를 등록한다. -->
+	<context:component-scan base-package="com.test.mvc" />
+	<!--
+	 -> base-package 속성에 Controller 객체가 포함된 패키지 경로를 지정해 사용 
+	-->
+	
+	<!-- ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ -->	
+	
+	<!-- ③ mybatis 등록 과정에서 생겨나는 추가코드 2 -->
+	<!-- ※ mybatis를 사용하기 위한 혼경 설정을 추가하는 과정에서
+	        필요한 dataSource를 사용하기 위한 환경 설정 추가 -->
+	<bean id="localDataSource" class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
+		<property name="driverClass" value="oracle.jdbc.driver.OracleDriver"></property>
+		<property name="url" value="jdbc:oracle:thin:@211.238.142.49:1521:xe"></property>
+		<property name="username" value="scott"></property>
+		<property name="password" value="tiger"></property>
+	</bean>
+	        
+	
+	
+	<!-- ② mybatis 등록 과정에서 생겨나는 추가 코드 1 -->
+	<!-- ※ mybatis를 사용하기 위한 환경 설정 추가 -->
+	<!--    -> SqlSessionFactoryBean -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<!-- ④ dataSource를 등록하고 와서 프로퍼티 추가 -->
+		<property name="dataSource" ref="localDataSource"></property>	
+		
+		<!-- ⑤ 매퍼 파일 등록 -> 매퍼 파일의 위치 전달 -->
+		<property name="mapperLocations" value="classpath:com/test/mybatis/mapper/*.xml"></property>
+	</bean>
+	
+	<!-- ⑥ mybatis 등록 과정에서 생겨나는 추가 코드 3 -->
+	<!-- ※ SqlSession을 사용하기 위한 환경 설정 추가
+	     -> SqlSessionTamplete -->		
+	     
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg index="0" ref="sqlSessionFactory"></constructor-arg>
+	</bean>
+		
+</beans>
