@@ -1,3 +1,5 @@
+<%@page import="com.kkini.dto.ClubDTO"%>
+<%@page import="java.util.ArrayList"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%
@@ -32,8 +34,9 @@
 	                </div>
 	            </div>
 	            
+	            
 	            <!-- 기존 카드 내용 제거 및 부트스트랩 속성 이용해서 동아리 목록 생성 -->
-	            <div class="row mt-5">
+	          <!--   <div class="row mt-5">
 	                <div class="col-12 col-md-6 col-lg-3 h-50 mb-4 mb-lg-0 border border-warning">
 						<div>
 							<p id="club-list-title" class="text-center fw-bold h4 mt-4">한국판 고독한 미식가</p>
@@ -81,6 +84,17 @@
 							<i class="bi bi-tag-fill ms-3 me-3"></i><span id="club-list-tags" class="text-muted">#고미팸 #일식조아 #츄르릅</span>
 						</div>                	
 	                </div>
-               	</div>
+               	</div> -->
              </div>
+             
+             <c:forEach var="dto" items="${clubList }">
+             	${dto.clubName }
+             	${dto.clubRegion }
+             	${dto.clubFoodCtg }
+             	${dto.clubMemberCount }
+             </c:forEach>
+             
        </section>
+       
+       
+       

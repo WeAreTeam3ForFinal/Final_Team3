@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org/DTD Mapper 3.0/EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kkini.mybatis.IClubDAO">
+
+	<select id="clubList" resultType="com.kkini.dto.ClubDTO">
+		SELECT 
+		C_NAME AS CLUBNAME, 
+		(SELECT FOOD_CASE FROM FOOD_CTG WHERE FOOD_CTG_CODE = C.FOOD_CTG_CODE) AS CLUBFOODCTG, 
+		(SELECT REGION_NAME FROM REGION WHERE REGION_CODE = C.REGION_CODE) AS CLUBREGION,
+		(
+		SELECT COUNT(*) 
+		 FROM C_MEM CM 
+		 WHERE CM.C_APPLY_CODE = (SELECT C_APPLY_CODE FROM C_APPLY) 
+		   AND C.C_CODE = (SELECT C_CODE FROM C_APPLY)
+		   AND (SELECT COUNT(*) FROM C_WD WHERE C_MEM_CODE = CM.C_MEM_CODE) <![CDATA[<]]> 1
+		) AS CLUBMEMBERCOUNT
+		FROM C_OPEN C
+	</select>
+
+</mapper>
