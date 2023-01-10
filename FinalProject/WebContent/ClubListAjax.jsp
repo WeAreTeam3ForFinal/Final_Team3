@@ -5,9 +5,8 @@
 <%
 	request.setCharacterEncoding("UTF-8");
 	String cp = request.getContextPath();
-	
-	String id = request.getParameter("id");
 %>
+
   <section class="recommended" id="deals">
         <div class="container">
         
@@ -36,63 +35,25 @@
 	            
 	            
 	            <!-- 기존 카드 내용 제거 및 부트스트랩 속성 이용해서 동아리 목록 생성 -->
-	          <!--   <div class="row mt-5">
+	             <div class="row mt-5">
+	             <!-- jstl 반복문으로 동아리 리스트 출력 -->
+	             <!-- dto 객체는 ClubController.java에서 가져옴 -->
+	             <c:forEach var="dto" items="${clubList }">
 	                <div class="col-12 col-md-6 col-lg-3 h-50 mb-4 mb-lg-0 border border-warning">
 						<div>
-							<p id="club-list-title" class="text-center fw-bold h4 mt-4">한국판 고독한 미식가</p>
+							<p id="club-list-title" class="text-center fw-bold h4 mt-4">${dto.clubName }</p>
 							<div class="border"></div>
-							<i class="bi bi-geo-alt-fill ms-3 me-3"></i><span id="club-list-region">부산</span><br>
-							<i class="bi bi-heart-fill ms-3 me-3"></i><span id="club-list-foodCtg">일식</span><br>
-							<i class="bi bi-people-fill ms-3 me-3"></i><span id="club-list-memberCount">28명</span><br>
+							<i class="bi bi-geo-alt-fill ms-3 me-3"></i><span id="club-list-region">${dto.clubRegion }</span><br>
+							<i class="bi bi-heart-fill ms-3 me-3"></i><span id="club-list-foodCtg">${dto.clubFoodCtg }</span><br>
+							<i class="bi bi-people-fill ms-3 me-3"></i><span id="club-list-memberCount">${dto.clubMemberCount }</span><br>
 							<div class="border"></div>
-							<i class="bi bi-tag-fill ms-3 me-3"></i><span id="club-list-tags" class="text-muted">#고미팸 #일식조아 #츄르릅</span>
+							<i class="bi bi-tag-fill ms-3 me-3"></i><span id="club-list-tags" class="text-muted">#${dto.clubOpenKeyword }</span>
 						</div>                	
 	                </div>
+	             </c:forEach>
 	                
-	                <div class="col-12 col-md-6 col-lg-3 h-50 mb-4 mb-lg-0 border border-warning">
-						<div>
-							<p id="club-list-title" class="text-center fw-bold h4 mt-4">한국판 고독한 미식가</p>
-							<div class="border"></div>
-							<i class="bi bi-geo-alt-fill ms-3 me-3"></i><span id="club-list-region">부산</span><br>
-							<i class="bi bi-heart-fill ms-3 me-3"></i><span id="club-list-foodCtg">일식</span><br>
-							<i class="bi bi-people-fill ms-3 me-3"></i><span id="club-list-memberCount">28명</span><br>
-							<div class="border"></div>
-							<i class="bi bi-tag-fill ms-3 me-3"></i><span id="club-list-tags" class="text-muted">#고미팸 #일식조아 #츄르릅</span>
-						</div>                	
-	                </div>
-	                
-	                <div class="col-12 col-md-6 col-lg-3 h-50 mb-4 mb-lg-0 border border-warning">
-						<div>
-							<p id="club-list-title" class="text-center fw-bold h4 mt-4">한국판 고독한 미식가</p>
-							<div class="border"></div>
-							<i class="bi bi-geo-alt-fill ms-3 me-3"></i><span id="club-list-region">부산</span><br>
-							<i class="bi bi-heart-fill ms-3 me-3"></i><span id="club-list-foodCtg">일식</span><br>
-							<i class="bi bi-people-fill ms-3 me-3"></i><span id="club-list-memberCount">28명</span><br>
-							<div class="border"></div>
-							<i class="bi bi-tag-fill ms-3 me-3"></i><span id="club-list-tags" class="text-muted">#고미팸 #일식조아 #츄르릅</span>
-						</div>                	
-	                </div>
-	                
-	                <div class="col-12 col-md-6 col-lg-3 h-50 mb-4 mb-lg-0 border border-warning">
-						<div>
-							<p id="club-list-title" class="text-center fw-bold h4 mt-4">한국판 고독한 미식가</p>
-							<div class="border"></div>
-							<i class="bi bi-geo-alt-fill ms-3 me-3"></i><span id="club-list-region">부산</span><br>
-							<i class="bi bi-heart-fill ms-3 me-3"></i><span id="club-list-foodCtg">일식</span><br>
-							<i class="bi bi-people-fill ms-3 me-3"></i><span id="club-list-memberCount">28명</span><br>
-							<div class="border"></div>
-							<i class="bi bi-tag-fill ms-3 me-3"></i><span id="club-list-tags" class="text-muted">#고미팸 #일식조아 #츄르릅</span>
-						</div>                	
-	                </div>
-               	</div> -->
+               	</div> 
              </div>
-             
-             <c:forEach var="dto" items="${clubList }">
-             	${dto.clubName }
-             	${dto.clubRegion }
-             	${dto.clubFoodCtg }
-             	${dto.clubMemberCount }
-             </c:forEach>
              
        </section>
        

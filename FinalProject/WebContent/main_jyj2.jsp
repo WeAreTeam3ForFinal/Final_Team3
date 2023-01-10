@@ -74,7 +74,6 @@
             
             
             // 동아리 리스트 출력 Ajax 구문
-            /*
             $("#club-tab").click(function()
 			{
 				// alert($("#club-tab").attr("id"));
@@ -82,11 +81,12 @@
 				// alert(id);
 				var param = "id=" + id;
 				
+				// 기존 구현한 마이바티스 기능 Ajax 처리
 				$.ajax(
 				{
-					type : "POST"
-					, url : "ClubListAjax.kkini"
-					, data : param
+					// 전송방식은 SELECT 구문이므로 GET으로 통일
+					type : "GET"
+					, url : "clubList.kkini"
 					, success : function(args)
 					{
 						$("#resultDiv").html(args);
@@ -103,13 +103,15 @@
 			{
 				alert("현재 선택된 탭은 동아리탭 입니다.");
 			}
-            */
             
+            // 기존 마이바티스 구문 주석처리
+            /*
             $("#club-tab").click(function()
 			{
 				$("#tab-form").attr("action","clubList.kkini");
 				$("#tab-form").submit();
 			});
+            */
             
         });
     </script>
