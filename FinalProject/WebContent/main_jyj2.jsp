@@ -91,7 +91,7 @@
 					{
 						$("#resultDiv").html(args);
 					}
-					, beforesend : showRequest
+					//, beforeSend : showRequest
 					, error : function(e)
 					{
 						alert(e.responseText);
@@ -99,10 +99,12 @@
 				});
 			});
             
+            /*
             function showRequest()
 			{
 				alert("현재 선택된 탭은 동아리탭 입니다.");
 			}
+            */
             
             // 기존 마이바티스 구문 주석처리
             /*
@@ -112,6 +114,42 @@
 				$("#tab-form").submit();
 			});
             */
+            
+            // ajax로 불러온 엘리먼트의 이벤트가 정상 작동하지 않을 떄는
+            // 아래 코드와 같이 제이쿼리 작성 필요
+			$(document).on("click", "#sortList > li > a", function()
+			{
+				// alert("확인");
+				url = $(this).attr("href");
+				
+				$.ajax(
+				{
+					// 전송방식은 SELECT 구문이므로 GET으로 통일
+					type : "GET"
+					, url : url
+					, success : function(args)
+					{
+						$("#resultDiv").html(args);
+						
+						var sortBy = $("#sortBy").val();
+						
+						if(sortBy == "date")
+							sortBy = "개설일순";
+						else if(sortBy == "memUp")
+							sortBy = "동아리원 오름차순";
+						else if(sortBy == "memDown")
+							sortBy = "동아리원 내림차순";
+						
+						$("#selectedSort").text(sortBy);
+					}
+					, error : function(e)
+					{
+						alert(e.responseText);
+					}
+				});
+				
+				
+			});
             
         });
     </script>
