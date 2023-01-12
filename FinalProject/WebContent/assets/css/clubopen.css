@@ -1,0 +1,45 @@
+
+.opened {
+   padding-top: 7.5rem;
+    padding-bottom: 7.5rem;
+}
+
+#dupl {
+   margin-left: 5px;
+}
+
+select option[value=""][disabled] {
+   display: none;
+}
+
+#tag-list {
+  padding: 16px 0;
+}
+
+#tag-list li {
+  display: inline-block;
+  margin: 0 5px;
+  font-size: 14px;
+  letter-spacing: -.5px;
+}
+
+#tag-list li.tag-item {
+  padding: 4px 8px;
+}
+
+.del-btn {
+  font-size: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-left: 8px;
+}
+
+.clubDup{
+   font-size: 10px;
+}
+.clubNameSuccess {   
+   color: blue;
+}
+.clubNameFail {
+   color: red;
+}

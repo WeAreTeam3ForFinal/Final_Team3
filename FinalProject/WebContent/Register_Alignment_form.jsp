@@ -31,6 +31,7 @@ String[] user_intregion = request.getParameterValues("User_IntRegion");
 <body>
 
 
+<<<<<<< Updated upstream
 	<section class="h-100 h-custom">
 		<div class="container py-5 h-100">
 			<div class="row d-flex justify-content-center h-100">
@@ -245,5 +246,125 @@ String[] user_intregion = request.getParameterValues("User_IntRegion");
 			</div>
 		</div>
 	</section>
+=======
+<section class="h-100 h-custom">
+  <div class="container py-5 h-100">
+    <div class="row d-flex align-items-center h-100">
+      <div class="col-12">
+        <div class="card card-registration card-registration-2" style="border-radius: 15px;">
+        
+          <div class="card-body p-0">
+            <div class="row g-0" style="justify-content: center;">
+              <div class="col-lg-10 bg-indigo text-white">
+                <div class="p-5">
+                  <h3 class="fw-normal mb-5"><%= %></h3>
+
+                  <div class="mb-4 pb-2">
+                    <div class="form-outline form-white">
+                      <input type="text" id="form3Examplea2" class="form-control form-control-lg" />
+                      <label class="form-label" for="form3Examplea2">Street + Nr</label>
+                    </div>
+                  </div>
+
+                  <div class="mb-4 pb-2">
+                    <div class="form-outline form-white">
+                      <input type="text" id="form3Examplea3" class="form-control form-control-lg" />
+                      <label class="form-label" for="form3Examplea3">Additional Information</label>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-5 mb-4 pb-2">
+
+                      <div class="form-outline form-white">
+                        <input type="text" id="form3Examplea4" class="form-control form-control-lg" />
+                        <label class="form-label" for="form3Examplea4">Zip Code</label>
+                      </div>
+
+                    </div>
+                    <div class="col-md-7 mb-4 pb-2">
+
+                      <div class="form-outline form-white">
+                        <input type="text" id="form3Examplea5" class="form-control form-control-lg" />
+                        <label class="form-label" for="form3Examplea5">Place</label>
+                      </div>
+
+                    </div>
+                  </div>
+
+                  <div class="mb-4 pb-2">
+                    <div class="form-outline form-white">
+                      <input type="text" id="form3Examplea6" class="form-control form-control-lg" />
+                      <label class="form-label" for="form3Examplea6">Country</label>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-5 mb-4 pb-2">
+
+                      <div class="form-outline form-white">
+                        <input type="text" id="form3Examplea7" class="form-control form-control-lg" />
+                        <label class="form-label" for="form3Examplea7">Code +</label>
+                      </div>
+
+                    </div>
+                    <div class="col-md-7 mb-4 pb-2">
+
+                      <div class="form-outline form-white">
+                        <input type="text" id="form3Examplea8" class="form-control form-control-lg" />
+                        <label class="form-label" for="form3Examplea8">Phone Number</label>
+                      </div>
+
+                    </div>
+                  </div>
+
+                  <div class="mb-4">
+                    <div class="form-outline form-white">
+                      <input type="text" id="form3Examplea9" class="form-control form-control-lg" />
+                      <label class="form-label" for="form3Examplea9">Your Email</label>
+                    </div>
+                  </div>
+                  
+      
+      <!-- radio 버튼  -->            
+                    <div class="col-md-6 mb-4">
+
+                  <h6 class="mb-2 pb-1">Gender: </h6>
+
+            <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="femaleGender"
+                      value="option1" checked />
+                    <label class="form-check-label" for="femaleGender">Female</label>
+                  </div>
+
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="maleGender"
+                      value="option2" />
+                    <label class="form-check-label" for="maleGender">Male</label>
+                  </div>
+
+                </div>
+
+                  <div class="form-check d-flex justify-content-start mb-4 pb-3">
+                    <input class="form-check-input me-3" type="checkbox" value="" id="form2Example3c" />
+                    <label class="form-check-label text-white" for="form2Example3">
+                      I do accept the <a href="#!" class="text-white"><u>Terms and Conditions</u></a> of your
+                      site.
+                    </label>
+                  </div>
+
+                  <button type="button" class="btn btn-light btn-lg"
+                    data-mdb-ripple-color="dark">Register</button>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+>>>>>>> Stashed changes
 </body>
 </html>

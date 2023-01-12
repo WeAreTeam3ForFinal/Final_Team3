@@ -1,0 +1,21 @@
+<div class="modal fade" id="oneBtnPopup" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">     
+      <div class="modal-body">
+        <p style="text-align: center;" id="onePopContents"></p>
+      </div>
+      <div class="modal-footer">
+        <button id="onePopBtn" type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="width:100%;"></button>
+         <a style="display:none;"></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+$(function(){
+   $("#onePopBtn").click(function(){
+      $(this).next().get(0).click();
+   })
+});
+</script>
