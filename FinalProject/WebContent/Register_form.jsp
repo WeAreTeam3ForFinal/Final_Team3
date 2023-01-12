@@ -46,6 +46,7 @@ String cp = request.getContextPath();
 			if ($.trim($("#User_addr").val()) != "")
 			{
 				const id = $(this).attr('id');
+				addrAjax(id);
 				addrCheckAjax(id);
 
 			}
@@ -53,21 +54,77 @@ String cp = request.getContextPath();
 		});
 
 		/* 관심지역 */
-		$("#User_IntRegion1").keyup(function()
+		$("#User_IntRegion").keyup(function()
 		{
 			//alert($(this).attr('id')); //호출한 곳의 iD 알아오기
-			$("#User_IntRegion1Err").css("dispaly", "none");
-			$("#User_IntRegion1Err").html("");
+			$("#User_IntRegionErr").css("dispaly", "none");
+			$("#User_IntRegionErr").html("");
 
-			if ($.trim($("#User_IntRegion1").val()) != "")
+			if ($.trim($("#User_IntRegion").val()) != "")
 			{
 				const id = $(this).attr('id');
+				regionAjax(id);
 				regionCheckAjax(id);
 			}
 
 		});
+	
+		
+		
+		/* 지역 에이잭스 처리 */
+		function addrAjax(id)
+		{
+			//alert($("#"+id).val()); //호출한 곳의 id를 받아 입력값 받아오기
+			params = "region_name=" + $('#'+id).val();
+			$.ajax({
+				
+				type : "POST"
+				,url : "addrList.kkini"
+				,data : params
+				, success: function(args)
+				{
+					$("#"+id+"Rec").html(args);
+					
+				}
+			   ,beforeSend:showRequest
+			   ,error: function(e)
+			{
+				   alert(e.responseText);
+				
+			}
+			});
+			
+		}		
+		
+		
+		/* 지역 에이잭스 처리 */
+		function regionAjax(id)
+		{
+			//alert($("#"+id).val()); //호출한 곳의 id를 받아 입력값 받아오기
+			params = "region_name=" + $('#'+id).val();
+			$.ajax({
+				
+				type : "POST"
+				,url : "regionList.kkini"
+				,data : params
+				, success: function(args)
+				{
+					
+					$("#User_addrRec").html(args);
+					
+				}
+			   ,beforeSend:showRequest
+			   ,error: function(e)
+			{
+				   alert(e.responseText);
+				
+			}
+			});
+			
+		}		
+		
 
-		/* 관심지역 */
+	/* 	
 		$("#User_IntRegion2").keyup(function()
 		{
 			//alert($(this).attr('id')); //호출한 곳의 iD 알아오기
@@ -82,7 +139,7 @@ String cp = request.getContextPath();
 
 		});
 
-		/* 관심지역 */
+		
 		$("#User_IntRegion3").keyup(function(e)
 		{
 			//alert($(this).attr('id')); //호출한 곳의 iD 알아오기
@@ -95,7 +152,7 @@ String cp = request.getContextPath();
 				regionCheckAjax(id);
 			}
 
-		});
+		}); */
 
 		//이메일 직접 입력 부분
 
@@ -111,6 +168,45 @@ String cp = request.getContextPath();
 				$("#emailDirect").hide();
 			}
 		});
+		
+		
+		
+		  var testForm = $("#testForm")
+	        var index = 0
+
+	        $("#AddInt").click(function (){
+	            if(index == 3){
+	                alert("최대 개수는 3개입니다.")
+	                return false;
+	            }
+
+	            var addRegDiv = document.getElementById("addInput");
+	            addRegDiv.setAttribute("class", "newDiv col-3");
+
+	            var newInput = document.createElement("input");
+	            //newInput.setAttribute("id", "newInput"+index);
+	            newInput.setAttribute("name", "User_IntRegion");
+	            newInput.setAttribute("type", "text");
+	            newInput.setAttribute("readonly","readonly");
+	            newInput.setAttribute("class","form-control form-control-m rounded");
+	            newInput.setAttribute("value", $("#User_IntRegion").val());
+
+	            var removeInput = document.createElement("span");
+	            removeInput.setAttribute("class", "removeInput");
+	            removeInput.textContent = "X";
+
+	            addRegDiv.append(newInput);
+	            addRegDiv.append(removeInput);
+
+	            index+=1
+
+	        });
+			/* 리셋버튼 추가 */
+	        $(document).on("click", ".removeInput", function () {
+	            $(this).parent(".newDiv").remove();
+	            resetIndex();
+	        });
+		
 
 	});
 
@@ -193,7 +289,7 @@ String cp = request.getContextPath();
 									<div class="px-5 pt-5 pb-1">
 
 										<!-- 폼 시작 -->
-										<form action="Register_Alignment_form.jsp" method="post">
+										<form action="regist_Alignment.kkini" method="post">
 											<h3 class="fw-normal mb-4" style="color: #FFA500;">
 												회원 정보 <small style="font-size: small; color: gray;">
 													<i class="bi bi-check-lg"></i>는 필수사항입니다.
@@ -336,27 +432,35 @@ String cp = request.getContextPath();
 
 											<!-- 관심지역 -->
 											<div class="row">
-												<div class="col-6 mb-2 pb-2">
-													<label class="form-label" for="User_IntRegion1">관심지역①<small
+												<div class="col-7 mb-2 pb-2">
+													<label class="form-label" for="User_IntRegion">관심지역<small
 														class="text-muted">단위 : 구</small></label><i
 														class="bi bi-check-lg mt-2"
 														style="color: black; font-size: 18px;"></i>
 													<div class="input-group form-outline">
-														<input type="text" id="User_IntRegion1"
-															name="User_IntRegion" list="User_IntRegion1"
+														<input type="text" id="User_IntRegion"
+															name="add_IntRegion" list="region"
 															class="form-control form-control-m rounded"
 															placeholder="ex)서울시 서대문구">
-
-														<div id="User_IntRegion1Rec" class="col-2"></div>
+														<button type="button" id="AddInt"
+														class="btn btn-outline-success">추가</button>
+														<button type="button" id="AddInt"
+														class="btn btn-outline-success">리셋</button> <!-- id name 삭제 -->
+														<div id="User_IntRegionReset" class="col-2"></div>
 
 													</div>
 													<div class="col-7">
-														<span id="User_IntRegion1Err" style="color: red;"></span>
+														<span id="User_IntRegionErr" style="color: red;"></span>
 														<div class="col-6"></div>
 													</div>
+													
 												</div>
 												<div></div>
-												<div class="col-6 mb-2 pb-2">
+												<div class="input-group"id="addInput"></div>
+												
+												
+												
+											<!-- 	<div class="col-6 mb-2 pb-2">
 													<label class="form-label" for="User_IntRegion2">관심지역②<small
 														class="text-muted">단위 : 구</small></label><i
 														class="bi bi-check-lg mt-2"
@@ -396,7 +500,7 @@ String cp = request.getContextPath();
 														<span id="User_IntRegion3Err" style="color: red;"></span>
 														<div class="col-6"></div>
 													</div>
-												</div>
+												</div> -->
 
 											</div>
 
@@ -423,3 +527,9 @@ String cp = request.getContextPath();
 	</section>
 </body>
 </html>
+
+
+
+
+
+

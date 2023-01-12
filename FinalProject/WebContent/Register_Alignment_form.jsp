@@ -5,10 +5,22 @@
 String cp = request.getContextPath();
 %>
 
-<%
-	String user_id = request.getParameter("UserId");
+<% /* 에이잭스로 할게아니었음 */
+String user_id = request.getParameter("UserId");
 String user_email = request.getParameter("email");
 String emailDirect = request.getParameter("emailDirect");
+
+
+if(user_email == null)
+{
+	user_id += emailDirect;
+}
+else
+{
+	user_id += user_email;
+}
+
+
 String user_nickname = request.getParameter("UserNickName");
 String user_pw = request.getParameter("UserPw");
 String user_birth = request.getParameter("Birth");
@@ -16,6 +28,9 @@ String user_gender = request.getParameter("Gender");
 String user_addr = request.getParameter("User_addr");
 String user_phonenumber = request.getParameter("Phone_number");
 String[] user_intregion = request.getParameterValues("User_IntRegion");
+
+
+
 %>
 <!DOCTYPE html>
 <html>
@@ -44,198 +59,88 @@ String[] user_intregion = request.getParameterValues("User_IntRegion");
 							<div class="row g-0" style="justify-content: center;">
 								<div class="col-lg-10 bg-indigo text-white">
 									<div class="px-5 pt-5 pb-1">
+									<form action="user_register.kkini" method="post">
 										<h3 class="fw-normal mb-5">성향 입력</h3>
 
 										<!-- 식사속도 -->
 										<div class="col-md-7 mb-4">
 
-											<h6 class="mb-2 pb-1">식사속도</h6>
-
+											<h6 class="mb-2 pb-1">밥을 얼마나 빨리드시나요?</h6>
+											<c:forEach var="speedList" items="${speedList }">
 											<div class="form-check form-check-inline">
 												<input class="form-check-input" type="radio"
-													name="inlineRadioOptions" id="femaleGender" value="option1"
+													name="user_eatSpeed" id="${speedList.CODE }" value="${speedList.CODE }"
 													checked /> <label class="form-check-label"
-													for="femaleGender">매우 빠른편</label>
+													for="${speedList.CODE }">${speedList.U_SPEED }</label>
 											</div>
-
-											<div class="form-check form-check-inline">
-												<input class="form-check-input" type="radio"
-													name="inlineRadioOptions" id="maleGender" value="option2" />
-												<label class="form-check-label" for="maleGender">빠른편</label>
-											</div>
-											
-											<div class="form-check form-check-inline">
-												<input class="form-check-input" type="radio"
-													name="inlineRadioOptions" id="maleGender" value="option2" />
-												<label class="form-check-label" for="maleGender">보통</label>
-											</div>
-											
-											<div class="form-check form-check-inline">
-												<input class="form-check-input" type="radio"
-													name="inlineRadioOptions" id="maleGender" value="option2" />
-												<label class="form-check-label" for="maleGender">느린편</label>
-											</div>
-											
-											<div class="form-check form-check-inline">
-												<input class="form-check-input" type="radio"
-													name="inlineRadioOptions" id="maleGender" value="option2" />
-												<label class="form-check-label" for="maleGender">매우 느린편</label>
-											</div>
-
+											</c:forEach>
 										</div>
 										
 										
 										<!-- 식사중 대화량 -->
 										<div class="col-md-7 mb-4">
 
-											<h6 class="mb-2 pb-1">식사속도</h6>
-
+											<h6 class="mb-2 pb-1">식사중 대화는 얼마나 하세요?</h6>
+											<c:forEach var="talkList" items="${talkList }">
 											<div class="form-check form-check-inline">
 												<input class="form-check-input" type="radio"
-													name="inlineRadioOptions" id="femaleGender" value="option1"
+													name="user_talk" id="${talkList.CODE }" value="${talkList.CODE }"
 													checked /> <label class="form-check-label"
-													for="femaleGender">매우 빠른편</label>
+													for="${talkList.CODE }">${talkList.AMOUNT }</label>
 											</div>
 
-											<div class="form-check form-check-inline">
-												<input class="form-check-input" type="radio"
-													name="inlineRadioOptions" id="maleGender" value="option2" />
-												<label class="form-check-label" for="maleGender">빠른편</label>
-											</div>
-											
-											<div class="form-check form-check-inline">
-												<input class="form-check-input" type="radio"
-													name="inlineRadioOptions" id="maleGender" value="option2" />
-												<label class="form-check-label" for="maleGender">보통</label>
-											</div>
-											
-											<div class="form-check form-check-inline">
-												<input class="form-check-input" type="radio"
-													name="inlineRadioOptions" id="maleGender" value="option2" />
-												<label class="form-check-label" for="maleGender">느린편</label>
-											</div>
-											
-											<div class="form-check form-check-inline">
-												<input class="form-check-input" type="radio"
-													name="inlineRadioOptions" id="maleGender" value="option2" />
-												<label class="form-check-label" for="maleGender">매우 느린편</label>
-											</div>
-
+										   </c:forEach>
 										</div>
 
 
+										<!-- 성격유형 -->
+										<div class="col-md-7 mb-4">
+										<h6 class="mb-2 pb-1">성격유형</h6>
+										<c:forEach var="chaList" items="${chaList }">
+										<div class="form-check form-check-inline">
+												<input class="form-check-input" type="checkbox"
+													name="user_character" id="${chaList.CHA_TYPE_CODE}" value="${chaList.CHA_TYPE_CODE }" />
+												<label class="form-check-label" for="${chaList.CHA_TYPE_CODE}">${chaList.CHA }</label>
+											</div>
+										
+										</c:forEach>
+										</div>
+										
+										<!-- 관심사 -->
+										<!-- 전체선택 필요한가? -->
+										<div class="col-md-7 mb-4">
+										<h6 class="mb-2 pb-1">관심사</h6>
+										<c:forEach var="intList" items="${intList }">
+										<div class="form-check form-check-inline">
+												<input class="form-check-input" type="checkbox"
+													name="user_interest" id="${intList.CODE}" value="${intList.CODE }" />
+												<label class="form-check-label" for="${intList.CODE}">${intList.INTER }</label>
+											</div>
+										
+										</c:forEach>
+										</div>
+										
+										
+										<!-- 자기소개 -->
 
 
-
-										<div class="mb-4 pb-2">
+										<div class="col-8 mb-4 pb-2 ">
 											<div class="form-outline form-white">
-												<input type="text" id="form3Examplea2"
-													class="form-control form-control-lg" /> <label
-													class="form-label" for="form3Examplea2">Street + Nr</label>
-											</div>
-										</div>
-
-										<div class="mb-4 pb-2">
-											<div class="form-outline form-white">
-												<input type="text" id="form3Examplea3"
-													class="form-control form-control-lg" /> <label
-													class="form-label" for="form3Examplea3">Additional
-													Information</label>
-											</div>
-										</div>
-
-										<div class="row">
-											<div class="col-md-5 mb-4 pb-2">
-
-												<div class="form-outline form-white">
-													<input type="text" id="form3Examplea4"
-														class="form-control form-control-lg" /> <label
-														class="form-label" for="form3Examplea4">Zip Code</label>
-												</div>
-
-											</div>
-											<div class="col-md-7 mb-4 pb-2">
-
-												<div class="form-outline form-white">
-													<input type="text" id="form3Examplea5"
-														class="form-control form-control-lg" /> <label
-														class="form-label" for="form3Examplea5">Place</label>
-												</div>
-
-											</div>
-										</div>
-
-										<div class="mb-4 pb-2">
-											<div class="form-outline form-white">
-												<input type="text" id="form3Examplea6"
-													class="form-control form-control-lg" /> <label
-													class="form-label" for="form3Examplea6">Country</label>
-											</div>
-										</div>
-
-										<div class="row">
-											<div class="col-md-5 mb-4 pb-2">
-
-												<div class="form-outline form-white">
-													<input type="text" id="form3Examplea7"
-														class="form-control form-control-lg" /> <label
-														class="form-label" for="form3Examplea7">Code +</label>
-												</div>
-
-											</div>
-											<div class="col-md-7 mb-4 pb-2">
-
-												<div class="form-outline form-white">
-													<input type="text" id="form3Examplea8"
-														class="form-control form-control-lg" /> <label
-														class="form-label" for="form3Examplea8">Phone
-														Number</label>
-												</div>
-
-											</div>
-										</div>
-
-										<div class="mb-4">
-											<div class="form-outline form-white">
-												<input type="text" id="form3Examplea9"
-													class="form-control form-control-lg" /> <label
-													class="form-label" for="form3Examplea9">Your Email</label>
+													<label class="form-label" for="User_introduce">자기 소개</label>
+												<textarea rows="5" cols="20" id="User_introduce" name="user_introduce"  class="form-control form-control-lg" style="font-size: medium;"></textarea> 
 											</div>
 										</div>
 
 
-										<!-- radio 버튼  -->
-										<div class="col-md-6 mb-4">
 
-											<h6 class="mb-2 pb-1">Gender:</h6>
-
-											<div class="form-check form-check-inline">
-												<input class="form-check-input" type="radio"
-													name="inlineRadioOptions" id="femaleGender" value="option1"
-													checked /> <label class="form-check-label"
-													for="femaleGender">Female</label>
+												
+										<div class="row justify-content-center">
+											<div class="col-2 ">
+										<button type="submit" class="btn btn-light btn-lg "
+											data-mdb-ripple-color="dark">회원가입</button>
 											</div>
-
-											<div class="form-check form-check-inline">
-												<input class="form-check-input" type="radio"
-													name="inlineRadioOptions" id="maleGender" value="option2" />
-												<label class="form-check-label" for="maleGender">Male</label>
-											</div>
-
 										</div>
-
-										<div class="form-check d-flex justify-content-start mb-4 pb-3">
-											<input class="form-check-input me-3" type="checkbox" value=""
-												id="form2Example3c" /> <label
-												class="form-check-label text-white" for="form2Example3">
-												I do accept the <a href="#!" class="text-white"><u>Terms
-														and Conditions</u></a> of your site.
-											</label>
-										</div>
-
-										<button type="button" class="btn btn-light btn-lg"
-											data-mdb-ripple-color="dark">Register</button>
-
+										</form>
 									</div>
 								</div>
 							</div>
