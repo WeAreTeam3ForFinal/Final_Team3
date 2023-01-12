@@ -288,7 +288,7 @@
                     <!-- search engine tabs -->
                     <div class="row mt-0 mt-lg-5"></div>
   
-<div class="row mt-0 mt-lg-5">
+					<div class="row mt-0 mt-lg-5">
                         <div class="col-12 col-lg-10 offset-lg-1 mb-5 text-center position-relative">
                             <!-- product main tab list -->
                             <form action="" method="get" id="tab-form">
