@@ -4,7 +4,7 @@
 	request.setCharacterEncoding("UTF-8");
 	String cp = request.getContextPath();
 %>
-<datalist id="${listId }">
+<datalist id="region">
 <c:forEach var="region" items="${regionList }">
 <option value="${region.region_name}"></option>
 </c:forEach>

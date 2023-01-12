@@ -45,7 +45,7 @@ public String addrList(ModelMap model, String region_name)
 
 
 @RequestMapping(value = "/regionList.kkini",method = RequestMethod.POST)
-public String regionList(ModelMap model, String region_name,String listId)
+public String regionList(ModelMap model, String region_name)
 {
 	String result="";
 	
@@ -54,7 +54,6 @@ public String regionList(ModelMap model, String region_name,String listId)
 		IRegionDAO dao = sqlSession.getMapper(IRegionDAO.class);
 		
 		model.addAttribute("regionList", dao.list(region_name));
-		model.addAttribute("listId", listId);
 		result = "/RegionListAjax.jsp";
 		
 	} catch (Exception e)
@@ -99,6 +98,8 @@ public String regionCheck(ModelMap model,String region_name)
 	
 }
 	
-	
+
+
+
 
 }

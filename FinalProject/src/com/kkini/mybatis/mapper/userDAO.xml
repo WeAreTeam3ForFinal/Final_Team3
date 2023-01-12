@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org/DTD Mapper 3.0/EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kkini.mybatis.IUserDAO">
+
+<select id="getChalist" resultType="java.util.HashMap">
+SELECT CHA_TYPE_CODE , CHA
+FROM CHA_TYPE
+</select>
+
+
+
+<select id="getTalklist" resultType="java.util.HashMap">
+SELECT TALK_AMOUNT_CODE AS CODE , AMOUNT
+FROM TALK_AMOUNT
+</select>
+
+
+<select id="getIntlist" resultType="java.util.HashMap">
+SELECT INTER_TYPE_CODE AS CODE, INTER
+FROM INTER_TYPE
+</select>
+
+
+<select id="getSpeedlist" resultType="java.util.HashMap">
+SELECT U_SPEED_CODE AS CODE, U_SPEED
+FROM EATINGSPEED
+
+</select>
+
+
+<select id="registe" parameterType="com.kkini.dto.UserDTO" statementType="CALLABLE">
+{CALL PRC_USER_REGISTE(
+#{user_id, mode=IN, jdbcType=VARCHAR}
+, #{user_pw, mode=IN, jdbcType=VARCHAR}
+, #{user_addr, mode=IN, jdbcType=VARCHAR}
+, #{user_talk, mode=IN, jdbcType=VARCHAR}
+, #{user_eatSpeed, mode=IN, jdbcType=VARCHAR}
+, #{user_nickname, mode=IN, jdbcType=VARCHAR}
+, #{user_phonenumber, mode=IN, jdbcType=VARCHAR}
+, #{user_introduce, mode=IN, jdbcType=NULL}
+, #{user_birth , mode=IN, jdbcType=VARCHAR}
+, #{user_gender, mode=IN, jdbcType=VARCHAR}
+})
+
+</select>
+
+
+</mapper>
