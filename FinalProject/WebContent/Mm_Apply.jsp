@@ -390,7 +390,7 @@ $("#onePopBtn").next().attr("href", Phref);
     onclick의 oneBtnPopOpen함수의 매개변수에는 현재 버튼의 id를 입력해주면 된다.
 -->
 <body>
-   <jsp:include page="onebuttonpopup.html"></jsp:include>
+   <jsp:include page="oneButtonPopup.html"></jsp:include>
 </body>
 </body>
 </html>
