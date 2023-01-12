@@ -1,0 +1,116 @@
+        *{margin: 0; padding: 0;}
+        li{list-style: none;}
+        a{text-decoration: none;}
+
+        .title_box {
+            width: 1000px;
+            height: 50px;
+            margin: 10px auto;
+            text-align: center;
+        }
+
+        .title_box>p {
+            width: 300px;
+            height: 50px;
+            background-color: #eee;
+            margin: 0 auto;
+            font-size: 32px;
+            font-weight: bold;
+            border-radius: 20px;
+          
+        }
+
+        section {
+            width: 850px;
+            height:900px;
+            margin: 0 auto;
+            background-color: #eee;
+            border-radius: 70px;
+
+        }
+         section .input01 {
+            height: 15px;
+            font-size: 11px;
+            color: rgb(214, 59, 59);
+            text-align: right;
+            margin-right: 60px;
+        }
+        section .input02 {
+            height: 15px;
+            font-size: 11px;
+            color: rgb(49, 153, 231);
+            text-align: right;
+            margin-right: 60px;
+        }
+        
+   
+        .sub_title>div{
+            font-size: 14px;
+            margin-left: 90px;
+        }
+        
+        .sub_title .blue {
+            color: rgb(49, 153, 231);
+        }
+        .sub_title .bar {
+            width: 50px;
+            height: 7px;
+            background-color: greenyellow;
+            border-radius: 25px;
+            margin-top: 7px;
+            margin-left: 3px;
+            margin-right: 3px;
+        }
+        .sub_title .sub01 {display: flex;}
+        .sub_title .sub02 {display: flex;}
+        .sub_title .sub03 {
+            display: flex;
+        }
+        .main {
+            width: 670px;
+            height:670px;
+            margin:0 auto;
+        }
+        .main .red {
+            color: rgb(214, 59, 59);
+        }
+         .main .blue {
+            color: blue;
+        }
+        .container {
+            margin-bottom: 40px;
+         
+        }
+        .container form {
+            margin-bottom: 20px;
+        }
+        .container .close {
+            cursor: pointer;
+            opacity: 0.5;
+        }
+        .container .close:hover {
+            opacity: 1;
+            font-weight: bold;
+        }
+
+        .button_box {
+            width: 1000px;
+            height: 50px;
+            margin: 10px auto;
+            text-align: center;
+        }
+        .button_box>button {
+            width: 100px;
+            height: 40px;
+            border: none;
+            border-radius: 10px;
+        }
+        .button_box>button:first-child {
+            margin-right: 50px;
+            background-color: rgb(49, 153, 231);
+            color: white;
+        }
+        .button_box>button:last-child {
+            background-color: #666;
+            color: white;
+        }
