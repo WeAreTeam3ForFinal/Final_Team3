@@ -19,5 +19,9 @@ public interface IUserDAO
 	
 	public void userRegister(UserDTO dto);
 	
+	public String regionSearch(String user_addr);
+	
+	public void addintregion(String user_region,String user_code);
+	
 	
 }

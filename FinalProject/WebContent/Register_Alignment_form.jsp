@@ -13,11 +13,11 @@ String emailDirect = request.getParameter("emailDirect");
 
 if(user_email == null)
 {
-	user_id += emailDirect;
+	user_id += "@"+emailDirect;
 }
 else
 {
-	user_id += user_email;
+	user_id += "@"+user_email;
 }
 
 
@@ -28,7 +28,6 @@ String user_gender = request.getParameter("Gender");
 String user_addr = request.getParameter("User_addr");
 String user_phonenumber = request.getParameter("Phone_number");
 String[] user_intregion = request.getParameterValues("User_IntRegion");
-
 
 
 %>
@@ -70,9 +69,9 @@ String[] user_intregion = request.getParameterValues("User_IntRegion");
 											<c:forEach var="speedList" items="${speedList }">
 											<div class="form-check form-check-inline">
 												<input class="form-check-input" type="radio"
-													name="user_eatSpeed" id="${speedList.CODE }" value="${speedList.CODE }"
-													checked /> <label class="form-check-label"
-													for="${speedList.CODE }">${speedList.U_SPEED }</label>
+													name="user_eatSpeed" id="${speedList.CODE}" value="${speedList.CODE}"
+													/> <label class="form-check-label"
+													for="${speedList.CODE}">${speedList.U_SPEED}</label>
 											</div>
 											</c:forEach>
 										</div>
@@ -85,9 +84,9 @@ String[] user_intregion = request.getParameterValues("User_IntRegion");
 											<c:forEach var="talkList" items="${talkList }">
 											<div class="form-check form-check-inline">
 												<input class="form-check-input" type="radio"
-													name="user_talk" id="${talkList.CODE }" value="${talkList.CODE }"
+													name="user_talk" id="${talkList.CODE}" value="${talkList.CODE}"
 													checked /> <label class="form-check-label"
-													for="${talkList.CODE }">${talkList.AMOUNT }</label>
+													for="${talkList.CODE}">${talkList.AMOUNT}</label>
 											</div>
 
 										   </c:forEach>
@@ -100,8 +99,8 @@ String[] user_intregion = request.getParameterValues("User_IntRegion");
 										<c:forEach var="chaList" items="${chaList }">
 										<div class="form-check form-check-inline">
 												<input class="form-check-input" type="checkbox"
-													name="user_character" id="${chaList.CHA_TYPE_CODE}" value="${chaList.CHA_TYPE_CODE }" />
-												<label class="form-check-label" for="${chaList.CHA_TYPE_CODE}">${chaList.CHA }</label>
+													name="user_character" id="${chaList.CHA_TYPE_CODE}" value="${chaList.CHA_TYPE_CODE}" />
+												<label class="form-check-label" for="${chaList.CHA_TYPE_CODE}">${chaList.CHA}</label>
 											</div>
 										
 										</c:forEach>
@@ -114,8 +113,8 @@ String[] user_intregion = request.getParameterValues("User_IntRegion");
 										<c:forEach var="intList" items="${intList }">
 										<div class="form-check form-check-inline">
 												<input class="form-check-input" type="checkbox"
-													name="user_interest" id="${intList.CODE}" value="${intList.CODE }" />
-												<label class="form-check-label" for="${intList.CODE}">${intList.INTER }</label>
+													name="user_interest" id="${intList.CODE}" value="${intList.CODE}" />
+												<label class="form-check-label" for="${intList.CODE}">${intList.INTER}</label>
 											</div>
 										
 										</c:forEach>
@@ -141,6 +140,26 @@ String[] user_intregion = request.getParameterValues("User_IntRegion");
 											data-mdb-ripple-color="dark">회원가입</button>
 											</div>
 										</div>
+										
+										
+										<input type="hidden"  name="user_id" value="<%=user_id %>">
+										<input type="hidden"  name="user_nickname" value="<%=user_nickname %>">
+										<input type="hidden"  name="user_pw" value="<%= user_pw %>">
+										<input type="hidden"  name="user_birth" value="<%=user_birth %>">
+										<input type="hidden"  name="user_gender" value="<%=user_gender %>">
+										<input type="hidden"  name="user_addr" value="<%=user_addr %>">
+										<input type="hidden"  name="user_phonenumber" value="<%=user_phonenumber %>">
+									
+										<%
+										for(int i=0; i<user_intregion.length;i++)
+										{
+										%>
+									
+										<input type="hidden"  name="user_intregion" value="<%=user_intregion[i] %>">
+										<%
+										}
+										%>
+										
 										</form>
 									</div>
 								</div>
