@@ -119,10 +119,8 @@ function placesSearchCB(data, status, pagination) {
 
         alert('검색 결과 중 오류가 발생했습니다.');
         return;
-
     }
 }
-
 // 검색 결과 목록과 마커를 표출하는 함수입니다
 function displayPlaces(places) {
 
