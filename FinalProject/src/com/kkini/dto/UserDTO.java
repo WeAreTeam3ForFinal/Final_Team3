@@ -4,7 +4,7 @@ public class UserDTO
 {
 	
 	String user_id, user_pw, user_nickname, user_birth, user_gender, user_addr, user_phonenumber;
-	String[] user_intregion, user_interest, user_character;
+	String[] user_intregions, user_interests, user_characters;
 	String user_eatSpeed, user_talk, user_introduce;
 	
 	
@@ -13,6 +13,30 @@ public class UserDTO
 	
 	
 	
+	public String[] getUser_intregions()
+	{
+		return user_intregions;
+	}
+	public void setUser_intregions(String[] user_intregions)
+	{
+		this.user_intregions = user_intregions;
+	}
+	public String[] getUser_interests()
+	{
+		return user_interests;
+	}
+	public void setUser_interests(String[] user_interests)
+	{
+		this.user_interests = user_interests;
+	}
+	public String[] getUser_characters()
+	{
+		return user_characters;
+	}
+	public void setUser_characters(String[] user_characters)
+	{
+		this.user_characters = user_characters;
+	}
 	public String getUser_code_live()
 	{
 		return user_code_live;
@@ -85,30 +109,7 @@ public class UserDTO
 	{
 		this.user_phonenumber = user_phonenumber;
 	}
-	public String[] getUser_intregion()
-	{
-		return user_intregion;
-	}
-	public void setUser_intregion(String[] user_intregion)
-	{
-		this.user_intregion = user_intregion;
-	}
-	public String[] getUser_interest()
-	{
-		return user_interest;
-	}
-	public void setUser_interest(String[] user_interest)
-	{
-		this.user_interest = user_interest;
-	}
-	public String[] getUser_character()
-	{
-		return user_character;
-	}
-	public void setUser_character(String[] user_character)
-	{
-		this.user_character = user_character;
-	}
+	
 	public String getUser_eatSpeed()
 	{
 		return user_eatSpeed;

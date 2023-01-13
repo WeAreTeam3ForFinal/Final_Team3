@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.kkini.dto.UserDTO;
 
 public interface IUserDAO
@@ -21,7 +23,11 @@ public interface IUserDAO
 	
 	public String regionSearch(String user_addr);
 	
-	public void addintregion(String user_region,String user_code);
+	public void addintregion(@Param("user_region")String user_region,@Param("user_code") String user_code);
 	
+	public void addinterest(@Param("user_interest") String user_interest, @Param("user_code") String user_code);
 	
+	public void addcharacter(@Param("user_character") String user_character, @Param("user_code") String user_code);
+	
+	public String intregionSearch(String user_region);
 }

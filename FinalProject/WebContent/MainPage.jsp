@@ -261,8 +261,8 @@
                                                 class="bi bi-person"></i></span></a>
                                     <ul class="dropdown-menu dropdown-menu-end sub-menu"
                                         aria-labelledby="navbarDropdown3">
-                                        <li><a class="dropdown-item" href="#">로그인</a></li>
-                                        <li><a class="dropdown-item" href="#">회원가입</a>
+                                        <li><a class="dropdown-item" href="loginForm.kkini">로그인</a></li>
+                                        <li><a class="dropdown-item" href="userRegiste.kkini">회원가입</a>
                                         
                                         </li>
                                     </ul>
