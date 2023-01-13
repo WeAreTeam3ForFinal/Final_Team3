@@ -68,8 +68,10 @@
         }
         .main {
             width: 670px;
-            height:670px;
-            margin:0 auto;
+            height:670px; 
+            /* margin:; */
+            /* margin : 4px; */
+            align:center;
         }
         .main .red {
             color: rgb(214, 59, 59);
