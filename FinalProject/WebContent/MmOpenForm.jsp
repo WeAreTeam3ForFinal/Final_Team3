@@ -139,6 +139,63 @@ function perPriceCal()
 }
 
 
+/* 입력값 유효성 검사  */
+function checkUp()
+{
+    var local = $('#local').val();   
+	var restautant = $('#restautant').val();   
+	var datetime = $('#datetime').val();   
+	var mainMenu = $('#mainMenu').val();   
+	var mainMenuPrice = $('#mainMenuPrice').val(); 
+	var count = $('#count').val(); 
+	
+	
+   if(local==null || local =="")
+	{
+		//alert("방문지역을 입력해주세요.");
+		$('#localCheck').html('[방문예정지역은 필수값입니다.]');
+		$('#local').focus();
+		return false;
+	}
+
+   if(restautant==null || restautant =="")
+	{
+		$('#restCheck').html('[방문예정식당은 필수값입니다.]');
+		$('#restautant').focus();
+		return false;
+	}
+
+	if(datetime==null || datetime =="")
+	{
+		$('#datetimeCheck').html('[방문예정일시를 선택해주세요.]')
+		$('#datetime').focus();
+		return false;
+	}
+
+	if(mainMenu==null || mainMenu =="")
+	{
+		$('#menuCheck').html('[메인메뉴명은 필수값입니다.]');
+		$('#mainMenu').focus();
+		return false;
+	}
+
+	if(mainMenuPrice==null || mainMenuPrice =="")
+	{
+		$('#menuPriceCheck').html('[메인메뉴가격은 필수값입니다.]');
+		$('#mainMenuPrice').focus();
+		return false;
+	}
+
+	if(count==null || count =="")
+	{
+		$('#countCheck').html('[모집희망인원수은 필수값입니다.]');
+		$('#count').focus();
+		return false;
+	} 
+	
+	 
+}
+
 /* 버튼 1개인 팝업창 열기(범용)*/
 //여기저기 그대로 가져다 쓰기 가능
 function oneBtnPopOpen(cond){
@@ -227,6 +284,8 @@ $("#onePopBtn").next().attr("href", Phref);
 			<p class="input01">※는 필수입력 사항입니다.</p>
 			<p class="input02">※는 자동입력 사항입니다.</p>
 
+			
+			<!-- 회원가입, 로그인 기능 구현 후 , 추가 구성 예정  -->
 			<div class="sub_title">
 				<div class="sub01">
 					<span class="blue">※</span> <span>개설자 연령대 : </span> <span>&nbsp;20대</span>
@@ -254,6 +313,8 @@ $("#onePopBtn").next().attr("href", Phref);
 					<!-- 공백란 경고문구 부분 -->
 					<span id="datetimeCheck"></span>
 				</div>
+				
+				<!--카카오맵 api 기능 구현 후 추가 작업 예정  -->
 				<div class="col-md-6">
 					<span class="red">※</span> <label for="validationDefault01"
 						class="form-label">방문예정 지역</label> <input type="text"
@@ -263,6 +324,8 @@ $("#onePopBtn").next().attr("href", Phref);
 					<!-- 공백란 경고문구 부분 -->
 					<span id="localCheck"></span>
 				</div>
+				
+				
 				<div class="col-md-12">
 					<span class="red">※</span> <label for="validationDefault01"
 						class="form-label">방문예정 식당</label> <input type="text"
@@ -271,14 +334,15 @@ $("#onePopBtn").next().attr("href", Phref);
 					<!-- 공백란 경고문구 부분 -->
 					<span id="restCheck"></span>
 				</div>
+				
 				<div class="col-md-4">
 					<span class="red">※</span> <label for="validationDefault04"
 						class="form-label">모집 희망 성별</label> <select class="form-select"
 						id="gender" required>
 						<option selected disabled value="">==선택==</option>
-						<option value="무관">무관</option>
-						<option value="여자">여자</option>
-						<option value="남자">남자</option>
+						<option value="GC00000001">무관</option>
+						<option value="GC00000002">여자</option>
+						<option value="GC00000003">남자</option>
 					</select>
 				</div>
 				<div class=" col-md-4">
@@ -300,9 +364,9 @@ $("#onePopBtn").next().attr("href", Phref);
 					<label for="validationDefault04" class="form-label">모집 희망
 						연령대</label> <select class="form-select" id="AgeGroup2">
 						<option selected disabled value="">==선택==</option>
-						<option value="초반">초반</option>
-						<option value="중반">중반</option>
-						<option value="후반">후반</option>
+						<option value="초반">초반(ex.20세~23세)</option>
+						<option value="중반">중반(ex.24세~26세)</option>
+						<option value="후반">후반(ex.27세~29세)</option>
 					</select>
 				</div>
 
@@ -311,13 +375,13 @@ $("#onePopBtn").next().attr("href", Phref);
 						class="form-label">음식 종류</label> <select class="form-select"
 						id="foodCategory" required>
 						<option selected disabled value="">==선택==</option>
-						<option value="한식">한식</option>
-						<option value="일식">일식</option>
-						<option value="중식">중식</option>
-						<option value="양식">양식</option>
-						<option value="아시아">아시아</option>
-						<option value="커피">커피 / 디저트</option>
-						<option value="기타">기타</option>
+						<option value="FCC0000002">한식</option>
+						<option value="FCC0000004">일식</option>
+						<option value="FCC0000005">중식</option>
+						<option value="FCC0000003">양식</option>
+						<option value="FCC0000006">아시아</option>
+						<option value="FCC0000007">커피 / 디저트</option>
+						<option value="FCC0000008">기타</option>
 					</select>
 				</div>
 
@@ -364,12 +428,12 @@ $("#onePopBtn").next().attr("href", Phref);
 		</form>
 	</section>
 
-	<!--  <div class="button_box">
-        <button  id="openBtn" class="btn btn-warning">개설하기</button>
-     </div> -->
+	  <div class="button_box">
+        <button  type="submit" onclick="checkUp()" id="openBtn" class="btn btn-warning">개설하기</button>
+     </div> 
 
 
-	<div class="button_box">
+<!-- 	<div class="button_box">
 		<button id="mm_open" type="submit" class="btn btn-warning"
 			opCtn="개설이 완료되었습니다." opBtn="메인페이지로 돌아갑니다." opBtnHref="MainPage.jsp"
 			data-bs-toggle="modal" data-bs-target="#oneBtnPopup"
@@ -378,7 +442,7 @@ $("#onePopBtn").next().attr("href", Phref);
 			opCtn="취소되었습니다." opBtn="메인페이지로 돌아갑니다." opBtnHref="MainPage.jsp"
 			data-bs-toggle="modal" data-bs-target="#oneBtnPopup"
 			onclick="oneBtnPopOpen('#cancel') ">취소</button>
-	</div>
+	</div> -->
 
 	<!--
     opCtn 에는 팝업에 들어갈 내용을 적고 opBtn에는 팝업의 버튼에 들어갈 내용을 적는다.

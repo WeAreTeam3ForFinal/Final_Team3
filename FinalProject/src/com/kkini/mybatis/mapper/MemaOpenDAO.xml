@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org/DTD Mapper 3.0/EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.kkini.mybatis.IMemaDAO">
+ 
+ 
+<select id="getGenderlist" resultType="java.util.HashMap">
+
+</select>
+
+
+<select id="getAgeGrouplist" resultType="java.util.HashMap">
+
+</select>
+
+
+<select id="getFoodCtglist" resultType="java.util.HashMap">
+
+</select>
+
+<select id="open" parameterType="com.kkini.dto.MemaOpenDTO" statementType="CALLABLE">
+{CALL memaOpen_prc(
+
+})
+
+</select>
+ 
+ 
+ </mapper>
