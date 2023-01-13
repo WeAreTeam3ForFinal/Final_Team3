@@ -45,6 +45,8 @@ FROM EATINGSPEED
 , #{user_introduce, mode=IN, jdbcType=NULL}
 , #{user_code_live, mode=OUT, jdbcType=VARCHAR}
 )}
+
+
 </select>
 
 <select id="regionSearch" parameterType="java.lang.String" resultType="java.lang.String">
@@ -53,7 +55,27 @@ FROM REGION
 WHERE REGION_NAME LIKE #{user_addr}
 </select>
 
+<select id="intregionSearch" parameterType="java.lang.String" resultType="java.lang.String">
+SELECT REGION_CODE
+FROM REGION
+WHERE REGION_NAME LIKE #{user_region}
+</select>
 
+
+<insert id="addintregion" parameterType="java.lang.String">
+INSERT INTO U_ATTENTION(U_ATTENTION_CODE,REGION_CODE,U_CODE)
+VALUES('UAC'||LPAD(SEQ_U_ATTENTION_CODE.NEXTVAL,7,'0'),(SELECT REGION_CODE FROM REGION WHERE REGION_NAME=#{user_region}),#{user_code})
+</insert>
+
+<insert id="addinterest" parameterType="java.lang.String">
+INSERT INTO INTEREST(INTER_CODE, INTER_TYPE_CODE, U_CODE)
+VALUES('IC'||LPAD(SEQ_INTEREST_CODE.NEXTVAL,8,'0'),#{user_interest},#{user_code})
+</insert>
+
+<insert id="addcharacter" parameterType="java.lang.String">
+INSERT INTO CHARACTER(CHA_CTG_CODE, CHA_TYPE_CODE, U_CODE)
+VALUES('CHA'||LPAD(SEQ_CHARACTER_CODE.NEXTVAL,7,'0'),#{user_character},#{user_code})
+</insert>
 
 
 </mapper>
