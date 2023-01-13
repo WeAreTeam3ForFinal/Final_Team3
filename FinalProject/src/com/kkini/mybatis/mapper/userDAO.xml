@@ -31,21 +31,29 @@ FROM EATINGSPEED
 </select>
 
 
-<select id="registe" parameterType="com.kkini.dto.UserDTO" statementType="CALLABLE">
+<select id="userRegister" parameterType="com.kkini.dto.UserDTO" statementType="CALLABLE">
 {CALL PRC_USER_REGISTE(
 #{user_id, mode=IN, jdbcType=VARCHAR}
 , #{user_pw, mode=IN, jdbcType=VARCHAR}
+, #{user_nickname, mode=IN, jdbcType=VARCHAR}
+, #{user_phonenumber, mode=IN, jdbcType=VARCHAR}
 , #{user_addr, mode=IN, jdbcType=VARCHAR}
 , #{user_talk, mode=IN, jdbcType=VARCHAR}
 , #{user_eatSpeed, mode=IN, jdbcType=VARCHAR}
-, #{user_nickname, mode=IN, jdbcType=VARCHAR}
-, #{user_phonenumber, mode=IN, jdbcType=VARCHAR}
+, #{user_birth , mode=IN, jdbcType=CHAR}
+, #{user_gender, mode=IN, jdbcType=CHAR}
 , #{user_introduce, mode=IN, jdbcType=NULL}
-, #{user_birth , mode=IN, jdbcType=VARCHAR}
-, #{user_gender, mode=IN, jdbcType=VARCHAR}
-})
-
+, #{user_code_live, mode=OUT, jdbcType=VARCHAR}
+)}
 </select>
+
+<select id="regionSearch" parameterType="java.lang.String" resultType="java.lang.String">
+SELECT REGION_CODE
+FROM REGION
+WHERE REGION_NAME LIKE #{user_addr}
+</select>
+
+
 
 
 </mapper>
