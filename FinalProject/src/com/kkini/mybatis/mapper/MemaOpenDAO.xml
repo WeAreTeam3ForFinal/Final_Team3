@@ -7,24 +7,36 @@
  
  
 <select id="getGenderlist" resultType="java.util.HashMap">
-
+SELECT GENDER_CODE,GENDER_CTG
+FROM GENDER
 </select>
 
 
 <select id="getAgeGrouplist" resultType="java.util.HashMap">
-
+SELECT AGE_GROUP_CODE,AGE_GROUP_CASE
+FROM AGE_GROUP
 </select>
 
 
 <select id="getFoodCtglist" resultType="java.util.HashMap">
-
+SELECT FOOD_CTG_CODE,FOOD_CASE
+FROM FOOD_CTG
 </select>
 
 <select id="open" parameterType="com.kkini.dto.MemaOpenDTO" statementType="CALLABLE">
-{CALL memaOpen_prc(
-
+{CALL MM_OPEN_PRC(
+  #{mmUserCode, mode=IN,jdbcType=VARCHAR}
+, #{mmGenderCode, mode=IN,jdbcType=VARCHAR} 
+, #{mmFoodCtgCode, mode=IN,jdbcType=VARCHAR}
+, #{mmRestName, mode=IN,jdbcType=VARCHAR}
+, #{mmAgeGroupCode, mode=IN,jdbcType=VARCHAR}
+, #{mmNop, mode=IN,jdbcType=VARCHAR}
+, #{mmVisitDate, mode=IN,jdbcType=DATE}
+, #{mmMenu, mode=IN,jdbcType=VARCHAR}
+, #{mmMenuPrice, mode=IN,jdbcType=INTEGER}
+, #{mmOpenKeyWord, mode=IN,jdbcType=NULL}
+, 
 })
-
 </select>
  
  

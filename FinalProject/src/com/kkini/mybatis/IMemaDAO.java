@@ -16,7 +16,7 @@ public interface IMemaDAO
 	public List<Map<String,String>>getFoodCtglist();
 	
 	// 메뉴메이트 모임방 개설
-	public int open(MemaDTO m);
+	public int open(MemaDTO dto);
 	
 	
 }

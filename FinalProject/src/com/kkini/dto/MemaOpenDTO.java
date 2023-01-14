@@ -2,9 +2,11 @@ package com.kkini.dto;
 
 public class MemaOpenDTO
 {
-   private String mmUserCode,mmGenderCode,mmFoodCtgCode, mmRestName,
-           mmAgeGroupCode,mmVisitDate, mmMenu, mmMenuPrice, mmOpenKeyWord; 
-   private int mmNop;
+    String mmUserCode,mmGenderCode,mmFoodCtgCode, mmRestName,
+           mmAgeGroupCode,mmVisitDate, mmMenu, mmOpenKeyWord; 
+   
+    int mmNop,mmMenuPrice;
+   
 	public String getMmUserCode()
 	{
 		return mmUserCode;
@@ -53,11 +55,12 @@ public class MemaOpenDTO
 	{
 		this.mmMenu = mmMenu;
 	}
-	public String getMmMenuPrice()
+
+	public int getMmMenuPrice()
 	{
 		return mmMenuPrice;
 	}
-	public void setMmMenuPrice(String mmMenuPrice)
+	public void setMmMenuPrice(int mmMenuPrice)
 	{
 		this.mmMenuPrice = mmMenuPrice;
 	}
