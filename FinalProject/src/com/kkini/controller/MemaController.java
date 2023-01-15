@@ -7,17 +7,14 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.kkini.dto.MemaDTO;
+import com.kkini.dto.MemaOpenDTO;
 import com.kkini.mybatis.IMemaDAO;
 
 @Controller
 public class MemaController
 {
-	
 	@Autowired
 	private SqlSession sqlSession;
-	
-	
 
 	//메메 개설폼페이지 매핑
 	@RequestMapping(value = "/memaopenform.kkini", method = RequestMethod.GET)
@@ -27,9 +24,7 @@ public class MemaController
 		
 		try
 		{
-			
 			IMemaDAO dao = sqlSession.getMapper(IMemaDAO.class);
-			
 			
 			model.addAttribute("genderList", dao.getGenderlist());
 			model.addAttribute("ageGroupList", dao.getAgeGrouplist());
@@ -40,7 +35,7 @@ public class MemaController
 		} catch (Exception e)
 		{
 			System.out.println(e.toString());
-			// TODO: handle exception
+			
 		}
 		return result;
 		
@@ -48,7 +43,7 @@ public class MemaController
 	
 	//메뉴메이트 개설하기 매핑
 	@RequestMapping(value = "/memaopen.kkini", method = RequestMethod.POST)
-	public String memaOpen(MemaDTO dto)
+	public String memaOpen(MemaOpenDTO dto)
 	{
 		String result = null;
 		
@@ -56,7 +51,7 @@ public class MemaController
 		
 		dao.open(dto);
 		
-		result = "redirect:mainpage.kkini";
+		result = "redirect:MainPage.jsp";
 		
 		return result;
 	}

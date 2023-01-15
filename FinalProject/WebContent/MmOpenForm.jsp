@@ -38,66 +38,78 @@ String cp = request.getContextPath();
 #section {
 	font-weight: bold;
 }
+
+/* 리스트 위에 가면 마우스 포인터 모양 변경 */
+.selectInfo {
+	cursor:pointer;
+}
 </style>
 
 <script type="text/javascript">
 
 /*개설키워드 js */
-document.addEventListener('DOMContentLoaded',()=>{
-    let itemList = []
-    let addBtn = document.querySelector('.add_btn')
+document.addEventListener('DOMContentLoaded',function() {
+	//sessionStorage.setItem('userCode', 'UC00000001'); // 세션에 로그인된 userCode 임의로 입력(더미 데이터)
+	$("#userCode").val(sessionStorage.getItem('userCode'));	// 세션에 저장된 userCode 가져오기
+    let itemList = [];
+    let addBtn = document.querySelector('.add_btn');
 
-    addBtn.addEventListener('click',addList)
+    addBtn.addEventListener('click',addList);
 
     function addList() {
-        let item = document.querySelector('.item')
+        let item = document.querySelector('.item');
 
         if(item.value !=null) {
-            itemList.push(item.value)
-            item.value=''
-            item.focus
+            itemList.push(item.value);
+            item.value='';
+            item.focus;
         }
-        showList()
+        showList();
     }
 
     function showList() {
-        let list = '<ul>'
+        let list = '<ul>';
             for(let i=0;i<itemList.length;i++) {
-                list += '<li>' + itemList[i] + '<span class="close" id=' + '>X</span></li>'
+                list += '<li>' + itemList[i] + '<span class="close" id=' + '>X</span></li>';
             }
-            list += '</ul>'
-            document.querySelector('.item_list').innerHTML = list
-            let remove = document.querySelectorAll('.close')
-
+            list += '</ul>';
+            document.querySelector('.item_list').innerHTML = list;
+            let remove = document.querySelectorAll('.close');
+			
+            $("#keyWord").val(itemList.join(","));
             for(let i=0;i<remove.length;i++) {
-                remove[i].addEventListener('click',removeList)
+                remove[i].addEventListener('click',removeList);
             }
     }
 
     function removeList() {
-        let id = this.getAttribute('id')
-        itemList.splice(id,1)
-        showList()
+        let id = this.getAttribute('id');
+        itemList.splice(id,1);
+        showList();
     }
-})
+});
 /*개설키워드 js 끝*/
 
 
-<!--데이트피커 js -->
-$(document).ready(function () {
+<!-- 데이트피커 js -->
+$(function() {
 	$.datetimepicker.setLocale('ko');
-           $("#datetime").datetimepicker(
-           		{
-           			format:'Y.m.d H:i',
-           			lang: 'ko',
-           			 allowTimes:[
-           				 '24:30','01:00', '01:30', '02:00', '02:30', '03:00', '03:30', '04:00', '04:30', '05:00', '05:30', '06:00', '06:30', '07:00', '07:30', '08:00', '08:30', '09:00', '09:30', '10:00', '10:30', '11:00',
-           				 '11:30', '12:00', '12:30', '13:00', '13:30', '14:00', '14:30', '15:00', '15:30', '16:00', '16:30', '17:00', '17:30', '18:00', '18:30', '19:00',
-           				 '19:30', '20:00', '20:30', '21:00', '21:30', '22:00', '22:30', '23:00', '24:00'  
-           				 ]
-           		});          
+    $("#datetime").datetimepicker(
+    		{
+    			format:'Y-m-d H:i',
+    			lang: 'ko',
+    			 allowTimes:[
+    				 '24:30','01:00', '01:30', '02:00', '02:30', '03:00', '03:30', '04:00', '04:30', '05:00', '05:30', '06:00', '06:30', '07:00', '07:30', '08:00', '08:30', '09:00', '09:30', '10:00', '10:30', '11:00',
+    				 '11:30', '12:00', '12:30', '13:00', '13:30', '14:00', '14:30', '15:00', '15:30', '16:00', '16:30', '17:00', '17:30', '18:00', '18:30', '19:00',
+    				 '19:30', '20:00', '20:30', '21:00', '21:30', '22:00', '22:30', '23:00', '24:00'  
+    				 ]
+    		}); 
+           
+    $(document).on("click", ".selectInfo",function() {
+        $(this).next().children('button').click();
+      });
 });
-<!--데이트피커 js 끝-->
+<!-- 데이트피커 js 끝-->
 
 /* 카카오맵 API 팝업창 띄우기 */
  function openPopUp(url, name){
@@ -211,7 +223,7 @@ $("#onePopBtn").next().attr("href", Phref);
 
 			<div class="main row g-2">
 				<div class="col-md-6">
-					<span class="red">※</span> <label for="validationDefault01" class="form-label">방문예정 일자</label> <input type="text" class="form-control form-control-date" id="datetime" placeholder="클릭하여 선택해주세요." required>
+					<span class="red">※</span> <label for="validationDefault01" class="form-label">방문예정 일시</label> <input type="text" class="form-control form-control-date" id="datetime" name="mmVisitDate" placeholder="클릭하여 선택해주세요." required>
 					<!-- 공백란 경고문구 부분 -->
 					<span id="datetimeCheck"></span>
 				</div>
@@ -225,7 +237,7 @@ $("#onePopBtn").next().attr("href", Phref);
 
 
 				<div class="col-md-12">
-					<span class="red">※</span> <label for="validationDefault01" class="form-label">방문예정 식당</label> <input type="text" class="form-control" id="restautant" placeholder="식당명을 입력해주세요" required>
+					<span class="red">※</span> <label for="validationDefault01" class="form-label">방문예정 식당</label> <input type="text" class="form-control" id="restautant" value="RESC000001" name="mmRestName" placeholder="식당명을 입력해주세요" required>
 					<!-- 공백란 경고문구 부분 -->
 					<span id="restCheck"></span>
 				</div>
@@ -274,22 +286,20 @@ $("#onePopBtn").next().attr("href", Phref);
 				</div>
 				<br>
 				<div class="col-md-12">
-					<span class="red">※</span> <span>개설 키워드(최대 3개) : </span>
-					<form action="">
+					<span class="red">※</span> <span>개설 키워드(최대 3개) : </span>					
 						<input type="text" class="form-control item" autofocus>
-						<button type="button" class="add_btn">추가</button>
-					</form>
+						<button type="button" class="add_btn">추가</button>					
 					<hr>
 					<div class="item_list"></div>
 				</div>
+				<input style="display:none;" type="text" name="mmUserCode" id="userCode">
+				<input style="display:none;" type="text" name="mmOpenKeyWord" id="keyWord">
 				<span id="Check" class="red" style="text-align: center; display: none;">※항목은 필수입력값입니다.</span>
 			</div>
 			 <div class="button_box">
 				<button type="submit"  class="btn btn-warning">개설하기</button>
 			</div> 
 			<!--main-->
-			<div class="button_box">
-	</div>
 		</form>
 	</section>
 
@@ -315,10 +325,28 @@ $("#onePopBtn").next().attr("href", Phref);
     data-bs-target 는 열릴 팝업의 아이디를 적으면 된다. 
     onclick의 oneBtnPopOpen함수의 매개변수에는 현재 버튼의 id를 입력해주면 된다.
 -->
+
+				<!-- 메인에서 메메리스트 만들 때, foreach문 안에 들어갈 리스트 형식 (유지 바람) -->
+					<div class="col-12 col-md-6 col-lg-3 h-50 mb-4 mb-lg-3 me-3 border border-warning" style="width: 280px;">
+	                	<!-- div 스타일 속성 추가. div영역 넘어가는 해시태그 ... 처리 -->
+						<div style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;" class="selectInfo">
+							<p id="club-list-title" class="text-center fw-bold h4 mt-4">11</p>
+							<div class="border"></div>
+							<i class="bi bi-geo-alt-fill ms-3 me-3"></i><span id="club-list-region">22</span><br>
+							<i class="bi bi-heart-fill ms-3 me-3"></i><span id="club-list-foodCtg">33</span><br>
+							<i class="bi bi-people-fill ms-3 me-3"></i><span id="club-list-memberCount">44</span><br>
+							<div class="border"></div>
+							<i class="bi bi-tag-fill ms-3 me-3"></i><span id="club-list-tags" class="text-muted">55</span>
+						</div>
+						<form action="getMemaApplyInfo.kkini" method="post">
+							<input type="text" style="display:none;" name="mm_open_code" value="MOC0000030"> <!-- value에는 각각의 개설코드 들어가야함  -->
+							<button type="submit" style="display:none;"></button>
+						</form>                	
+	                </div>
 </body>
 <body>
 	<jsp:include page="oneButtonPopup.html"></jsp:include>
 
 </body>
-</body>
+
 </html>
