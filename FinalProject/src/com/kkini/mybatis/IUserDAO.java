@@ -1,6 +1,5 @@
 package com.kkini.mybatis;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -30,4 +29,8 @@ public interface IUserDAO
 	public void addcharacter(@Param("user_character") String user_character, @Param("user_code") String user_code);
 	
 	public String intregionSearch(String user_region);
+	
+	public UserDTO loginMember(UserDTO dto); //로그인 성공시 회원 닉네임, 회원코드를 받아오는 함수
+	
+	
 }

@@ -64,7 +64,7 @@
 /* 상단 로고를 좌측으로 옮김 */
 .headerMargin {
 	margin-left:5px;
-	max-width: 1500px;	/* 나의 이력 한 줄(직사각형)로 구현 위해 1500으로 공간 늘림 */
+	max-width: 1600px;	/* 나의 이력 한 줄(직사각형)로 구현 위해 1500으로 공간 늘림 */
 }
 
 /*-- color style --*/
