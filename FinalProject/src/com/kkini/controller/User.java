@@ -1,5 +1,8 @@
 package com.kkini.controller;
 
+import javax.servlet.http.HttpSession;
+
+import org.apache.coyote.Request;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -64,6 +67,7 @@ public class User
 	@RequestMapping(value = "/user_register.kkini", method = RequestMethod.POST)
 	public String userRegiste(ModelMap model, UserDTO dto)
 	{
+		
 		String result ="";
 		
 		try
@@ -111,6 +115,48 @@ public class User
 		    	 dao.addcharacter(user_character, user_code);
 		     }
 		     
+		     result="/MainPage.jsp";
+		     
+			
+		} catch (Exception e)
+		{
+			System.out.println(e.toString());
+			// TODO: handle exception
+		}
+		
+		return result;
+	}
+	
+	
+	//로그인 시도 컨트롤러 세션 부여 필요
+	@RequestMapping(value = "/login.kkini", method = RequestMethod.POST)
+	public String login(ModelMap model, UserDTO dto,HttpSession session)
+	{
+		String result="";
+		try
+		{
+			IUserDAO dao = sqlSession.getMapper(IUserDAO.class);
+			
+			dto = dao.loginMember(dto);
+			
+			//System.out.println(dto.getUser_code()); 유저코드 받아오기
+			//System.out.println(dto.getUser_nickname()); 유저 닉네임 받아오기
+			
+			if(dto.getUser_nickname()==null || dto.getUser_code()==null) //로그인 실패
+			{
+				result ="/MainPage.jsp";
+				
+			}
+			else //로그인 성공
+			{
+				session.setAttribute("nickName", dto.getUser_nickname());
+				session.setAttribute("userCode", dto.getUser_code());
+				
+				result="/MainPage.jsp";
+			}
+			
+			
+			
 			
 		} catch (Exception e)
 		{
@@ -119,28 +165,20 @@ public class User
 		}
 		
 		
-		result="/loginForm.jsp";
+		
 		return result;
+		
 	}
 	
 	
-	//로그인 페이지 요청
-	@RequestMapping(value = "/loginForm.kkini" , method = RequestMethod.GET)
-	public String loginForm(ModelMap model)
-	{
-		String result ="";
-		
-		
-		return result;
-	}
-	
-	
-	//로그인 시도 컨트롤러 세션 부여 필요
-	@RequestMapping(value = "/login.kkini", method = RequestMethod.POST)
-	public String userLogin(ModelMap model, UserDTO dto)
+	@RequestMapping(value = "/logout.kkini", method = RequestMethod.GET)
+	public String logout(ModelMap model, HttpSession session)
 	{
 		String result="";
 		
+		session.invalidate();
+		
+		result="/MainPage.jsp";
 		
 		return result;
 		
