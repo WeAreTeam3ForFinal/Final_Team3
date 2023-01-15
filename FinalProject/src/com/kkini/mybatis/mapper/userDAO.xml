@@ -78,4 +78,13 @@ VALUES('CHA'||LPAD(SEQ_CHARACTER_CODE.NEXTVAL,7,'0'),#{user_character},#{user_co
 </insert>
 
 
+<select id="loginMember" parameterType="com.kkini.dto.UserDTO" resultType="com.kkini.dto.UserDTO">
+SELECT U_CODE AS user_code , U_NICKNAME AS user_nickname
+FROM U_PRIVATE_DATA
+WHERE U_ID=#{user_id} AND U_PW=cryptpack.ENCRYPT(#{user_pw},#{user_pw})
+</select>
+
+
+
+
 </mapper>

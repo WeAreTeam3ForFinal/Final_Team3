@@ -68,94 +68,91 @@ String cp = request.getContextPath();
 			}
 
 		});
-	
-		
-		
+
 		/* 지역 에이잭스 처리 */
 		function addrAjax(id)
 		{
 			//alert($("#"+id).val()); //호출한 곳의 id를 받아 입력값 받아오기
-			params = "region_name=" + $('#'+id).val();
-			$.ajax({
-				
-				type : "POST"
-				,url : "addrList.kkini"
-				,data : params
-				, success: function(args)
-				{
-					$("#"+id+"Rec").html(args);
-					
-				}
-			   ,beforeSend:showRequest
-			   ,error: function(e)
+			params = "region_name=" + $('#' + id).val();
+			$.ajax(
 			{
-				   alert(e.responseText);
-				
-			}
+
+				type : "POST",
+				url : "addrList.kkini",
+				data : params,
+				success : function(args)
+				{
+					$("#" + id + "Rec").html(args);
+
+				},
+				beforeSend : showRequest,
+				error : function(e)
+				{
+					alert(e.responseText);
+
+				}
 			});
-			
-		}		
-		
-		
+
+		}
+
 		/* 지역 에이잭스 처리 */
 		function regionAjax(id)
 		{
 			//alert($("#"+id).val()); //호출한 곳의 id를 받아 입력값 받아오기
-			params = "region_name=" + $('#'+id).val();
-			$.ajax({
-				
-				type : "POST"
-				,url : "regionList.kkini"
-				,data : params
-				, success: function(args)
+			params = "region_name=" + $('#' + id).val();
+			$.ajax(
+			{
+
+				type : "POST",
+				url : "regionList.kkini",
+				data : params,
+				success : function(args)
 				{
-					
+
 					$("#User_addrRec").html(args);
-					
+
+				},
+				beforeSend : showRequest,
+				error : function(e)
+				{
+					alert(e.responseText);
+
 				}
-			   ,beforeSend:showRequest
-			   ,error: function(e)
-			{
-				   alert(e.responseText);
-				
-			}
 			});
+
+		}
+
+		/* 	
+			$("#User_IntRegion2").keyup(function()
+			{
+				//alert($(this).attr('id')); //호출한 곳의 iD 알아오기
+				$("#User_IntRegion2Err").css("dispaly", "none");
+				$("#User_IntRegion2Err").html("");
+
+				if ($.trim($("#User_IntRegion2").val()) != "")
+				{
+					const id = $(this).attr('id');
+					regionCheckAjax(id);
+				}
+
+			});
+
 			
-		}		
-		
-
-	/* 	
-		$("#User_IntRegion2").keyup(function()
-		{
-			//alert($(this).attr('id')); //호출한 곳의 iD 알아오기
-			$("#User_IntRegion2Err").css("dispaly", "none");
-			$("#User_IntRegion2Err").html("");
-
-			if ($.trim($("#User_IntRegion2").val()) != "")
+			$("#User_IntRegion3").keyup(function(e)
 			{
-				const id = $(this).attr('id');
-				regionCheckAjax(id);
-			}
+				//alert($(this).attr('id')); //호출한 곳의 iD 알아오기
+				$("#User_IntRegion3Err").css("dispaly", "none");
+				$("#User_IntRegion3Err").html("");
 
-		});
+				if ($.trim($("#User_IntRegion3").val()) != "")
+				{
+					const id = $(this).attr('id');
+					regionCheckAjax(id);
+				}
 
-		
-		$("#User_IntRegion3").keyup(function(e)
-		{
-			//alert($(this).attr('id')); //호출한 곳의 iD 알아오기
-			$("#User_IntRegion3Err").css("dispaly", "none");
-			$("#User_IntRegion3Err").html("");
-
-			if ($.trim($("#User_IntRegion3").val()) != "")
-			{
-				const id = $(this).attr('id');
-				regionCheckAjax(id);
-			}
-
-		}); */
+			}); */
 
 		//이메일 직접 입력 부분
-
 		$("#emailDirect").hide();
 
 		$("#email").change(function()
@@ -168,45 +165,51 @@ String cp = request.getContextPath();
 				$("#emailDirect").hide();
 			}
 		});
-		
-		
-		
-		  var testForm = $("#testForm")
-	        var index = 0
 
-	        $("#AddInt").click(function (){
-	            if(index == 3){
-	                alert("최대 개수는 3개입니다.")
-	                return false;
-	            }
+		var index = 0
 
-	            var addRegDiv = document.getElementById("addInput");
-	            addRegDiv.setAttribute("class", "newDiv col-3");
+		$("#AddInt").click(
+				function()
+				{
+					if (index == 3)
+					{
+						alert("최대 개수는 3개입니다.")
+						return false;
+					}
 
-	            var newInput = document.createElement("input");
-	            //newInput.setAttribute("id", "newInput"+index);
-	            newInput.setAttribute("name", "User_IntRegion");
-	            newInput.setAttribute("type", "text");
-	            newInput.setAttribute("readonly","readonly");
-	            newInput.setAttribute("class","form-control form-control-m rounded");
-	            newInput.setAttribute("value", $("#User_IntRegion").val());
+					var addRegDiv = document.getElementById("addInput");
+					addRegDiv.setAttribute("class", "newDiv col-12");
 
-	            var removeInput = document.createElement("span");
-	            removeInput.setAttribute("class", "removeInput");
-	            removeInput.textContent = "X";
+					var newInput = document.createElement("input");
+					newInput.setAttribute("id", "newInput" + index);
+					newInput.setAttribute("name", "User_IntRegion");
+					newInput.setAttribute("type", "text");
+					newInput.setAttribute("readonly", "readonly");
+					newInput.setAttribute("class",
+							"form-control form-control-m rounded d-inline");
+					newInput.setAttribute("style", "width:150px;")
+					newInput.setAttribute("value", $("#User_IntRegion").val());
 
-	            addRegDiv.append(newInput);
-	            addRegDiv.append(removeInput);
+					var removeInput = document.createElement("label");
+					removeInput.setAttribute("for", "newInput" + index);
+					removeInput.setAttribute("class", "removeInput");
+					removeInput.setAttribute("name", "newInput" + index);
+					removeInput.textContent = "X\u00a0\u00a0\u00a0";
+				
+					addRegDiv.append(newInput);
+					addRegDiv.append(removeInput);
+					index += 1
 
-	            index+=1
+				});
+		/* 리셋버튼 추가 */
+		$(document).on("click", ".removeInput", function()
+		{
+			const id = $(this).attr("name");
+			$("#" + id).remove();
+			$(this).remove();
+			index -= 1;
 
-	        });
-			/* 리셋버튼 추가 */
-	        $(document).on("click", ".removeInput", function () {
-	            $(this).parent(".newDiv").remove();
-	            resetIndex();
-	        });
-		
+		});
 
 	});
 
@@ -225,7 +228,15 @@ String cp = request.getContextPath();
 			{
 				$("#" + id + "Err").css("dispaly", "inline");
 				$("#" + id + "Err").html($.trim(args));
-
+				
+				if($.trim(args)=="유효하지 않은 지역입니다.")
+					{
+				$("#AddInt").attr("disabled", true);
+					}
+				else
+					{
+				$("#AddInt").attr("disabled", false);
+					}
 			},
 			beforeSend : showRequest,
 			error : function(e)
@@ -252,7 +263,7 @@ String cp = request.getContextPath();
 			{
 				$("#addrErr").css("dispaly", "inline");
 				$("#addrErr").html($.trim(args));
-
+				
 			},
 			beforeSend : showRequest,
 			error : function(e)
@@ -267,6 +278,131 @@ String cp = request.getContextPath();
 	function showRequest()
 	{
 		return true;
+
+	}
+
+	/*
+	입력값 유효성 검사
+	 */
+	function check()
+	{
+
+		$("#idCheck").css("display", "none");
+		$("#pwCheck").css("display", "none");
+		$("#phoneCheck").css("display", "none");
+		$("#nicknameCheck").css("display", "none");
+		$("#birthgenderCheck").css("display","none");
+		
+		
+
+		
+		/* 아이디  */
+
+		/* 중복검사 실행 등록필요 */
+		
+		/* 직접 입력했을때 */
+		if ($.trim($("#emailDirect").val()) != "")
+		{
+
+			const id = $("#UserId").val() + "@" + $("#emailDirect").val();
+
+			if ($.trim($("#UserId").val()) == ""
+					|| !/^([a-z0-9\-]+\.)+[a-z]{2,6}$/.test($("#emailDirect")
+							.val())
+					|| !/^[a-z0-9\.\-_]+@([a-z0-9\-]+\.)+[a-z]{2,6}$/.test(id))
+			{
+				$("#idCheck").css("display", "inline");
+				$("#idCheck").html("아이디 확인해주세요");
+				$("#UserId").focus();
+				return false;
+			}
+
+		}
+
+		/* select 사용했을때 */
+
+		else if ($.trim($("#emailDirect").val()) == "")
+		{
+			const id = $("#UserId").val() + "@" + $("#email").val();
+
+			if ($.trim($("#UserId").val()) == ""
+					|| !/^[a-z0-9\.\-_]+@([a-z0-9\-]+\.)+[a-z]{2,6}$/.test(id))
+			{
+				$("#idCheck").css("display", "inline");
+				$("#idCheck").html("아이디 확인해주세요");
+				$("#UserId").focus();
+				return false;
+			}
+
+		}
+
+		/* 비밀번호 */
+
+		if ($.trim($("#UserPw").val()) == ""
+				|| !/^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,16}$/
+						.test($("#UserPw").val()))
+		{
+			$("#pwCheck").css("display", "inline");
+			$("#pwCheck").html("비밀번호를 확인해주세요");
+			$("#UserPw").focus();
+			return false;
+		}
+
+		/*닉네임  */
+		
+		/* 닉네임 중복검사 실행 */
+		
+		
+		if (!/^[\w\Wㄱ-ㅎㅏ-ㅣ가-힣]{2,16}$/.test($("#UserNickName").val())
+				|| $.trim($("#UserNickName").val()) == "")
+		{
+			$("#nicknameCheck").css("display", "inline");
+			$("#nicknameCheck").html("닉네임 확인해주세요");
+			$("#UserNickName").focus();
+			return false;
+		}
+
+		/* 생년원일 */
+
+		const birthgender = $("#Birth").val() + "-" + $("#Gender").val();
+		if (!/^(?:[0-9]{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[1,2][0-9]|3[0,1]))-[1-4]{1}$/.test(birthgender))
+		{
+			$("#birthgenderCheck").css("display","inline");
+			$("#birthgenderCheck").html("닉네임 확인해주세요");
+			$("#Birth").focus();
+			return false;
+
+		}
+
+		/* 전화번호 */
+		if (!/^[0-9]{11}$/.test($("#Phone_number").val())
+				|| $.trim($("#Phone_number").val()) == "")
+		{
+			//alert("숫자가 아닙니다.");
+			$("#phoneCheck").css("display", "inline");
+			$("#phoneCheck").html(" 번호를 확인해주세요");
+			$("#Phone_number").focus();
+			return false;
+		}
+
+		/* 거주지역 */
+		
+		if($("#addrErr").html()=="유효하지 않은 지역입니다.")
+			{
+			$("#User_addr").focus();
+			return false;
+			}
+		/* 관심지역 등록안하면 못넘어가게 */
+		
+		if($("#addInput").children().hasClass("removeInput")==false)
+		{
+		alert("관심지역은 1개이상 등록해야합니다.");
+		$("#User_IntRegion").focus();
+		return false;
+		}
+		
+		
+		
 
 	}
 </script>
@@ -289,7 +425,8 @@ String cp = request.getContextPath();
 									<div class="px-5 pt-5 pb-1">
 
 										<!-- 폼 시작 -->
-										<form action="regist_Alignment.kkini" method="post">
+										<form action="regist_Alignment.kkini" method="post"
+											onsubmit="return check()">
 											<h3 class="fw-normal mb-4" style="color: #FFA500;">
 												회원 정보 <small style="font-size: small; color: gray;">
 													<i class="bi bi-check-lg"></i>는 필수사항입니다.
@@ -298,9 +435,9 @@ String cp = request.getContextPath();
 											<div class="row g-1">
 												<div class="col-4 mb-2 pb-2">
 
-													<label class="form-label" for="UserId">아이디</label><i
-														class="bi bi-check-lg mt-2"
-														style="color: black; font-size: 18px;"></i>
+													<label class="form-label" for="UserId">아이디</label> <span
+														id="idCheck" style="color: red; display: none;"></span>
+
 													<div class="input-group form-outline">
 														<input type="text" id="UserId" name="UserId"
 															class="form-control form-control-m" /> <span
@@ -317,6 +454,7 @@ String cp = request.getContextPath();
 														<option value="direct">직접입력</option>
 													</select> <input type="text" class="form-control" id="emailDirect"
 														name="emailDirect" />
+
 												</div>
 
 												<div class="col-2 mb-2 pb-2 align-items-baseline">
@@ -325,18 +463,18 @@ String cp = request.getContextPath();
 													<button type="button" id="CheckNickName"
 														class="btn btn-outline-success">중복검사</button>
 												</div>
+
 											</div>
 
 											<div>
-												<div class="col-4 mb-2 pb-2">
-													<label class="form-label" for="UserPw">비밀번호<i
-														class="bi bi-check-lg mt-2"
-														style="color: black; font-size: 18px;"></i><small
-														class="text-muted">&nbsp;[8~16자리]</small></label>
+												<div class="col-5 mb-2 pb-2">
+													<label class="form-label" for="UserPw">비밀번호<span
+														id="pwCheck" style="color: red; display: none;"></span>
+													</label>
 													<div class="input-group form-outline">
 														<input type="password" id="UserPw" name="UserPw"
 															class="form-control form-control-m rounded"
-															placeholder="●●●●●●●">
+															placeholder="문자,숫자,특수문자 8~16자리">
 														<button type="button" class="btn btn-outline-success">
 															<i class="bi bi-eye-slash" onclick="SeePw(this)"></i>
 														</button>
@@ -348,9 +486,8 @@ String cp = request.getContextPath();
 
 											<div>
 												<div class="col-6 mb-2 pb-2">
-													<label class="form-label" for="UserNickName">닉네임</label><i
-														class="bi bi-check-lg mt-2"
-														style="color: black; font-size: 18px;"></i>
+													<label class="form-label" for="UserNickName">닉네임</label> <span
+														id="nicknameCheck" style="color: red; display: none;"></span>
 													<div class="input-group form-outline">
 														<input type="text" id="UserNickName" name="UserNickName"
 															class="form-control form-control-m rounded"
@@ -365,11 +502,10 @@ String cp = request.getContextPath();
 
 											<div class="row g-2">
 												<div class="col-md-3 mb-1 pb-1">
-													<label class="form-label" for="Birth">생년월일/성별<i
-														class="bi bi-check-lg mt-2"
-														style="color: black; font-size: 18px;"></i></label>
+													<label class="form-label" for="Birth">생년월일/성별<span
+														id="birthgenderCheck" style="color: red; display: none;"></span></label>
 													<div class="form-outline">
-														<input type="text" id="Birth" name="Birth"
+														<input type="text" id="Birth" name="Birth" maxlength="6"
 															class="form-control form-control-m" />
 													</div>
 
@@ -380,25 +516,26 @@ String cp = request.getContextPath();
 														style="font-size: x-large;">-</span>
 												</div>
 												&nbsp;
-												<div class="mb-1 pb-1" style="width: 40px;">
+												<div class="mb-1 pb-1" style="width: 45px;">
 													<div class="form-outline">
 														<label class="form-label" for="Gender"
 															style="visibility: hidden;">아</label> <input type="text"
-															id="Gender" name="Gender"
+															id="Gender" name="Gender" maxlength="1"
 															class="form-control form-control-m" />
 													</div>
 												</div>
 
 											</div>
 											<div class="row">
-												<div class="col-4 mb-4 pb-2">
+												<div class="col-5 mb-4 pb-2">
 
 													<div class="form-outline form-input-inline">
 														<label class="form-label" for="Phone_number">휴대폰
-															번호<i class="bi bi-check-lg mt-2"
-															style="color: black; font-size: 18px;"></i>
+															번호<span id="phoneCheck"
+															style="color: red; display: none;"></span>
 														</label> <input type="text" id="Phone_number" name="Phone_number"
-															class="form-control form-control-m " placeholder="숫자만 입력" />
+															maxlength="11" class="form-control form-control-m "
+															placeholder="숫자만 입력" />
 													</div>
 
 												</div>
@@ -408,17 +545,15 @@ String cp = request.getContextPath();
 											<!-- 거주지  -->
 											<div class="row">
 												<div class="col-6 mb-2 pb-2">
-													<label class="form-label" for="User_addr">거주지역</label><small
-														class="text-muted">단위 : 구</small><i
-														class="bi bi-check-lg mt-2"
-														style="color: black; font-size: 18px;"></i>
+													<label class="form-label" for="User_addr">거주지역<small
+														class="text-muted">단위 : 구</small>&nbsp;<span
+														id="addrCheck" style="color: red; display: none;"></span></label>
 													<div class="input-group form-outline">
 														<input type="text" id="User_addr" list="addr"
 															name="User_addr"
 															class="form-control form-control-m rounded"
 															placeholder="ex) 서울시 용산구">
-														<div id="User_addrRec" class="col-6 form-outline">
-														</div>
+														<div id="User_addrRec" class="col-6 form-outline"></div>
 
 
 
@@ -432,80 +567,33 @@ String cp = request.getContextPath();
 
 											<!-- 관심지역 -->
 											<div class="row">
-												<div class="col-7 mb-2 pb-2">
+												<div class="col-5 mb-2 pb-2">
 													<label class="form-label" for="User_IntRegion">관심지역<small
-														class="text-muted">단위 : 구</small></label><i
-														class="bi bi-check-lg mt-2"
-														style="color: black; font-size: 18px;"></i>
+														class="text-muted">단위 : 구</small>&nbsp;<span
+														id="regionCheck" style="color: red; display: none;"></span></label>
 													<div class="input-group form-outline">
 														<input type="text" id="User_IntRegion"
 															name="add_IntRegion" list="region"
 															class="form-control form-control-m rounded"
 															placeholder="ex)서울시 서대문구">
+														
 														<button type="button" id="AddInt"
-														class="btn btn-outline-success">추가</button>
-														<button type="button" id="AddInt"
-														class="btn btn-outline-success">리셋</button> <!-- id name 삭제 -->
-														<div id="User_IntRegionReset" class="col-2"></div>
+															class="btn btn-outline-success">추가</button>
+													    
+													    
+													    
 
 													</div>
-													<div class="col-7">
+													<div >
 														<span id="User_IntRegionErr" style="color: red;"></span>
 														<div class="col-6"></div>
 													</div>
-													
+
 												</div>
-												<div></div>
-												<div class="input-group"id="addInput"></div>
-												
-												
-												
-											<!-- 	<div class="col-6 mb-2 pb-2">
-													<label class="form-label" for="User_IntRegion2">관심지역②<small
-														class="text-muted">단위 : 구</small></label><i
-														class="bi bi-check-lg mt-2"
-														style="color: black; font-size: 18px;"></i>
-													<div class="input-group form-outline">
-														<input type="text" id="User_IntRegion2"
-															name="User_IntRegion" list="User_IntRegion2"
-															class="form-control form-control-m rounded"
-															placeholder="ex)서울시 서대문구">
-
-														<div id="User_IntRegion2Rec" class="col-2"></div>
-
-													</div>
-													<div class="col-7">
-														<span id="User_IntRegion2Err" style="color: red;"></span>
-														<div class="col-6"></div>
-													</div>
-												</div>
-
-
-												<div></div>
-												<div class="col-6 mb-2 pb-2">
-													<label class="form-label" for="User_IntRegion3">관심지역③<small
-														class="text-muted">단위 : 구</small></label><i
-														class="bi bi-check-lg mt-2"
-														style="color: black; font-size: 18px;"></i>
-													<div class="input-group form-outline">
-														<input type="text" id="User_IntRegion3"
-															name="User_IntRegion" list="User_IntRegion3"
-															class="form-control form-control-m rounded"
-															placeholder="ex)서울시 서대문구">
-
-														<div id="User_IntRegion3Rec" class="col-2"></div>
-
-													</div>
-													<div class="col-7">
-														<span id="User_IntRegion3Err" style="color: red;"></span>
-														<div class="col-6"></div>
-													</div>
-												</div> -->
-
 											</div>
-
-
-
+											<div>
+												<div id="addInput"></div>
+											</div>
 											<br>
 											<div class="row justify-content-center">
 												<div class="col-2">
