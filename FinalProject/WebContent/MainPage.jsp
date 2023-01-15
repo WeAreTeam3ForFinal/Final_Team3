@@ -101,17 +101,34 @@
 				// 동아리 리스트 출력 Ajax 구문
 				$("#club-tab").click(function()
 				{
-					// alert($("#club-tab").attr("id"));
-					var id = $("#club-tab").attr("id");
-					// alert(id);
-					var param = "id=" + id;
-
 					// 기존 구현한 마이바티스 기능 Ajax 처리
 					$.ajax(
 					{
 						// 전송방식은 SELECT 구문이므로 GET으로 통일
 						type : "GET",
 						url : "clubList.kkini",
+						success : function(args)
+						{
+							$("#resultDiv").html(args);
+						}
+						//, beforeSend : showRequest
+						,
+						error : function(e)
+						{
+							alert(e.responseText);
+						}
+					});
+				});
+				
+				// 메뉴메이트 리스트 출력 Ajax 구문
+				$("#mema-tab").click(function()
+				{
+					// 기존 구현한 마이바티스 기능 Ajax 처리
+					$.ajax(
+					{
+						// 전송방식은 SELECT 구문이므로 GET으로 통일
+						type : "GET",
+						url : "memaList.kkini",
 						success : function(args)
 						{
 							$("#resultDiv").html(args);
@@ -159,12 +176,16 @@
 
 							var sortBy = $("#sortBy").val();
 
-							if (sortBy == "date")
+							if (sortBy == "clubDate")
 								sortBy = "개설일순";
-							else if (sortBy == "memUp")
+							else if (sortBy == "clubMemUp")
 								sortBy = "동아리원 오름차순";
-							else if (sortBy == "memDown")
+							else if (sortBy == "clubMemDown")
 								sortBy = "동아리원 내림차순";
+							else if (sortBy == "memaDate")
+								sortBy = "최신순";
+							else if (sortBy == "memaClose")
+								sortBy = "마감임박순";
 
 							$("#selectedSort").text(sortBy);
 						},
@@ -420,13 +441,13 @@
 										aria-controls="recommend-tab-pane" aria-selected="false">추천</button>
 								</li>
 								<li class="nav-item" role="presentation">
-									<button class="nav-link active" id="flight-tab"
+									<button class="nav-link active" id="mema-tab"
 										data-bs-toggle="tab" data-bs-target="#flight-tab-pane"
 										type="button" role="tab" aria-controls="flight-tab-pane"
 										aria-selected="true">메뉴메이트</button>
 								</li>
 								<li class="nav-item" role="presentation">
-									<button class="nav-link" id="hotel-tab" data-bs-toggle="tab"
+									<button class="nav-link" id="kima-tab" data-bs-toggle="tab"
 										data-bs-target="#hotel-tab-pane" type="button" role="tab"
 										aria-controls="hotel-tab-pane" aria-selected="false">끼니메이트</button>
 								</li>

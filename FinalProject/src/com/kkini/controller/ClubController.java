@@ -17,6 +17,7 @@ public class ClubController
 	@Autowired
 	private SqlSession sqlSession;
 	
+	// 동아리 목록 호출
 	@RequestMapping(value = "/clubList.kkini", method = RequestMethod.GET)
 	public String clubList(Model model, HttpServletRequest request)
 	{
@@ -32,11 +33,11 @@ public class ClubController
 		{
 			IClubDAO dao = sqlSession.getMapper(IClubDAO.class);
 		
-			if(sortBy.equals("date"))
+			if(sortBy.equals("clubDate"))
 				model.addAttribute("clubList", dao.sortClubListByDate());
-			else if(sortBy.equals("memUp"))
+			else if(sortBy.equals("clubMemUp"))
 				model.addAttribute("clubList", dao.sortClubListByMemUp());
-			else if(sortBy.equals("memDown"))
+			else if(sortBy.equals("clubMemDown"))
 				model.addAttribute("clubList", dao.sortClubListByMemDown());
 			else
 				model.addAttribute("clubList", dao.clubList());
