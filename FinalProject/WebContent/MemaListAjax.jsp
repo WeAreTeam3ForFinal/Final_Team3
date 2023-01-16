@@ -59,8 +59,8 @@
 							<i class="fa-solid fa-utensils ms-3 me-3"></i><span id="mema-list-region">${dto.mainMenu }</span><br>
 							<div class="border"></div>
 						</div>
-							<form action="getMemaApplyInfo.kkini" method="post">
-							<input type="text" style="display:none;" name="mm_open_code" value="MOC0000030"> <!-- value에는 각각의 개설코드 들어가야함  -->
+							<form action="getMemaApplyInfo.kkini" method="get">
+							<input type="text" style="display:none;" name="openCode" value="${dto.openCode }"> <!-- value에는 각각의 개설코드 들어가야함  -->
 							<button type="submit" style="display:none;"></button>
 						</form>                	
 	                </div>

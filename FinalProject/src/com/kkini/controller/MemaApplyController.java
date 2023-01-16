@@ -22,7 +22,7 @@ public class MemaApplyController
 	private SqlSession sqlSession;
 	
 	/* 모집정보 보여주기 */
-	@RequestMapping(value = "/getMemaApplyInfo.kkini", method = RequestMethod.POST)
+	@RequestMapping(value = "/getMemaApplyInfo.kkini", method = RequestMethod.GET)
 	public String getMemaApplyInfo(MemaDTO dto, ModelMap model)
 	{
 		
@@ -34,7 +34,7 @@ public class MemaApplyController
 			
 			List<Map<String,String>> d =  dao.getMemaApplyInfo(dto);
 			model.addAttribute("dto", d);
-			model.addAttribute("tagList", d.get(0).get("OPEN_KEYWORD").split(","));
+			model.addAttribute("tagList", d.get(0).get("OPENKEYWORD").split(","));
 			
 			result = "/Mm_Apply.jsp";
 		} 
