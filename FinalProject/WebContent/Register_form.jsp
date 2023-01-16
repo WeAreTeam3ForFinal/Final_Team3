@@ -292,13 +292,27 @@ String cp = request.getContextPath();
 		$("#phoneCheck").css("display", "none");
 		$("#nicknameCheck").css("display", "none");
 		$("#birthgenderCheck").css("display","none");
-		
-		
 
+		
 		
 		/* 아이디  */
 
 		/* 중복검사 실행 등록필요 */
+		
+		if(!$("#CheckId").hasClass("approve") && $.trim($("#UserId").val())!="")
+			{
+			alert("아이디 중복검사를 실행해주세요");
+			$("#idCheck").css("display", "inline");
+			return false;
+			}
+		
+		if(!$("#CheckNickName").hasClass("approve") && $.trim($("#UserNickName").val())!="")
+			{
+			alert("닉네임 중복검사를 실행해주세요");
+			$("#nicknameCheck").css("display", "inline");
+			return false;
+			}
+		
 		
 		/* 직접 입력했을때 */
 		if ($.trim($("#emailDirect").val()) != "")
@@ -335,6 +349,19 @@ String cp = request.getContextPath();
 			}
 
 		}
+		
+		
+		//아이디 중복검사 실패시
+		
+				
+		if($("#idCheck").html()=="사용중인 아이디입니다.")
+		{
+		alert("사용중인 아이디로는 회원가입이 불가능합니다.");
+		$("#idCheck").css("display", "inline");
+		return false;
+		}
+		
+		
 
 		/* 비밀번호 */
 
@@ -352,6 +379,13 @@ String cp = request.getContextPath();
 		
 		/* 닉네임 중복검사 실행 */
 		
+		if($("#nicknameCheck").html()=="사용중인 닉네임입니다.")
+		{
+		alert("사용중인 닉네임은 사용할 수 없습니다.");
+		$("#nicknameCheck").css("display", "inline");
+		return false;		
+		}
+		
 		
 		if (!/^[\w\Wㄱ-ㅎㅏ-ㅣ가-힣]{2,16}$/.test($("#UserNickName").val())
 				|| $.trim($("#UserNickName").val()) == "")
@@ -362,17 +396,34 @@ String cp = request.getContextPath();
 			return false;
 		}
 
-		/* 생년원일 */
 
+		
+		/* 생년원일 */
 		const birthgender = $("#Birth").val() + "-" + $("#Gender").val();
+		
+		const age = calAge(birthgender);
+		
+		
+		
 		if (!/^(?:[0-9]{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[1,2][0-9]|3[0,1]))-[1-4]{1}$/.test(birthgender))
 		{
 			$("#birthgenderCheck").css("display","inline");
-			$("#birthgenderCheck").html("닉네임 확인해주세요");
+			$("#birthgenderCheck").html("생년월일 확인");
 			$("#Birth").focus();
 			return false;
 
 		}
+		
+		/* 미성년자 가입 불가 */
+		
+		
+		if(age<20)
+		{
+			alert("미성년자는 가입 불가능합니다.");
+			return false;
+		
+		}
+	
 
 		/* 전화번호 */
 		if (!/^[0-9]{11}$/.test($("#Phone_number").val())
@@ -387,8 +438,9 @@ String cp = request.getContextPath();
 
 		/* 거주지역 */
 		
-		if($("#addrErr").html()=="유효하지 않은 지역입니다.")
+		if($("#addrErr").html()=="유효하지 않은 지역입니다." || $.trim($("#User_addr").val())=="" )
 			{
+			$("#addrErr").css("display","inline");
 			$("#User_addr").focus();
 			return false;
 			}
@@ -404,6 +456,137 @@ String cp = request.getContextPath();
 		
 		
 
+	}
+	
+	
+	function idOverlapCheck()
+	{
+		$("#idCheck").css("display","none");
+		
+		
+		
+		let id="";
+		
+		if($("#email").val()=="direct")
+			{
+			id = $("#UserId").val()+"@"+$("#emailDirect").val();
+			
+			//alert(id);
+			
+			}
+		else
+			{
+			id= $("#UserId").val()+"@"+$("#email").val();
+			}
+		
+		
+		$.post("idOverlapCk.kkini",{id:id}, function(args)
+		{
+			if(args==1)
+				{
+			alert("이미 사용중인 아이디입니다.");
+			$("#idCheck").html("사용중인 아이디입니다.");
+			$("#idCheck").css("display","inline");
+			$("#CheckId").addClass("not-approve");
+			$("#CheckId").removeClass("approve");
+			$("#UserId").focus();
+				}		
+			else
+				{
+				alert("사용가능한 아이디입니다.");
+				$("#idCheck").html("");
+				$("#idCheck").css("display","none");
+				$("#CheckId").removeClass("not-approve");
+				$("#CheckId").addClass("approve");
+				$("#UserPw").focus();
+				}
+		});
+		
+	}
+	
+	
+	function calAge(jumin)
+	{
+		
+		jumin = jumin.replace("-","");
+		
+		let today = new Date();	// 현재 날짜 및 시간
+
+		let juminFront = jumin.substr(0,6); // 주민번호앞자리
+		let juminBackFirstVal = jumin.substr(6,1); //주민번호뒷자리 첫 문자열(2000년도 이전생인지 확인)
+
+		let age = 0;
+		let birthDate = null;
+		let juminYear = null;
+		let juminMonth = jumin.substr(2,2);//10
+		let juminDate = jumin.substr(4,2);//03
+		
+		let monthCheck = 0;
+
+		if(juminBackFirstVal == 1 || juminBackFirstVal == 2){
+			// 2000년생 이전일 경우
+			juminYear = "19" + jumin.substr(0,2);//93~~
+
+			//Month는 0부터 시작하기 때문에 -1 처리해야
+			birthDate = new Date(juminYear*1, juminMonth-1, juminDate*1);
+			
+			// 현재 연도에서 - 태어난 연도
+			age = today.getFullYear() - birthDate.getFullYear();
+
+			// 현재 월에서 - 태어난 월
+			monthCheck = today.getMonth() - birthDate.getMonth();
+
+			// 생일 월이 현재 월을 지나지 않았을 경우 만 나이기 때문에 -1
+			if(monthCheck < 0 || (monthCheck === 0 && today.getDate() < birthDate.getDate())){
+				age--;
+			}
+		}else{
+			// 2000년생 이후
+			juminYear = "20" + jumin.substr(0,2);//01~~
+			
+			birthDate = new Date(juminYear*1, juminMonth-1, juminDate*1);
+			
+			age = today.getFullYear() - birthDate.getFullYear();
+
+			monthCheck = today.getMonth() - birthDate.getMonth();
+
+			if(monthCheck < 0 || (monthCheck === 0 && today.getDate() < birthDate.getDate())){
+				age--;
+			}
+		}
+		
+		
+		return age;
+	}
+	
+	
+	function nickNameOverlapCheck()
+	{
+		
+		
+		
+		$.post("nickNameOverlapCk.kkini",{nickname:$("#UserNickName").val()}, function(args)
+				{
+					if(args==1)
+						{
+					alert("이미 사용중인 닉네임입니다.");
+					$("#nicknameCheck").html("사용중인 닉네임입니다.");
+					$("#nicknameCheck").css("display","inline");
+					$("#CheckNickName").addClass("not-approve");
+					$("#CheckNickName").removeClass("approve");
+					$("#UserNickName").focus();
+						}
+					else
+						{
+						alert("사용가능한 닉네임입니다.");
+						$("#nicknameCheck").html("");
+						$("#nicknameCheck").css("display","none");
+						$("#CheckNickName").removeClass("not-approve");
+						$("#CheckNickName").addClass("approve");
+						$("#Birth").focus();
+						}
+				});
+		
 	}
 </script>
 
@@ -458,10 +641,10 @@ String cp = request.getContextPath();
 												</div>
 
 												<div class="col-2 mb-2 pb-2 align-items-baseline">
-													<label class="form-label" for="CheckNickName"
+													<label class="form-label" for="CheckId"
 														style="visibility: hidden;">.</label><br>
-													<button type="button" id="CheckNickName"
-														class="btn btn-outline-success">중복검사</button>
+													<button type="button" id="CheckId"
+														class="btn btn-outline-success" onclick="idOverlapCheck()">중복검사</button>
 												</div>
 
 											</div>
@@ -493,7 +676,7 @@ String cp = request.getContextPath();
 															class="form-control form-control-m rounded"
 															placeholder="2~16자리">
 														<button type="button" id="CheckNickName"
-															class="btn btn-outline-success">중복검사</button>
+															class="btn btn-outline-success" onclick="nickNameOverlapCheck()">중복검사</button>
 
 
 													</div>
@@ -502,10 +685,10 @@ String cp = request.getContextPath();
 
 											<div class="row g-2">
 												<div class="col-md-3 mb-1 pb-1">
-													<label class="form-label" for="Birth">생년월일/성별<span
-														id="birthgenderCheck" style="color: red; display: none;"></span></label>
+													<label class="form-label" for="Birth">생년월일<span
+														id="birthgenderCheck" style="color: red; display: none; font-size: small;"></span></label>
 													<div class="form-outline">
-														<input type="text" id="Birth" name="Birth" maxlength="6"
+														<input type="text" id="Birth" name="Birth" maxlength="6" placeholder="ex)940601"
 															class="form-control form-control-m" />
 													</div>
 
@@ -519,7 +702,7 @@ String cp = request.getContextPath();
 												<div class="mb-1 pb-1" style="width: 45px;">
 													<div class="form-outline">
 														<label class="form-label" for="Gender"
-															style="visibility: hidden;">아</label> <input type="text"
+															>성별</label> <input type="text"
 															id="Gender" name="Gender" maxlength="1"
 															class="form-control form-control-m" />
 													</div>
@@ -555,13 +738,13 @@ String cp = request.getContextPath();
 															placeholder="ex) 서울시 용산구">
 														<div id="User_addrRec" class="col-6 form-outline"></div>
 
-
-
-
-													</div>
 													<div class="col-7">
 														<span id="addrErr" style="color: red;"></span>
 													</div>
+
+
+													</div>
+													
 												</div>
 											</div>
 
