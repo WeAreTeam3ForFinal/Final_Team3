@@ -198,10 +198,13 @@
 				});
 
 			});
+	
+	
 </script>
 </head>
 
 <body>
+
 <body>
 	<jsp:include page="LoginForm.jsp"></jsp:include>
 </body>

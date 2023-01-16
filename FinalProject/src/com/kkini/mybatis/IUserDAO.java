@@ -32,5 +32,9 @@ public interface IUserDAO
 	
 	public UserDTO loginMember(UserDTO dto); //로그인 성공시 회원 닉네임, 회원코드를 받아오는 함수
 	
+	public int idOverlapCheck(String id); //아이디 중복검사
+	
+	public int nickNameOverlapCheck(String nickname); //닉네임 중복 검사
+	
 	
 }
