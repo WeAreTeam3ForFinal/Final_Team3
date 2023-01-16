@@ -23,6 +23,64 @@ public class User
 	private SqlSession sqlSession;
 
 	
+	//아이디 중복검사
+	@RequestMapping(value = "/idOverlapCk.kkini",method = RequestMethod.POST)
+	public String idOverlapCheck(ModelMap model,String id)
+	{
+		String result="";
+		
+		try
+		{
+		  IUserDAO dao = sqlSession.getMapper(IUserDAO.class);
+		  
+		  
+		  
+		  model.addAttribute("result", dao.idOverlapCheck(id));
+		  
+		  
+		} catch (Exception e)
+		{
+			System.out.println(e.toString());
+			// TODO: handle exception
+		}
+		
+		
+		result="/IdOverlapAjax.jsp";
+		
+		return result;
+	}
+	
+	
+	
+	//닉네임 중복검사
+	@RequestMapping(value = "/nickNameOverlapCk.kkini", method = RequestMethod.POST)
+	public String nickNameOverlapCheck(ModelMap model, String nickname)
+	{
+		String result="";
+		
+		try
+		{
+			
+			IUserDAO dao = sqlSession.getMapper(IUserDAO.class);
+			
+			
+			
+			model.addAttribute("result", dao.nickNameOverlapCheck(nickname));
+			
+		} catch (Exception e)
+		{
+			System.out.println(e.toString());
+			// TODO: handle exception
+		}
+		
+		
+		result="/NicknameOverlapAjax.jsp";
+		
+		return result;
+	}
+	
+	
+	
 	@RequestMapping(value = "/userRegiste.kkini",method = RequestMethod.GET)
 	public String userRegisteForm(ModelMap model)
 	{
@@ -69,7 +127,7 @@ public class User
 	{
 		
 		String result ="";
-		
+		boolean flag = false; //회원가입 실패
 		try
 		{
 			
@@ -85,10 +143,14 @@ public class User
 		   	 //유저 세부정보 테이블에 입력
 		     dao.userRegister(dto);
 		     
+		    
 		     
+		     if(dto.getUser_code()!=null)
+		     {
 		     //유저 세부정보 테이블에 입력된 회원코드 가져오기
 		     dto.setUser_code(dto.getUser_code_live());
-		     
+		     flag = true;
+		     }
 		     
 		     //회원코드 생성
 		     String user_code = dto.getUser_code();
@@ -114,6 +176,9 @@ public class User
 		    	 System.out.println("\n"+user_character);
 		    	 dao.addcharacter(user_character, user_code);
 		     }
+		     
+		     
+		     model.addAttribute("flag", flag);
 		     
 		     result="/MainPage.jsp";
 		     
