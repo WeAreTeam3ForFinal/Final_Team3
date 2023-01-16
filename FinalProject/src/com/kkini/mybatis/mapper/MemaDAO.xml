@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org/DTD Mapper 3.0/EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.kkini.mybatis.IMemaDAO">
+
+	<!-- 메마 리스트 -->
+	<select id="memaList" resultType="com.kkini.dto.MemaDTO">
+	
+	SELECT RESTNAME, REGION, FOODCTG, AGEGROUP, MAINMENU, DEADLINE, PARTYMEMBERCOUNT, PARTYMASTER, 
+    	   ATTENDSCORE, MANNERSCORE, BIASSCORE, MAINMENUPRICE, ISCLOSED
+	FROM MM_LIST_VIEW
+	WHERE ISCLOSED = 'FALSE'
+	
+	</select>
+	
+	<!-- 메마 리스트 - 최신순(수정 필요) -->
+	<select id="sortMemaListByDate" resultType="com.kkini.dto.MemaDTO">
+	
+	SELECT RESTNAME, REGION, FOODCTG, AGEGROUP, MAINMENU, DEADLINE, PARTYMEMBERCOUNT, PARTYMASTER, 
+    	   ATTENDSCORE, MANNERSCORE, BIASSCORE, MAINMENUPRICE, ISCLOSED
+	FROM MM_LIST_VIEW
+	WHERE ISCLOSED = 'FALSE'
+	</select>
+	
+	
+	<!-- 메마 리스트 - 마감임박순 -->
+	<select id="sortMemaListByClose" resultType="com.kkini.dto.MemaDTO">
+	
+	SELECT RESTNAME, REGION, FOODCTG, AGEGROUP, MAINMENU, DEADLINE, PARTYMEMBERCOUNT, PARTYMASTER, 
+    	   ATTENDSCORE, MANNERSCORE, BIASSCORE, MAINMENUPRICE, ISCLOSED
+	FROM MM_LIST_VIEW
+	WHERE ISCLOSED = 'FALSE'
+	ORDER BY DEADLINE DESC
+	
+	</select>
+
+</mapper>
