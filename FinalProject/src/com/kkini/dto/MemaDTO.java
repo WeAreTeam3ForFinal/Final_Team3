@@ -11,6 +11,26 @@ public class MemaDTO
 	String openCode, restName, region, foodctg, ageGroup, gender, visitDate, mainMenu, deadline, partyMemberCount, 
 		   nop, partyMaster, attendScore, mannerScore, biasScore, menuPrice, isClosed, openKeyword, userCode;
 	
+	public String getMannerScore()
+	{
+		return mannerScore;
+	}
+
+	public void setMannerScore(String mannerScore)
+	{
+		this.mannerScore = mannerScore;
+	}
+
+	public String getBiasScore()
+	{
+		return biasScore;
+	}
+
+	public void setBiasScore(String biasScore)
+	{
+		this.biasScore = biasScore;
+	}
+
 	public String getNop()
 	{
 		return nop;
