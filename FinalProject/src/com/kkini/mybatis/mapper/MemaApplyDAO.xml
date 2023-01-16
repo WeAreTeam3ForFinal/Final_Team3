@@ -7,26 +7,17 @@
 
 	<!-- 모집정보 띄워주기 위한 쿼리 -->
 	<select id="getMemaApplyInfo" resultType="java.util.HashMap">
-		SELECT (SELECT GENDER_CTG FROM GENDER WHERE GENDER_CODE = OP.GENDER_CODE) AS GENDER_CODE
-		     , (SELECT AGE_GROUP_CASE FROM AGE_GROUP WHERE AGE_GROUP_CODE = OP.AGE_GROUP_CODE) AS AGE_GROUP_CODE
-		     , (SELECT FOOD_CASE FROM FOOD_CTG WHERE FOOD_CTG_CODE = OP.FOOD_CTG_CODE) AS FOOD_CTG_CODE
-		     , (SELECT REST_NAME FROM REST WHERE REST_CODE = OP.REST_CODE) AS REST_CODE
-		     , MM_OPEN_CODE
-		     , U_CODE
-		     , NOP
-		     , VISIT_DATE
-		     , MAIN_MENU
-		     , MAIN_MENU_PRICE
-		     , OPEN_KEYWORD
-		  FROM MM_OPEN OP
-		 WHERE MM_OPEN_CODE = #{mm_open_code}
+		 SELECT RESTNAME, REGION, FOODCTG, AGEGROUP, GENDER, MAINMENU, MENUPRICE, VISITDATE, DEADLINE, 
+       	 PARTYMEMBERCOUNT, NOP, PARTYMASTER, ATTENDSCORE, ISCLOSED, OPENKEYWORD, OPENCODE
+		 FROM MM_LIST_VIEW
+		 WHERE OPENCODE = #{openCode}
 	</select>
 	
 	<!-- 지원자가 지원하기 클릭 시, 인서트되는 쿼리 -->
 	<select id="memaApply" parameterType="com.kkini.dto.MemaDTO" statementType="CALLABLE">
 		{CALL PRC_MM_APPLY_INSERT(
-			  #{mm_open_code, mode=IN,jdbcType=VARCHAR}
-			, #{u_code, mode=IN,jdbcType=VARCHAR} 
+			  #{openCode, mode=IN,jdbcType=VARCHAR}
+			, #{userCode, mode=IN,jdbcType=VARCHAR} 
 			, SYSDATE
 			)}
 	</select>
