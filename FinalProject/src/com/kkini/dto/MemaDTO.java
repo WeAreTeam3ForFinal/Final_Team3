@@ -5,41 +5,80 @@ import java.sql.Timestamp;
 public class MemaDTO
 {
 	// 주요 속성 구성
-	String mm_open_code, u_code;
-	Timestamp ready_date;		// date 타입은 자바에서 시분초까지 받아오지 못하므로 timestamp 라는 타입으로 변수 선언
-	
+	Timestamp readyDate;		// date 타입은 자바에서 시분초까지 받아오지 못하므로 timestamp 라는 타입으로 변수 선언
+
 	// 뷰 속성 구성 (속성 작명 통일 필요)
-	String restName, region, foodctg, ageGroup, visitDate, mainMenu, deadline, partyMemberCount, 
-					 partyMaster, attendScore, mainMenuPrice, isClosed;
-
-	public String getMm_open_code()
+	String openCode, restName, region, foodctg, ageGroup, gender, visitDate, mainMenu, deadline, partyMemberCount, 
+		   nop, partyMaster, attendScore, menuPrice, isClosed, openKeyword, userCode;
+	
+	public String getNop()
 	{
-		return mm_open_code;
+		return nop;
 	}
 
-	public void setMm_open_code(String mm_open_code)
+	public void setNop(String nop)
 	{
-		this.mm_open_code = mm_open_code;
+		this.nop = nop;
 	}
 
-	public String getU_code()
+	public Timestamp getReadyDate()
 	{
-		return u_code;
+		return readyDate;
+	}
+	
+	public void setReadyDate(Timestamp readyDate)
+	{
+		this.readyDate = readyDate;
+	}
+	
+	public String getUserCode()
+	{
+		return userCode;
+	}
+	
+	public void setUserCode(String userCode)
+	{
+		this.userCode = userCode;
 	}
 
-	public void setU_code(String u_code)
+	public String getOpenCode()
 	{
-		this.u_code = u_code;
+		return openCode;
 	}
 
-	public Timestamp getReady_date()
+	public void setOpenCode(String openCode)
 	{
-		return ready_date;
+		this.openCode = openCode;
 	}
 
-	public void setReady_date(Timestamp ready_date)
+	public String getGender()
 	{
-		this.ready_date = ready_date;
+		return gender;
+	}
+
+	public void setGender(String gender)
+	{
+		this.gender = gender;
+	}
+
+	public String getMenuPrice()
+	{
+		return menuPrice;
+	}
+
+	public void setMenuPrice(String menuPrice)
+	{
+		this.menuPrice = menuPrice;
+	}
+
+	public String getOpenKeyword()
+	{
+		return openKeyword;
+	}
+
+	public void setOpenKeyword(String openKeyword)
+	{
+		this.openKeyword = openKeyword;
 	}
 
 	public String getRestName()
@@ -140,16 +179,6 @@ public class MemaDTO
 	public void setAttendScore(String attendScore)
 	{
 		this.attendScore = attendScore;
-	}
-
-	public String getMainMenuPrice()
-	{
-		return mainMenuPrice;
-	}
-
-	public void setMainMenuPrice(String mainMenuPrice)
-	{
-		this.mainMenuPrice = mainMenuPrice;
 	}
 
 	public String getIsClosed()

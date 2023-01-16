@@ -233,55 +233,74 @@ $("#onePopBtn").next().attr("href", Phref);
          </div> 
          <!--sub_title--> 
          <br> 
+         
+         <!--
+         SELECT RESTNAME, REGION, FOODCTG, AGEGROUP, GENDER, MAINMENU, MENUPRICE, VISITDATE, DEADLINE, 
+       	 PARTYMEMBERCOUNT, NOP, PARTYMASTER, ATTENDSCORE, ISCLOSED, OPENKEYWORD
+		 FROM MM_LIST_VIEW
+         
+           -->
  
          <div class="main row g-2"> 
                <div class="col-md-6"> 
                    <label for="validationDefault01" class="form-label">방문예정 일시</label> 
-                    <input type="text" readonly class="form-control form-control-date" required value="${dto[0].VISIT_DATE
-                    }"><!--  id="datetime" -->  
+                    <input type="text" readonly class="form-control form-control-date" required value="${dto[0].VISITDATE}"><!--  id="datetime" -->  
                   <!-- 공백란 경고문구 부분 --> 
                  <!--  <span id="datetimeCheck"></span>  --> 
                </div> 
                <div class="col-md-6"> 
                    
+                    <label for="validationDefault01" class="form-label">자동마감 일시</label> 
+                    <input type="text" class="form-control" id="local" readonly required value="${dto[0].DEADLINE}"> 
+                  <!-- 공백란 경고문구 부분 --> 
+                  <span id="localCheck"></span> 
+               </div>
+               <br> 
+               <div class="col-md-6"> 
+                   
                     <label for="validationDefault01" class="form-label">방문예정 지역</label> 
-                    <input type="text" class="form-control" id="local" readonly required value="${dto[0].VISIT_DATE}"> 
+                    <input type="text" class="form-control" id="local" readonly required value="${dto[0].REGION}"> 
                   <!-- 공백란 경고문구 부분 --> 
                   <span id="localCheck"></span> 
                </div> 
                <div class="col-md-12"> 
                   
                    <label for="validationDefault01" class="form-label">방문예정 식당</label> 
-                    <input type="text" class="form-control" id="restautant" readonly required value="${dto[0].REST_CODE}"> 
+                    <input type="text" class="form-control" id="restautant" readonly required value="${dto[0].RESTNAME}"> 
                   <!-- 공백란 경고문구 부분 --> 
                   <span id="restCheck"></span>  
                </div> 
                    <div class="col-md-4"> 
                       <label for="validationDefault04" class="form-label">모집 희망 성별</label> 
-                      <input type="text" class="form-control" id="gender" readonly required value="${dto[0].GENDER_CODE}"> 
+                      <input type="text" class="form-control" id="gender" readonly required value="${dto[0].GENDER}"> 
                     </div> 
                 <div class=" col-md-4">            
                       <label for="validationDefault04" class="form-label">모집 희망 연령대</label> 
-                      <input type="text" class="form-control" id="AgeGroup1" readonly required value="${dto[0].AGE_GROUP_CODE}"> 
+                      <input type="text" class="form-control" id="AgeGroup1" readonly required value="${dto[0].AGEGROUP}"> 
+                </div>
+                                 
+                <div class=" col-md-4">            
+                      <label for="validationDefault04" class="form-label">참가 인원</label> 
+                      <input type="text" class="form-control" id="AgeGroup1" readonly required value="${dto[0].PARTYMEMBERCOUNT}"> 
                 </div>                 
  
             <div class=" col-md-6"> 
               
                 <label for="validationDefault04" class="form-label">음식 종류</label> 
-                <input type="text" class="form-control" id="foodCategory" readonly required value="${dto[0].FOOD_CTG_CODE}"> 
+                <input type="text" class="form-control" id="foodCategory" readonly required value="${dto[0].FOODCTG}"> 
                        
             </div> 
                 
             <div class="col-md-6"> 
                 
                <label for="validationDefault01" class="form-label">메인 메뉴명</label> 
-               <input type="text" class="form-control" id="mainMenu" readonly required value="${dto[0].MAIN_MENU}"> 
+               <input type="text" class="form-control" id="mainMenu" readonly required value="${dto[0].MAINMENU}"> 
  
             </div> 
                <div class="col-md-4"> 
                
                     <label for="validationDefault01" class="form-label">메인 메뉴 가격</label> 
-                    <input type="text" class="form-control" onkeyup="perPriceCal()" id="mainMenuPrice" readonly value="${dto[0].MAIN_MENU_PRICE}">(원) 
+                    <input type="text" class="form-control" onkeyup="perPriceCal()" id="mainMenuPrice" readonly value="${dto[0].MENUPRICE}">(원) 
                   <!-- <span class="red">※</span> <span>메인 메뉴 가격 : </span> <input type="text" onkeyup="perPriceCal()" id="mainMenuPrice" placeholder="내용을 입력해주세요">(원) <br> <span id="menuPriceCheck"></span> --> 
                </div> 
                <div class="col-md-4"> 

@@ -146,7 +146,7 @@
 						}
 					});
 				});
-
+				
 				/*
 				function showRequest()
 				{
@@ -207,14 +207,33 @@
 			      });
 			});
 	
+	function initialList()
+	{
+		$.ajax(
+				{
+					// 전송방식은 SELECT 구문이므로 GET으로 통일
+					type : "GET",
+					url : "memaList.kkini",
+					success : function(args)
+					{
+						$("#resultDiv").html(args);
+					}
+					//, beforeSend : showRequest
+					,
+					error : function(e)
+					{
+						alert(e.responseText);
+					}
+				});	
+	}
+	
 </script>
 </head>
 
-<body>
-
-<body>
+<body onload="initialList()">
+<div>
 	<jsp:include page="LoginForm.jsp"></jsp:include>
-</body>
+</div>
 <!-- page content area 테스트-->
 <div class="box01">
 	<div class="dropdown">
