@@ -10,6 +10,11 @@
 <meta name="description" content="">
 <meta name="author" content="ThemesLay">
 <title>끼리끼니</title>
+<!-- font-awsome v5.8.2 -->
+ <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"
+  />
 <!-- Favicon icon -->
 <link rel="icon" type="image/png" sizes="80x80"
 	href="assets/images/favicon.png">
@@ -177,17 +182,17 @@
 							var sortBy = $("#sortBy").val();
 
 							if (sortBy == "clubDate")
-								sortBy = "개설일순";
+								sortBy = "<b>개설일순</b>";
 							else if (sortBy == "clubMemUp")
-								sortBy = "동아리원 오름차순";
+								sortBy = "<b>동아리원 오름차순</b>";
 							else if (sortBy == "clubMemDown")
-								sortBy = "동아리원 내림차순";
+								sortBy = "<b>동아리원 내림차순</b>";
 							else if (sortBy == "memaDate")
-								sortBy = "최신순";
+								sortBy = "<b>개설일순</b>";
 							else if (sortBy == "memaClose")
-								sortBy = "마감임박순";
+								sortBy = "<b>마감임박순</b>";
 
-							$("#selectedSort").text(sortBy);
+							$("#selectedSort").html(sortBy);
 						},
 						error : function(e)
 						{
@@ -197,7 +202,11 @@
 
 				});
 
+			    $(document).on("click", ".selectInfo",function() {
+			        $(this).next().children('button').click();
+			      });
 			});
+	
 </script>
 </head>
 
