@@ -584,6 +584,9 @@
 										</div>
 									</form>
 								</div>
+								 <!-- 메뉴메이트 개설하기 버튼 추가  -->
+                                 <br>
+                                 <button class="btn btn-warning" style="width: 150px; margin: auto;" onclick="location.href='memaopenform.kkini'">개설하기</button>
 							</div>
 
 							<!-- 메뉴메이트 끝 -->
