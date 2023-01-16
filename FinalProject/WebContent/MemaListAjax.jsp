@@ -12,20 +12,20 @@
         
 	            <div class="row">
 	                <div class="col-12 col-lg-6">
-	                    <h4 class="fs-2 fw-bold theme-text-secondary mb-0">동아리 목록</h4>
+	                    <h4 class="fs-2 fw-bold theme-text-secondary mb-0">메뉴메이트 목록</h4>
 	                    <!-- 회원일 때만 해당 문구 출력 -->
-	                    <p class="mb-0 theme-text-accent-one">피카츄님에게 딱 맞는 동아리를 추천해드릴게요!</p>
+	                    <p class="mb-0 theme-text-accent-one">피카츄님에게 딱 맞는 메뉴메이트 파티를 추천해드릴게요!</p>
 	                </div>
 	                <div class="col-12 col-lg-6 align-self-center justify-content-end d-flex">
 	                    <div class="d-flex">
 	                        <div class="dropdown-center">
 	                            <button class="btn btn-secondary dropdown-toggle recomended-btn" type="button"
 	                                data-bs-toggle="dropdown" aria-expanded="false" id="selectedSort">
-	                                정렬기준
+	                                <b>정렬기준</b>
 	                            </button>
 	                            <ul class="dropdown-menu" id="sortList">
-	                                <li><a class="dropdown-item" href="memaList.kkini?sortBy=memaDate" onclick="return false">개설일순</a></li>
-	                                <li><a class="dropdown-item" href="memaList.kkini?sortBy=memaClose" onclick="return false">마감임박순</a></li>
+	                                <li><a class="dropdown-item" href="memaList.kkini?sortBy=memaDate" onclick="return false"><b>개설일순</b></a></li>
+	                                <li><a class="dropdown-item" href="memaList.kkini?sortBy=memaClose" onclick="return false"><b>마감임박순</b></a></li>
 	                            </ul>
 	                        </div>
 	                    </div>
@@ -47,25 +47,25 @@
 	             <c:forEach var="dto" items="${memaList }">
 	                <div class="col-12 col-md-6 col-lg-3 h-50 mb-4 mb-lg-3 me-3 border border-warning" style="width: 280px;">
 	                	<!-- div 스타일 속성 추가. div영역 넘어가는 해시태그 ... 처리 -->
-						<div style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">
+						<div style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;" class="selectInfo">
+						<!-- 일시, 지역, 식당명, 음식종류, 메인메뉴, 모집 연령대, 인원수 -->
 							<p id="club-list-title" class="text-center fw-bold h4 mt-4">${dto.restName }</p>
 							<div class="border"></div>
 							<i class="bi bi-geo-alt-fill ms-3 me-3"></i><span id="mema-list-region">${dto.region }</span><br>
 							<i class="bi bi-heart-fill ms-3 me-3"></i><span id="mema-list-foodCtg">${dto.foodctg }</span><br>
+							<i class="bi bi-calendar-check-fill ms-3 me-3"></i><span id="mema-list-visitDate">${dto.visitDate }</span><br>
 							<i class="bi bi-people-fill ms-3 me-3"></i><span id="mema-list-memberCount">${dto.partyMemberCount }</span><br>
-							<i class="bi bi-geo-alt-fill ms-3 me-3"></i><span id="mema-list-ageGroup">${dto.ageGroup }</span><br>
-							<i class="bi bi-geo-alt-fill ms-3 me-3"></i><span id="mema-list-region">${dto.mainMenu }</span><br>
-							<i class="bi bi-geo-alt-fill ms-3 me-3"></i><span id="mema-list-region">${dto.deadline }</span><br>
-							<i class="bi bi-geo-alt-fill ms-3 me-3"></i><span id="mema-list-region">${dto.partyMaster }</span><br>
-							<i class="bi bi-geo-alt-fill ms-3 me-3"></i><span id="mema-list-region">${dto.attendScore }</span><br>
-							<i class="bi bi-geo-alt-fill ms-3 me-3"></i><span id="mema-list-region">${dto.mainMenuPrice }</span><br>
-							<i class="bi bi-geo-alt-fill ms-3 me-3"></i><span id="mema-list-region">${dto.isClosed }</span><br>
+							<i class="bi bi-person-heart ms-3 me-3"></i><span id="mema-list-ageGroup">${dto.ageGroup }</span><br>
+							<i class="fa-solid fa-utensils ms-3 me-3"></i><span id="mema-list-region">${dto.mainMenu }</span><br>
 							<div class="border"></div>
-						</div>                	
+						</div>
+							<form action="getMemaApplyInfo.kkini" method="post">
+							<input type="text" style="display:none;" name="mm_open_code" value="MOC0000030"> <!-- value에는 각각의 개설코드 들어가야함  -->
+							<button type="submit" style="display:none;"></button>
+						</form>                	
 	                </div>
 	             </c:forEach>
-	                
-               	</div> 
+	                </div> 
              </div>
        </section>
 

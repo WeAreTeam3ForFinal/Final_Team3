@@ -1,5 +1,5 @@
 package com.kkini.controller;
-
+import com.kkini.dto.MemaDTO;
 import javax.servlet.ServletRequest;
 
 import org.apache.ibatis.session.SqlSession;

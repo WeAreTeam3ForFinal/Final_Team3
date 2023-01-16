@@ -3,7 +3,7 @@ package com.kkini.mybatis;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
+import com.kkini.dto.MemaDTO;
 import com.kkini.dto.MemaOpenDTO;
 
 public interface IMemaDAO

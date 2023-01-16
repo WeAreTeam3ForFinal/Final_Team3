@@ -237,7 +237,8 @@ $("#onePopBtn").next().attr("href", Phref);
          <div class="main row g-2"> 
                <div class="col-md-6"> 
                    <label for="validationDefault01" class="form-label">방문예정 일시</label> 
-                    <input type="text" readonly class="form-control form-control-date" required value="${dto[0].VISIT_DATE}"><!--  id="datetime" -->  
+                    <input type="text" readonly class="form-control form-control-date" required value="${dto[0].VISIT_DATE
+                    }"><!--  id="datetime" -->  
                   <!-- 공백란 경고문구 부분 --> 
                  <!--  <span id="datetimeCheck"></span>  --> 
                </div> 

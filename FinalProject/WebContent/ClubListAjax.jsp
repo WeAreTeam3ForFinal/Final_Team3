@@ -21,12 +21,12 @@
 	                        <div class="dropdown-center">
 	                            <button class="btn btn-secondary dropdown-toggle recomended-btn" type="button"
 	                                data-bs-toggle="dropdown" aria-expanded="false" id="selectedSort">
-	                                정렬기준
+	                                <b>정렬기준</b>
 	                            </button>
 	                            <ul class="dropdown-menu" id="sortList">
-	                                <li><a class="dropdown-item" href="clubList.kkini?sortBy=date" onclick="return false">개설일순</a></li>
-	                                <li><a class="dropdown-item" href="clubList.kkini?sortBy=memUp" onclick="return false">동아리원 오름차순</a></li>
-	                                <li><a class="dropdown-item" href="clubList.kkini?sortBy=memDown" onclick="return false">동아리원 내림차순</a></li>
+	                                <li><a class="dropdown-item" href="clubList.kkini?sortBy=clubDate" onclick="return false"><b>개설일순</b></a></li>
+	                                <li><a class="dropdown-item" href="clubList.kkini?sortBy=clubMemUp" onclick="return false"><b>동아리원 오름차순</b></a></li>
+	                                <li><a class="dropdown-item" href="clubList.kkini?sortBy=clubMemDown" onclick="return false"><b>동아리원 내림차순</b></a></li>
 	                            </ul>
 	                        </div>
 	                    </div>
