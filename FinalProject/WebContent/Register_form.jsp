@@ -36,6 +36,23 @@ String cp = request.getContextPath();
 
 	$(function()
 	{
+		
+		
+		$("#UserId").keyup(function()
+		{
+			$("#CheckId").addClass("not-approve");
+			$("#CheckId").removeClass("approve");
+		});
+		
+		
+		$("#UserNickName").keyup(function()
+		{
+			
+			$("#CheckNickName").addClass("not-approve");
+			$("#CheckNickName").removeClass("approve");
+			
+		});
+		
 		/* 거주지  */
 		$("#User_addr").keyup(function()
 		{

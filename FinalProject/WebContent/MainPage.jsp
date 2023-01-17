@@ -286,7 +286,22 @@
 		<ul class="dropdown-menu dropdown5"
 			aria-labelledby="dropdownMenuButton3"
 			style="max-width: 190px; max-height: 155px;">
-			<li><a class="dropdown-item" href="#" style="font-size: small;">[확정]
+			
+			<!-- 로그인시 -->
+			<c:choose>
+			<c:when test="${sessionScope.nickName != null && sessionScope.userCode != null }">
+			
+			<c:forEach var="roomList" items="${roomList}">
+			<li><a class="dropdown-item" href="#" style="font-size: small;">[${roomList.roomStatus}]
+					[${roomList.visitDate}] ${roomList.restName }</a></li>
+			</c:forEach>
+			
+			</c:when>
+			
+			
+			<c:otherwise>
+			
+				<li><a class="dropdown-item" href="#" style="font-size: small;">[확정]
 					[22/12/24 16:00] 음음</a></li>
 			<li><a class="dropdown-item" href="#" style="font-size: small;">[확정]
 					[22/12/25 18:00] 아웃백</a></li>
@@ -298,6 +313,10 @@
 					[22/12/25 18:00] 아웃백</a></li>
 			<li><a class="dropdown-item" href="#" style="font-size: small;">[확정]
 					[22/12/25 18:00] 아웃백</a></li>
+			
+			</c:otherwise>
+			</c:choose>
+			
 		</ul>
 	</div>
 </div>
@@ -353,8 +372,9 @@
 							style="margin-left: 1100px;">
 
 							<!-- user account  -->
-							<li class="nav-item dropdown my-auto"><c:choose>
-
+							<li class="nav-item dropdown my-auto">
+							<c:choose>
+								
 									<c:when test="${sessionScope.nickName!=null }">
 										<!-- 로그인 성공했을시 -->
                                 	
@@ -364,29 +384,25 @@
 											class="nav-link d-inline-block position-relative"> <i
 												class="bi bi-bell"></i> <span
 												class="position-absolute translate-middle p-1 bg-success border border-light rounded-circle">
-													<span class="visually-hidden">New alerts</span>
+													<span class="visually-hidden">알림</span>
 											</span>
 										</a></li>
-
+										<div class="dropdown-center">
 										<a href="#" class="nav-link dropdown-toggle p-0 user"
 											id="navbarDropdown3" data-bs-toggle="dropdown"
 											aria-expanded="false"> <!-- 오렌지색 색깔 변경 --> <span
 											class="d-inline-block p-2 theme-bg-primary rounded-circle lh-1"
 											style="background-color: #FFA500;"><i
 												class="bi bi-person"></i></span></a>
-										
-										<ul class="dropdown-menu dropdown-menu-end sub-menu"
-											aria-labelledby="navbarDropdown3">
-											<li><a class="dropdown-item" data-bs-toggle="modal"
-												data-bs-target="#loginModal" role="button">점수점수</a>
-											</li>
-
-											<li><a class="dropdown-item" href="userRegiste.kkini">점수점수</a>
-
-											</li>
-										</ul>	
-												
-										
+											<p class="dropdown-menu">
+											출석점수 : ${attendScore}
+											<br><br>
+											매너점수 : ${mannerScore }
+											<br><br>
+											신뢰점수 : ${biasScore }
+											</p>
+										</div>	
+										<div class="dropdown">
 										<a href="#" class="nav-link dropdown-toggle p-0 user"
 											id="nickNameDropdown" data-bs-toggle="dropdown"
 											aria-expanded="false"> <!-- 오렌지색 색깔 변경 --> <span
@@ -394,16 +410,15 @@
 											>${sessionScope.nickName}</span></a>
 											
 										
-										<ul class="dropdown-menu dropdown-menu-end sub-menu"
+										<ul class="dropdown-menu sub-menu"
 											aria-labelledby="nickNameDropdown">
-											<li><a class="dropdown-item" role="button">내 정보 수정</a> <!-- 내 정보 페이지 생성필요!!!!!!! -->
+											<li style="font-size: small"><a class="dropdown-item" role="button" href="">마이페이지</a> <!-- 내 정보 페이지 생성필요!!!!!!! -->
 											</li>
 
-											<li><a class="dropdown-item" href="logout.kkini">로그아웃</a>
-
+											<li style="font-size: small"><a class="dropdown-item" href="logout.kkini">로그아웃</a>
 											</li>
 										</ul>	
-												
+										</div>	
 										
 										
 										

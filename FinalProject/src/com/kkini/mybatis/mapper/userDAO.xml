@@ -48,8 +48,6 @@ ORDER BY 1
 , #{user_introduce, mode=IN, jdbcType=NULL}
 , #{user_code_live, mode=OUT, jdbcType=VARCHAR}
 )}
-
-
 </select>
 
 <select id="regionSearch" parameterType="java.lang.String" resultType="java.lang.String">
@@ -84,7 +82,7 @@ VALUES('CHA'||LPAD(SEQ_CHARACTER_CODE.NEXTVAL,7,'0'),#{user_character},#{user_co
 <select id="loginMember" parameterType="com.kkini.dto.UserDTO" resultType="com.kkini.dto.UserDTO">
 SELECT U_CODE AS user_code , U_NICKNAME AS user_nickname
 FROM U_PRIVATE_DATA
-WHERE U_ID=#{user_id} AND U_PW=cryptpack.ENCRYPT(#{user_pw},#{user_pw})
+WHERE U_ID=#{user_id} AND #{user_pw}=cryptpack.DECRYPT( U_PW,#{user_pw})
 </select>
 
 
@@ -105,5 +103,27 @@ SELECT COUNT(*) AS COUNT
 FROM U_PRIVATE_DATA
 WHERE U_NICKNAME = #{nickname}
 </select>
+
+
+
+<!-- 점수 가져오기 -->
+<select id="getScore" parameterType="java.lang.String" resultType="com.kkini.dto.UserDTO">
+
+SELECT NVL(AC.ATTEND,5) AS attendScore, NVL(MBC.MANNER,5) AS mannerScore, NVL(MBC.BIAS,5) AS biasScore
+FROM U_ATTEND_SCORE AC JOIN U_MANNER_BIAS_SCORE MBC
+ON AC.USERCODE = MBC.USERCODE
+RIGHT JOIN U_PRIVATE_DATA UPD
+ON MBC.USERCODE = UPD.U_CODE
+WHERE UPD.U_CODE = #{user_code}
+
+</select>
+
+
+<select id="getJoinRoomList"  parameterType="java.lang.String" resultType="com.kkini.dto.MemaDTO">
+SELECT ROOM_STATUS AS "roomStatus", VISIT_DATE AS "visitDate", "REST_NAME" AS "restName"
+FROM USER_MM_APPLY_VIEW
+WHERE U_CODE =#{user_code}
+</select>
+
 
 </mapper>

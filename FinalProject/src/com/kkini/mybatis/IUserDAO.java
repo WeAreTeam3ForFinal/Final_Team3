@@ -1,10 +1,12 @@
 package com.kkini.mybatis;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.kkini.dto.MemaDTO;
 import com.kkini.dto.UserDTO;
 
 public interface IUserDAO
@@ -36,5 +38,8 @@ public interface IUserDAO
 	
 	public int nickNameOverlapCheck(String nickname); //닉네임 중복 검사
 	
+	public UserDTO getScore(String user_code); // 메인 페이지 요청시 회원의 값 가져오기
+	
+	public ArrayList<MemaDTO> getJoinRoomList(String user_code);
 	
 }
