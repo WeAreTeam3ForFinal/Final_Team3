@@ -8,7 +8,6 @@ public class UserDTO
 	String user_eatSpeed, user_talk, user_introduce;
 	String attendScore, mannerScore, biasScore;
 	
-	
 	String user_code;
 	String user_code_live;
 	public String getUser_id()

@@ -40,6 +40,13 @@ public interface IUserDAO
 	
 	public UserDTO getScore(String user_code); // 메인 페이지 요청시 회원의 값 가져오기
 	
-	public ArrayList<MemaDTO> getJoinRoomList(String user_code);
+	public int checkJoinRoomList(String user_code);  //참가중인 방이 있는지 확인하기 이거 안하면 리스트에 null떠서 에러남
+	
+	public int checkOpenRoomList(String user_code);   //본인이 개설한 방이 있는지 확인 이거 안하면 리스트에 null떠서 메인페이지 안들어가짐
+	
+	public ArrayList<MemaDTO> getJoinRoomList(String user_code);  //메인 페이지 요청시 본인이 참가중인 방 가져오기
+	
+	public ArrayList<MemaDTO> getOpenRoomList(String user_code); //메인 페이지 요청시 본인이 개설한 방 가져오기
+	
 	
 }
