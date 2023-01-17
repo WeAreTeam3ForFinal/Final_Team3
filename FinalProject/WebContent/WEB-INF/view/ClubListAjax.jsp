@@ -14,7 +14,7 @@
 	                <div class="col-12 col-lg-6">
 	                    <h4 class="fs-2 fw-bold theme-text-secondary mb-0">동아리 목록</h4>
 	                    <!-- 회원일 때만 해당 문구 출력 -->
-	                    <p class="mb-0 theme-text-accent-one">피카츄님에게 딱 맞는 동아리를 추천해드릴게요!</p>
+	                    <p class="mb-0 theme-text-accent-one"></p>
 	                </div>
 	                <div class="col-12 col-lg-6 align-self-center justify-content-end d-flex">
 	                    <div class="d-flex">
