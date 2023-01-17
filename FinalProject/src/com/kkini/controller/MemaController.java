@@ -1,6 +1,7 @@
 package com.kkini.controller;
 
 import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,9 +61,15 @@ public class MemaController
 	
 	//메뉴메이트 개설하기 매핑
 	@RequestMapping(value = "/memaopen.kkini", method = RequestMethod.POST)
-	public String memaOpen(MemaOpenDTO dto)
+	public String memaOpen(MemaOpenDTO dto, HttpSession session)
 	{
 		String result = null;
+		
+		;
+		
+		dto.setMmUserCode((String)session.getAttribute("userCode"));
+		
+		//System.out.println(dto.getMmUserCode());
 		
 		IMemaDAO dao = sqlSession.getMapper(IMemaDAO.class);
 		
