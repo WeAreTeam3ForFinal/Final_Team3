@@ -40,9 +40,9 @@ String cp = request.getContextPath();
 }
 
 /* 리스트 위에 가면 마우스 포인터 모양 변경 */
-.selectInfo {
+/* .selectInfo {
 	cursor:pointer;
-}
+} */
 </style>
 
 <script type="text/javascript">
@@ -105,9 +105,9 @@ $(function() {
     				 ]
     		}); 
            
-    $(document).on("click", ".selectInfo",function() {
+    /* $(document).on("click", ".selectInfo",function() {
         $(this).next().children('button').click();
-      });
+      }); */
 });
 <!-- 데이트피커 js 끝-->
 
@@ -327,8 +327,8 @@ $("#onePopBtn").next().attr("href", Phref);
 -->
 
 				<!-- 메인에서 메메리스트 만들 때, foreach문 안에 들어갈 리스트 형식 (유지 바람) -->
-					<div class="col-12 col-md-6 col-lg-3 h-50 mb-4 mb-lg-3 me-3 border border-warning" style="width: 280px;">
-	                	<!-- div 스타일 속성 추가. div영역 넘어가는 해시태그 ... 처리 -->
+					<!-- <div class="col-12 col-md-6 col-lg-3 h-50 mb-4 mb-lg-3 me-3 border border-warning" style="width: 280px;">
+	                	div 스타일 속성 추가. div영역 넘어가는 해시태그 ... 처리
 						<div style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;" class="selectInfo">
 							<p id="club-list-title" class="text-center fw-bold h4 mt-4">11</p>
 							<div class="border"></div>
@@ -339,10 +339,10 @@ $("#onePopBtn").next().attr("href", Phref);
 							<i class="bi bi-tag-fill ms-3 me-3"></i><span id="club-list-tags" class="text-muted">55</span>
 						</div>
 						<form action="getMemaApplyInfo.kkini" method="post">
-							<input type="text" style="display:none;" name="mm_open_code" value="MOC0000030"> <!-- value에는 각각의 개설코드 들어가야함  -->
+							<input type="text" style="display:none;" name="mm_open_code" value="MOC0000030"> value에는 각각의 개설코드 들어가야함 
 							<button type="submit" style="display:none;"></button>
 						</form>                	
-	                </div>
+	                </div> -->
 </body>
 <body>
 	<jsp:include page="oneButtonPopup.html"></jsp:include>
