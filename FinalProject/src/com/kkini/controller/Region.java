@@ -28,7 +28,7 @@ public String addrList(ModelMap model, String region_name)
 		
 		model.addAttribute("regionList", dao.list(region_name));
 		
-		result = "/AddrListAjax.jsp";
+		result = "/WEB-INF/view/AddrListAjax.jsp";
 		
 	} catch (Exception e)
 	{
@@ -54,7 +54,7 @@ public String regionList(ModelMap model, String region_name)
 		IRegionDAO dao = sqlSession.getMapper(IRegionDAO.class);
 		
 		model.addAttribute("regionList", dao.list(region_name));
-		result = "/RegionListAjax.jsp";
+		result = "/WEB-INF/view/RegionListAjax.jsp";
 		
 	} catch (Exception e)
 	{
@@ -86,7 +86,7 @@ public String regionCheck(ModelMap model,String region_name)
 		
 		model.addAttribute("check", check);
 		
-		result="/RegionCheckAjax.jsp";
+		result="/WEB-INF/view/RegionCheckAjax.jsp";
 		
 	} catch (Exception e)
 	{

@@ -68,7 +68,7 @@ public class User
 				
 			}
 			
-			result="/MainPage.jsp";
+			result="/WEB-INF/view/MainPage.jsp";
 			
 		} catch (Exception e)
 		{
@@ -105,7 +105,7 @@ public class User
 		}
 		
 		
-		result="/IdOverlapAjax.jsp";
+		result="/WEB-INF/view/IdOverlapAjax.jsp";
 		
 		return result;
 	}
@@ -134,7 +134,7 @@ public class User
 		}
 		
 		
-		result="/NicknameOverlapAjax.jsp";
+		result="/WEB-INF/view/NicknameOverlapAjax.jsp";
 		
 		return result;
 	}
@@ -146,7 +146,7 @@ public class User
 	{
 		String result="";
 		
-		result="/Register_form.jsp";
+		result="/WEB-INF/view/Register_form.jsp";
 		
 		return result;
 	}
@@ -170,7 +170,7 @@ public class User
 			model.addAttribute("speedList", dao.getSpeedlist());
 			
 			
-			result="/Register_Alignment_form.jsp";
+			result="/WEB-INF/view/Register_Alignment_form.jsp";
 			
 		} catch (Exception e)
 		{
@@ -307,7 +307,7 @@ public class User
 		
 		session.invalidate();
 		
-		result="/MainPage.jsp";
+		result="/WEB-INF/view/MainPage.jsp";
 		
 		return result;
 		

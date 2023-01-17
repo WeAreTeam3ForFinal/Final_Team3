@@ -42,7 +42,7 @@ public class ClubController
 			else
 				model.addAttribute("clubList", dao.clubList());
 			
-			result = "/ClubListAjax.jsp";
+			result = "/WEB-INF/view/ClubListAjax.jsp";
 			
 		} 
 		catch (Exception e)

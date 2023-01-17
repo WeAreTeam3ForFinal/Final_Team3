@@ -33,7 +33,7 @@ public class MemaController
 			model.addAttribute("ageGroupList", dao.getAgeGrouplist());
 			model.addAttribute("foodCtgList", dao.getFoodCtglist());
 		
-			result="/MmOpenForm.jsp";
+			result="/WEB-INF/view/MmOpenForm.jsp";
 			
 		} catch (Exception e)
 		{
@@ -54,7 +54,7 @@ public class MemaController
 		
 		dao.open(dto);
 		
-		result = "redirect:MainPage.jsp";
+		result = "redirect:mainPage.kkini";
 		
 		return result;
 	}
@@ -84,7 +84,7 @@ public class MemaController
 			else
 				model.addAttribute("memaList", dao.memaList());
 			
-			result = "/MemaListAjax.jsp";
+			result = "/WEB-INF/view/MemaListAjax.jsp";
 		
 		return result;
 	}

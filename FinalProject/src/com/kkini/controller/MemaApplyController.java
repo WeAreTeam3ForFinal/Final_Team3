@@ -36,7 +36,7 @@ public class MemaApplyController
 			model.addAttribute("dto", d);
 			model.addAttribute("tagList", d.get(0).get("OPENKEYWORD").split(","));
 			
-			result = "/Mm_Apply.jsp";
+			result = "/WEB-INF/view/Mm_Apply.jsp";
 		} 
 		catch (Exception e)
 		{
