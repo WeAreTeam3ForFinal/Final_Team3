@@ -55,6 +55,7 @@ public class MemaApplyController
 		{
 			IMemaApplyDAO dao = sqlSession.getMapper(IMemaApplyDAO.class);
 			
+			
 			dao.memaApply(dto);
 			
 		} 
