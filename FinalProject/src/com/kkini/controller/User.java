@@ -1,5 +1,7 @@
 package com.kkini.controller;
 
+import java.util.ArrayList;
+
 import javax.servlet.http.HttpSession;
 
 import org.apache.coyote.Request;
@@ -9,7 +11,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.context.request.SessionScope;
 
+import com.kkini.dto.MemaDTO;
 import com.kkini.dto.UserDTO;
 import com.kkini.mybatis.IUserDAO;
 
@@ -22,6 +26,46 @@ public class User
 	@Autowired
 	private SqlSession sqlSession;
 
+	@RequestMapping(value = "/mainPage.kkini", method = RequestMethod.GET)
+	public String loadMain(ModelMap model, HttpSession session)
+	{
+		String result ="";
+		
+		try
+		{
+			
+			if(session.getAttribute("nickName") != null && session.getAttribute("userCode") !=null )  //로그인 세션이 남아있을시
+			{
+				
+				IUserDAO dao = sqlSession.getMapper(IUserDAO.class);
+				
+				String user_code = (String)session.getAttribute("userCode");
+				UserDTO dto = dao.getScore(user_code);
+				
+				model.addAttribute("attendScore", dto.getAttendScore());
+				model.addAttribute("mannerScore", dto.getMannerScore());
+				model.addAttribute("biasScore", dto.getBiasScore());
+				
+				ArrayList<MemaDTO> roomList = dao.getJoinRoomList(user_code);
+				
+				model.addAttribute("roomList", roomList);
+				
+			}
+			
+			result="/MainPage.jsp";
+			
+		} catch (Exception e)
+		{
+			System.out.println(e.toString());
+			// TODO: handle exception
+		}
+		
+		
+		
+		
+		return result;
+	}
+	
 	
 	//아이디 중복검사
 	@RequestMapping(value = "/idOverlapCk.kkini",method = RequestMethod.POST)
@@ -127,7 +171,6 @@ public class User
 	{
 		
 		String result ="";
-		boolean flag = false; //회원가입 실패
 		try
 		{
 			
@@ -135,22 +178,12 @@ public class User
 		    IUserDAO dao = sqlSession.getMapper(IUserDAO.class);
 			
 		    dto.setUser_addr(dao.regionSearch(dto.getUser_addr()));
-		   
-		   
-		 
-		   
-		    
+		       
 		   	 //유저 세부정보 테이블에 입력
 		     dao.userRegister(dto);
 		     
 		    
-		     
-		     if(dto.getUser_code()!=null)
-		     {
-		     //유저 세부정보 테이블에 입력된 회원코드 가져오기
 		     dto.setUser_code(dto.getUser_code_live());
-		     flag = true;
-		     }
 		     
 		     //회원코드 생성
 		     String user_code = dto.getUser_code();
@@ -178,9 +211,7 @@ public class User
 		     }
 		     
 		     
-		     model.addAttribute("flag", flag);
-		     
-		     result="/MainPage.jsp";
+		     result="redirect:mainPage.kkini";
 		     
 			
 		} catch (Exception e)
@@ -197,37 +228,54 @@ public class User
 	@RequestMapping(value = "/login.kkini", method = RequestMethod.POST)
 	public String login(ModelMap model, UserDTO dto,HttpSession session)
 	{
-		String result="";
-		try
-		{
+			String result="";
+		
+		
 			IUserDAO dao = sqlSession.getMapper(IUserDAO.class);
 			
+			
 			dto = dao.loginMember(dto);
+			//System.out.println(dto.getUser_code()); //유저코드 받아오기
+			//System.out.println(dto.getUser_nickname());// 유저 닉네임 받아오기
 			
-			//System.out.println(dto.getUser_code()); 유저코드 받아오기
-			//System.out.println(dto.getUser_nickname()); 유저 닉네임 받아오기
-			
-			if(dto.getUser_nickname()==null || dto.getUser_code()==null) //로그인 실패
+			if(dto==null) //로그인 실패
 			{
-				result ="/MainPage.jsp";
+				result ="redirect:mainPage.kkini";
 				
 			}
 			else //로그인 성공
 			{
+				
 				session.setAttribute("nickName", dto.getUser_nickname());
 				session.setAttribute("userCode", dto.getUser_code());
 				
-				result="/MainPage.jsp";
+				
+				
+				result="redirect:mainPage.kkini";
 			}
 			
 			
 			
+//			
+//			if(dto.getUser_nickname()==null || dto.getUser_code()==null) //로그인 성공
+//			{
+//				result ="/mainPage.kkini";
+//				
+//			}
+//			else //로그인 성공
+//			{
+//				
+//				session.setAttribute("nickName", dto.getUser_nickname());
+//				session.setAttribute("userCode", dto.getUser_code());
+//				
+//				
+//				
+//				result="redirect: mainPage.kkini";
+//			}
+//			
 			
-		} catch (Exception e)
-		{
-			System.out.println(e.toString());
-			// TODO: handle exception
-		}
+			
+		
 		
 		
 		
@@ -248,7 +296,9 @@ public class User
 		return result;
 		
 	}
-
+	
+	
+	
 
 
 }
