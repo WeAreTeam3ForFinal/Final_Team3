@@ -239,16 +239,19 @@
 				id="dropdownMenuButton1" data-bs-toggle="dropdown"
 				aria-expanded="false" style="background-color: #ffe4b5;">내
 				동아리</button>
-			<ul class="dropdown-menu dropdown3"
-				aria-labelledby="dropdownMenuButton1">
-				<li><a class="dropdown-item" href="#" style="font-size: small;">고만
-						먹자(고기만 먹자..)</a></li>
-				<li><a class="dropdown-item" href="#" style="font-size: small;">안
-						고독한 사람들</a></li>
-				<li><hr class="dropdown-divider"></li>
-				<li><a class="dropdown-item" href="#" style="font-size: small;">한국의
-						고독한 미식가</a></li>
-			</ul>
+				
+				
+			<c:choose>
+					<c:when test="${sessionScope.nickName != null && sessionScope.userCode != null }">
+					<p style="font-size: small; text-align: center;">참가중인 방이 없어요</p>
+			
+					</c:when>
+					
+					<c:otherwise>
+					</c:otherwise>
+				</c:choose>
+			
+			
 		</div>
 	</div>
 	<div class="box02">
@@ -346,22 +349,20 @@
 				id="dropdownMenuButton4" data-bs-toggle="dropdown"
 				aria-expanded="false" style="background-color: #ffe4b5;">지원
 				수락 대기중</button>
-			<ul class="dropdown-menu dropdown5"
-				aria-labelledby="dropdownMenuButton4"
-				style="max-width: 190px; max-height: 155px;">
-				<li><a class="dropdown-item" href="#" style="font-size: small;">[X]
-						[22/12/27 18:00] 해운대암소갈비</a></li>
-				<li><a class="dropdown-item" href="#" style="font-size: small;">[△]
-						[22/12/31 18:00]링링</a></li>
-				<li><a class="dropdown-item" href="#" style="font-size: small;">[△]
-						[22/12/31 18:00]링링</a></li>
-				<li><a class="dropdown-item" href="#" style="font-size: small;">[△]
-						[22/12/31 18:00]링링</a></li>
-				<li><a class="dropdown-item" href="#" style="font-size: small;">[△]
-						[22/12/31 18:00]링링</a></li>
-				<li><a class="dropdown-item" href="#" style="font-size: small;">[△]
-						[22/12/31 18:00]링링</a></li>
-			</ul>
+				
+				
+				<c:choose>
+					<c:when test="${sessionScope.nickName != null && sessionScope.userCode != null }">
+					<p style="font-size: small; text-align: center;">참가중인 방이 없어요</p>
+			
+					</c:when>
+					
+					<c:otherwise>
+					</c:otherwise>
+				</c:choose>
+			
+			
+			
 		</div>
 	</div>
 
