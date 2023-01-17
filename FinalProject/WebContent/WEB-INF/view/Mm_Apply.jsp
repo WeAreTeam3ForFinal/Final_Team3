@@ -2,7 +2,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%> 
 <% 
    	request.setCharacterEncoding("UTF-8"); 
-	String cp = request.getContextPath(); 
+	String cp = request.getContextPath();
+	
+	String openCode = request.getParameter("openCode");
+	request.setAttribute("openCode", openCode);
 %> 
  
 <!DOCTYPE html> 
@@ -12,7 +15,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1"> 
 <meta name="description" content=""> 
 <meta name="author" content="ThemesLay"> 
-<title>MenuMate Apply</title> 
+<title>MenuMate Apply </title> 
 <!-- Favicon icon --> 
 <link rel="icon" type="image/png" sizes="80x80" href="assets/images/favicon.png"> 
 <!-- Main CSS --> 
@@ -44,8 +47,11 @@
 <!--데이트피커 js 추가부분--> 
 $(document).ready(function () { 
 	perPriceCal(); 
-	 
+	
+	
+	
 	$("#mm_open").click(function() { 
+		alert($("#mmApplyform").serialize());
 		$.ajax({ 
 			url : 'http://localhost:8090/FinalProject/memaApply.kkini', 
 			data : $("#mmApplyform").serialize(), 
@@ -332,8 +338,8 @@ $("#onePopBtn").next().attr("href", Phref);
             </div> 
       </section> 
       <form id="mmApplyform"> 
-      	<input type="text" style="display:none;" name="mm_open_code" value="${dto[0].MM_OPEN_CODE}"> 
-      	<input type="text" style="display:none;" name="u_code" value="${dto[0].U_CODE}"> 	   
+      	 <input type="text" style="display:none;" name="openCode" value="<%=openCode%>">
+      	<input type="text" style="display:none;" name="userCode" value="${sessionScope.userCode}"> 	   
 	      <div class="button_box"> 
 	         <button id="mm_open" type="button" class="btn btn-warning" opCtn="지원이 완료되었습니다." opBtn="메인페이지로 돌아갑니다." opBtnHref="mainPage.kkini" data-bs-toggle="modal" data-bs-target="#oneBtnPopup" onclick="oneBtnPopOpen('#mm_open')">지원하기</button> 
 	         <button id="cancel" type="button" class="btn btn-dark" opCtn="취소되었습니다." opBtn="메인페이지로 돌아갑니다." opBtnHref="mainPage.kkini" data-bs-toggle="modal" data-bs-target="#oneBtnPopup" onclick="oneBtnPopOpen('#cancel') ">취소</button> 
