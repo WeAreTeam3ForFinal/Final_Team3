@@ -46,9 +46,25 @@ public class User
 				model.addAttribute("mannerScore", dto.getMannerScore());
 				model.addAttribute("biasScore", dto.getBiasScore());
 				
+				
+				
+				//본인이 참가한 방이 있을경우 참가방 리스트를 뽑아온다.
+				if(dao.checkJoinRoomList(user_code)!=0)
+				{
+				
 				ArrayList<MemaDTO> roomList = dao.getJoinRoomList(user_code);
 				
 				model.addAttribute("roomList", roomList);
+				}
+				
+				//
+				if(dao.checkOpenRoomList(user_code)!=0)
+				{
+					ArrayList<MemaDTO> openroomList = dao.getOpenRoomList(user_code);
+					model.addAttribute("openroomList", openroomList);
+				}
+				
+				
 				
 			}
 			
