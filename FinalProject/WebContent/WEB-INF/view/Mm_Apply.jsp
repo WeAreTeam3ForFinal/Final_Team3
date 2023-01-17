@@ -51,7 +51,6 @@ $(document).ready(function () {
 	
 	
 	$("#mm_open").click(function() { 
-		alert($("#mmApplyform").serialize());
 		$.ajax({ 
 			url : 'http://localhost:8090/FinalProject/memaApply.kkini', 
 			data : $("#mmApplyform").serialize(), 

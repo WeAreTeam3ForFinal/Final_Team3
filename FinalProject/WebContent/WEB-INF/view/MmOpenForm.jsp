@@ -3,6 +3,7 @@
 <%
 	request.setCharacterEncoding("UTF-8");
 String cp = request.getContextPath();
+
 %>
 
 <!DOCTYPE html>
@@ -292,7 +293,7 @@ $("#onePopBtn").next().attr("href", Phref);
 					<hr>
 					<div class="item_list"></div>
 				</div>
-				<input style="display:none;" type="text" name="mmUserCode" id="userCode">
+				<input style="display:none;" type="text" name="mmUserCode" id="userCode" value="${sessionScope.userCode}">
 				<input style="display:none;" type="text" name="mmOpenKeyWord" id="keyWord">
 				<span id="Check" class="red" style="text-align: center; display: none;">※항목은 필수입력값입니다.</span>
 			</div>

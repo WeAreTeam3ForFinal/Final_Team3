@@ -85,7 +85,7 @@ String[] user_intregions = request.getParameterValues("User_IntRegion");
 											<div class="form-check form-check-inline">
 												<input class="form-check-input" type="radio"
 													name="user_talk" id="${talkList.CODE}" value="${talkList.CODE}"
-													checked /> <label class="form-check-label"
+													 /> <label class="form-check-label"
 													for="${talkList.CODE}">${talkList.AMOUNT}</label>
 											</div>
 
