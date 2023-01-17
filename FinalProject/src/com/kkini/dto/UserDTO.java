@@ -6,53 +6,11 @@ public class UserDTO
 	String user_id, user_pw, user_nickname, user_birth, user_gender, user_addr, user_phonenumber;
 	String[] user_intregions, user_interests, user_characters;
 	String user_eatSpeed, user_talk, user_introduce;
+	String attendScore, mannerScore, biasScore;
 	
 	
 	String user_code;
 	String user_code_live;
-	
-	
-	
-	public String[] getUser_intregions()
-	{
-		return user_intregions;
-	}
-	public void setUser_intregions(String[] user_intregions)
-	{
-		this.user_intregions = user_intregions;
-	}
-	public String[] getUser_interests()
-	{
-		return user_interests;
-	}
-	public void setUser_interests(String[] user_interests)
-	{
-		this.user_interests = user_interests;
-	}
-	public String[] getUser_characters()
-	{
-		return user_characters;
-	}
-	public void setUser_characters(String[] user_characters)
-	{
-		this.user_characters = user_characters;
-	}
-	public String getUser_code_live()
-	{
-		return user_code_live;
-	}
-	public void setUser_code_live(String user_code_live)
-	{
-		this.user_code_live = user_code_live;
-	}
-	public String getUser_code()
-	{
-		return user_code;
-	}
-	public void setUser_code(String user_code)
-	{
-		this.user_code = user_code;
-	}
 	public String getUser_id()
 	{
 		return user_id;
@@ -109,7 +67,30 @@ public class UserDTO
 	{
 		this.user_phonenumber = user_phonenumber;
 	}
-	
+	public String[] getUser_intregions()
+	{
+		return user_intregions;
+	}
+	public void setUser_intregions(String[] user_intregions)
+	{
+		this.user_intregions = user_intregions;
+	}
+	public String[] getUser_interests()
+	{
+		return user_interests;
+	}
+	public void setUser_interests(String[] user_interests)
+	{
+		this.user_interests = user_interests;
+	}
+	public String[] getUser_characters()
+	{
+		return user_characters;
+	}
+	public void setUser_characters(String[] user_characters)
+	{
+		this.user_characters = user_characters;
+	}
 	public String getUser_eatSpeed()
 	{
 		return user_eatSpeed;
@@ -134,24 +115,48 @@ public class UserDTO
 	{
 		this.user_introduce = user_introduce;
 	}
+	public String getAttendScore()
+	{
+		return attendScore;
+	}
+	public void setAttendScore(String attendScore)
+	{
+		this.attendScore = attendScore;
+	}
+	public String getMannerScore()
+	{
+		return mannerScore;
+	}
+	public void setMannerScore(String mannerScore)
+	{
+		this.mannerScore = mannerScore;
+	}
+	public String getBiasScore()
+	{
+		return biasScore;
+	}
+	public void setBiasScore(String biasScore)
+	{
+		this.biasScore = biasScore;
+	}
+	public String getUser_code()
+	{
+		return user_code;
+	}
+	public void setUser_code(String user_code)
+	{
+		this.user_code = user_code;
+	}
+	public String getUser_code_live()
+	{
+		return user_code_live;
+	}
+	public void setUser_code_live(String user_code_live)
+	{
+		this.user_code_live = user_code_live;
+	}
 	
 	
 	
 	
-	
-	
-	/*
-	 String user_id = request.getParameter("UserId");
-String user_email = request.getParameter("email");
-String emailDirect = request.getParameter("emailDirect");
-String user_nickname = request.getParameter("UserNickName");
-String user_pw = request.getParameter("UserPw");
-String user_birth = request.getParameter("Birth");
-String user_gender = request.getParameter("Gender");
-String user_addr = request.getParameter("User_addr");
-String user_phonenumber = request.getParameter("Phone_number");
-String[] user_intregion = request.getParameterValues("User_IntRegion");
-
-	 */
-
 }
