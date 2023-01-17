@@ -230,7 +230,7 @@ $("#onePopBtn").next().attr("href", Phref);
 
 				<!--카카오맵 api 기능 구현 후 추가 작업 예정  -->
 				<div class="col-md-6">
-					<span class="red">※</span> <label for="validationDefault01" class="form-label">방문예정 지역</label> <input type="text" class="form-control" id="local" onclick="openPopUp('/FinalProject/kakaomap.jsp','나는카카오맵')" placeholder="방문예정지역을 입력해주세요" required>
+					<span class="red">※</span> <label for="validationDefault01" class="form-label">방문예정 지역</label> <input type="text" class="form-control" id="local" onclick="openPopUp('kakaomap.kkini','나는카카오맵')" placeholder="방문예정지역을 입력해주세요" required>
 					<!-- 공백란 경고문구 부분 -->
 					<span id="localCheck"></span>
 				</div>

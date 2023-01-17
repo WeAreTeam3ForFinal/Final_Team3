@@ -19,6 +19,20 @@ public class MemaController
 	@Autowired
 	private SqlSession sqlSession;
 
+	
+	//카카오맵띄우기
+	@RequestMapping(value = "/kakaomap.kkini", method = RequestMethod.GET)
+	public String memakakao(ModelMap model)
+	{
+		String result="";
+		
+		
+		result="/WEB-INF/view/kakaomap.jsp";
+		
+		return result;
+	}
+	
+	
 	//메메 개설폼페이지 매핑
 	@RequestMapping(value = "/memaopenform.kkini", method = RequestMethod.GET)
 	public String memaOpenForm(ModelMap model)

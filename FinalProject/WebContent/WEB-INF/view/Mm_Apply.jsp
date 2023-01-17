@@ -335,8 +335,8 @@ $("#onePopBtn").next().attr("href", Phref);
       	<input type="text" style="display:none;" name="mm_open_code" value="${dto[0].MM_OPEN_CODE}"> 
       	<input type="text" style="display:none;" name="u_code" value="${dto[0].U_CODE}"> 	   
 	      <div class="button_box"> 
-	         <button id="mm_open" type="button" class="btn btn-warning" opCtn="지원이 완료되었습니다." opBtn="메인페이지로 돌아갑니다." opBtnHref="MainPage.jsp" data-bs-toggle="modal" data-bs-target="#oneBtnPopup" onclick="oneBtnPopOpen('#mm_open')">지원하기</button> 
-	         <button id="cancel" type="button" class="btn btn-dark" opCtn="취소되었습니다." opBtn="메인페이지로 돌아갑니다." opBtnHref="MainPage.jsp" data-bs-toggle="modal" data-bs-target="#oneBtnPopup" onclick="oneBtnPopOpen('#cancel') ">취소</button> 
+	         <button id="mm_open" type="button" class="btn btn-warning" opCtn="지원이 완료되었습니다." opBtn="메인페이지로 돌아갑니다." opBtnHref="mainPage.kkini" data-bs-toggle="modal" data-bs-target="#oneBtnPopup" onclick="oneBtnPopOpen('#mm_open')">지원하기</button> 
+	         <button id="cancel" type="button" class="btn btn-dark" opCtn="취소되었습니다." opBtn="메인페이지로 돌아갑니다." opBtnHref="mainPage.kkini" data-bs-toggle="modal" data-bs-target="#oneBtnPopup" onclick="oneBtnPopOpen('#cancel') ">취소</button> 
 	      </div> 
       </form> 
  
