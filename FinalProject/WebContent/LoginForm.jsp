@@ -53,7 +53,7 @@
 			</div>
 			<div class="modal-footer justify-content-center">
 				<button type="button" class="btn btn-secondary" onclick="location.href='userRegiste.kkini'">회원가입</button>
-				<button type="submit" class="btn btn-primary" onclick="check()">로그인</button>
+				<button type="submit" class="btn btn-primary" onclick="return check()">로그인</button>
 			</div>
 		</div>
 		</form>
@@ -70,7 +70,7 @@
 		}
 		if ($.trim($("#user_pw").val()) == "")
 		{
-			alert("아이디를 입력해주세요");
+			alert("비밀번호를 입력해주세요");
 			return false;
 		}
 

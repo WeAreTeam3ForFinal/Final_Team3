@@ -10,7 +10,7 @@ public class MemaDTO
 	// 뷰 속성 구성 (속성 작명 통일 필요)
 	String openCode, restName, region, foodctg, ageGroup, gender, visitDate, mainMenu, deadline, partyMemberCount, 
           nop, partyMaster, attendScore, mannerScore, biasScore, menuPrice, isClosed, openKeyword, userCode,roomStatus;
-          
+      
 	public String getMannerScore()
 	{
 		return mannerScore;
@@ -31,7 +31,6 @@ public class MemaDTO
 		this.biasScore = biasScore;
     }
 
-	
   	public String getRoomStatus()
 	{
 		return roomStatus;
@@ -40,7 +39,9 @@ public class MemaDTO
 	public void setRoomStatus(String roomStatus)
 	{
 		this.roomStatus = roomStatus;
-
+    
+	}
+	
 	public String getNop()
 	{
 		return nop;
