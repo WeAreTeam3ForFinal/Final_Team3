@@ -84,7 +84,6 @@ public class MemaController
 	@RequestMapping(value = "/memaList.kkini", method = RequestMethod.GET)
 	public String memaList(Model model, ServletRequest request)
 	{
-		System.out.println("확인1");
 		String result = "";
 		
 		String sortBy = request.getParameter("sortBy");
@@ -93,19 +92,45 @@ public class MemaController
 			sortBy = "";
 		
 			IMemaDAO dao = sqlSession.getMapper(IMemaDAO.class);
-			System.out.println("확인2");
 		
 			if(sortBy.equals("memaDate"))
-			{
 				model.addAttribute("memaList", dao.sortMemaListByDate());
-				System.out.println("확인3");
-			}
 			else if(sortBy.equals("memaClose"))
 				model.addAttribute("memaList", dao.sortMemaListByClose());
 			else
 				model.addAttribute("memaList", dao.memaList());
 			
 			result = "/WEB-INF/view/MemaListAjax.jsp";
+		
+		return result;
+	}
+	
+	@RequestMapping(value = "searchMema.kkini", method = RequestMethod.GET)
+	public String memaSearch(Model model, ServletRequest request)
+	{
+		
+		IMemaDAO dao = sqlSession.getMapper(IMemaDAO.class);
+		
+		
+		String result = "";
+		
+		String keyword = request.getParameter("memaKeyword");
+		String age = request.getParameter("mm-age-boundary");
+		String gender = request.getParameter("mm-gender-boundary");
+		String food = request.getParameter("mm-food-category");
+		String dateStart = request.getParameter("datetime-start").replaceAll("\\.", "-");
+		String dateEnd = request.getParameter("datetime-end").replaceAll("\\.", "-");
+		
+		System.out.println(keyword);
+		System.out.println(age);
+		System.out.println(gender);
+		System.out.println(food);
+		System.out.println(dateStart);
+		System.out.println(dateEnd);
+		
+		model.addAttribute("memaSearchList", dao.searchMema(keyword, age, gender, food, dateStart, dateEnd));
+		
+		result = "/WEB-INF/view/MemaListAjax.jsp";
 		
 		return result;
 	}

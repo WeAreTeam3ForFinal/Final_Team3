@@ -55,14 +55,6 @@
 					return false;
 				});
 
-				$("#searchMema").click(function()
-				{
-					var address = "index3.html?keyword=" + $("#keyword").val();
-					$("#searchForm").attr("action", address);
-					alert($("#searchForm").attr("action"));
-					$("#searchForm").submit();
-				});
-
 				$.datetimepicker.setLocale('ko');
 
 				$("#datetime-start").datetimepicker(
@@ -132,6 +124,35 @@
 						// 전송방식은 SELECT 구문이므로 GET으로 통일
 						type : "GET",
 						url : "memaList.kkini",
+						success : function(args)
+						{
+							$("#resultDiv").html(args);
+						}
+						//, beforeSend : showRequest
+						,
+						error : function(e)
+						{
+							alert(e.responseText);
+						}
+					});
+				});
+				
+				// 메뉴메이트 검색 리스트 Ajax
+				$("#searchMema").click(function()
+				{
+					
+					var param = "memaKeyword=" + $("#memaKeyword").val() + "&mm-age-boundary=" + $("#mm-age-boundary").val()
+							  + "&mm-gender-boundary=" + $("#mm-gender-boundary").val() + "&mm-food-category=" + $("#mm-food-category").val()
+							  + "&datetime-start=" + $("#datetime-start").val() + ("&datetime-end=") + $("#datetime-end").val();
+					alert(param);
+					
+					// 기존 구현한 마이바티스 기능 Ajax 처리
+					$.ajax(
+					{
+						// 전송방식은 SELECT 구문이므로 GET으로 통일
+						type : "GET",
+						url : "searchMema.kkini",
+						data : param,
 						success : function(args)
 						{
 							$("#resultDiv").html(args);
@@ -539,7 +560,7 @@
 
 									<!-- one way search -->
 									<div class="row">
-										<form action="Test01.jsp" method="get">
+									<!-- <form action="return false" method="get"> -->
 											<!-- action 추가 필요  -->
 											<div class="col-12">
 												<div class="search-pan row mx-0 theme-border-radius">
@@ -547,12 +568,12 @@
 														class="col-12 col-lg-4 col-xl-4 ps-0 mb-2 mb-xl-4 mt-xl-2 pe-0 pe-lg-2">
 														<div class="form-group">
 
-															<label for="KeyWord" class="form-label">검색어 <i
+															<label for="memaKeyword" class="form-label">검색어 <i
 																class="bi bi-caret-down-fill small"></i>
 															</label>
 															<!-- 입력창 & 검색어 추천 -->
 															<input class="form-control ps-lg-4 mt-xl-3"
-																list="RestaurantRec" id="KeyWord" name="KeyWord"
+																list="RestaurantRec" id="memaKeyword" name="memaKeyword"
 																style="font-size: 15pt; color: black; font-weight: bold;">
 															<datalist id="RestaurantRec">
 																<option value="소림 커피">
@@ -566,8 +587,7 @@
 													</div>
 
 													<div class="col-12 col-lg-6 col-xl-2 px-0">
-														<button type="submit" class="btn btn-search"
-															onclick="window.location.href='flight-listing-oneway.html';">
+														<button type="submit" class="btn btn-search" id="searchMema">
 															<span class="fw-bold"><i class="bi bi-search me-2"></i>Search</span>
 														</button>
 													</div>
@@ -580,16 +600,14 @@
 													<div
 														class="col-12 col-lg-4 col-xl-3 ps-1 mb-2 mb-xl-0 pe-0 pe-lg-2">
 														<div class="form-group">
-															<label for="Age-boundary" class="form-label"
+															<label for="mm-age-boundary" class="form-label"
 																style="text-align: center;">연령대 <i
 																class="bi bi-caret-down-fill small"></i>
-															</label> <select id="Age-boundary" name="Age-boundary">
-																<option>20대</option>
-																<option>30대</option>
-																<option>40대</option>
-																<option></option>
-																<option></option>
-															</select> <label>초<input name="Age-detail" type="radio"
+															</label> <select id="mm-age-boundary" name="mm-age-boundary">
+																<c:forEach var="age" items="${age }">
+																	<option value="${age.ageCode }">${age.ageGroup }</option>
+																</c:forEach>
+															</select> <label>초<input name="mm-age-detail" type="radio"
 																value=""></label> <label>중<input
 																name="Age-detail" type="radio" value=""></label> <label>후<input
 																name="Age-detail" type="radio" value=""></label>
@@ -601,11 +619,12 @@
 													<!--  성별 select box -->
 													<div class="col-sm-2 ps-0 mb-2 mb-xl-0 pe-0 pe-lg-2">
 														<div class="form-group ">
-															<label for="gender-boundary" class="form-label">성별
+															<label for="mm-gender-boundary" class="form-label">성별
 																<i class="bi bi-caret-down-fill small"></i>
-															</label> <select id="gender-boundary" name="gender-boundary">
-																<option>무관</option>
-																<option>남/여</option>
+															</label> <select id="mm-gender-boundary" name="mm-gender-boundary">
+																<c:forEach var="gender" items="${gender }">
+																	<option value="${gender.genderCode }">${gender.gender }</option>
+																</c:forEach>
 																<!-- 검색자의 성별 -->
 															</select>
 
@@ -618,12 +637,12 @@
 													<!--  음식종류 select box -->
 													<div class="col-sm-2 ps-0 mb-2 mb-xl-0 pe-0 pe-lg-2">
 														<div class="form-group">
-															<label for="food-category" class="form-label">음식
+															<label for="mm-food-category" class="form-label">음식
 																카테고리 <i class="bi bi-caret-down-fill small"></i>
-															</label> <select id="food-category" name="food-category">
-																<option>한식</option>
-																<option>양식</option>
-																<option>일식</option>
+															</label> <select id="mm-food-category" name="mm-food-category">
+																<c:forEach var="food" items="${food }">
+																	<option value="${food.foodCode }">${food.foodctg }</option>
+																</c:forEach>
 															</select>
 
 														</div>
@@ -646,7 +665,7 @@
 													<!-- 날짜 범위 선택 끝  -->
 												</div>
 											</div>
-										</form>
+									</form>
 									</div>
 									<!-- 메뉴메이트 개설하기 버튼 추가  -->
 									<br>

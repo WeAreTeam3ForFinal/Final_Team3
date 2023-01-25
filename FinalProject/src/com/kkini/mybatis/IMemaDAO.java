@@ -3,6 +3,9 @@ package com.kkini.mybatis;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import org.apache.ibatis.annotations.Param;
+
 import com.kkini.dto.MemaDTO;
 import com.kkini.dto.MemaOpenDTO;
 
@@ -22,6 +25,16 @@ public interface IMemaDAO
 	public ArrayList<MemaDTO> memaList();
 	public ArrayList<MemaDTO> sortMemaListByDate();
 	public ArrayList<MemaDTO> sortMemaListByClose();
+	
+	// 메뉴메이트 검색 필터 항목
+	public ArrayList<MemaDTO> memaSearchAge();
+	public ArrayList<MemaDTO> memaSearchGender();
+	public ArrayList<MemaDTO> memaSearchFood();
+	
+	// 메뉴메이트 검색
+	public ArrayList<MemaDTO> searchMema(@Param("keyword") String keyword, @Param("age") String age, @Param("gender") String gender, 
+										 @Param("food") String food, @Param("dateStart") String dateStart, @Param("dateEnd") String dateEnd);
+	
 	
 	
 }

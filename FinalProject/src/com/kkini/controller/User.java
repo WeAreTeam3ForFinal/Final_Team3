@@ -15,6 +15,7 @@ import org.springframework.web.context.request.SessionScope;
 
 import com.kkini.dto.MemaDTO;
 import com.kkini.dto.UserDTO;
+import com.kkini.mybatis.IMemaDAO;
 import com.kkini.mybatis.IUserDAO;
 
 
@@ -67,6 +68,13 @@ public class User
 				
 				
 			}
+			
+			// 메뉴메이트 검색창 필터 항목 속성값 넣기
+			IMemaDAO dao2 = sqlSession.getMapper(IMemaDAO.class);
+			
+			model.addAttribute("age", dao2.memaSearchAge());
+			model.addAttribute("gender", dao2.memaSearchGender());
+			model.addAttribute("food", dao2.memaSearchFood());
 			
 			result="/WEB-INF/view/MainPage.jsp";
 			
