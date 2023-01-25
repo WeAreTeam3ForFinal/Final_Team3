@@ -1,0 +1,58 @@
+.logo
+{
+	 text-align:center; 
+}
+.openBox
+{
+    position: relative;  /* 상대위치 지정 */
+	border: 5px solid;
+	width: 1100px;
+	height:2000px; 
+	margin:auto; 
+	color: orange;
+	border-radius: 35px;
+	
+}
+.content
+{
+	position : absolute;  
+	top:60px;
+	left :240px;
+	width:700px;
+	height:800px;
+	color: black;
+	font-weight: bold;
+	font-size:x-large;
+
+	
+}
+.button_box
+{
+	text-align:center; 
+}
+.red
+{
+	color: orange;
+}
+.blue
+{
+	color: black;
+}
+hr
+{
+	width: 520px;
+	height: 5px;
+    background-color: orange;
+
+}
+.infoText
+{
+	font-size:large;
+	font-family: 'Hi Melody', cursive;
+	font-size:25px;
+	font-weight: 700px;
+}
+.mm
+{
+	color: orange;
+}
