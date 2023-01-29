@@ -2,7 +2,7 @@ package com.kkini.dto;
 
 public class MemaOpenDTO
 {
-    String mmUserCode,mmGenderCode,mmFoodCtgCode, mmRestName,
+    String mmUserCode,mmGenderCode,mmFoodCtgCode, mmRestLocation, mmRestName,
            mmAgeGroupCode,mmVisitDate, mmMenu, mmOpenKeyWord; 
    
     int mmNop,mmMenuPrice;
@@ -88,4 +88,13 @@ public class MemaOpenDTO
 	{
 		this.mmAgeGroupCode = mmAgeGroupCode;
 	}
+	public String getMmRestLocation()
+	{
+		return mmRestLocation;
+	}
+	public void setMmRestLocation(String mmRestLocation)
+	{
+		this.mmRestLocation = mmRestLocation;
+	}
+	
 }
