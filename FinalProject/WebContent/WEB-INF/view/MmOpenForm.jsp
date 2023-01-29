@@ -31,8 +31,7 @@ String cp = request.getContextPath();
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Hi+Melody&family=Nanum+Gothic+Coding&display=swap" rel="stylesheet">
-<!-- 구글 우편번호 테스트  -->
-<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+
 <title></title>
 
 <style type="text/css">
@@ -100,69 +99,8 @@ String cp = request.getContextPath();
 document.addEventListener('DOMContentLoaded',function() {
 	//sessionStorage.setItem('userCode', 'UC00000001'); // 세션에 로그인된 userCode 임의로 입력(더미 데이터)
 	$("#userCode").val(sessionStorage.getItem('userCode'));	// 세션에 저장된 userCode 가져오기
-	  
-	  var tag = {};
-      var counter = 0;
-
-      // 입력한 값을 태그로 생성한다.
-      function addTag (value) {
-          tag[counter] = value;
-          counter++; // del-btn 의 고유 id 가 된다.
-      }
-
-      // tag 안에 있는 값을 array type 으로 만들어서 넘긴다.
-      function marginTag () {
-          return Object.values(tag).filter(function (word) {
-              return word !== "";
-          });
-      }
-  
-      // 서버에 제공
-      $("#tag-form").on("submit", function (e) {
-          var value = marginTag(); // return array
-          $("#rdTag").val(value); 
-
-          $(this).submit();
-      });
-
-      $("#tag").on("keypress", function (e) {
-          var self = $(this);
-
-          //엔터나 스페이스바 눌렀을때 실행
-          if (e.key === "Enter" || e.keyCode == 32) {
-
-              var tagValue = self.val(); // 값 가져오기
-
-              // 해시태그 값 없으면 실행X
-              if (tagValue !== "") {
-
-                  // 같은 태그가 있는지 검사한다. 있다면 해당값이 array 로 return 된다.
-                  var result = Object.values(tag).filter(function (word) {
-                      return word === tagValue;
-                  })
-              
-                  // 해시태그가 중복되었는지 확인
-                  if (result.length == 0) { 
-                      $("#tag-list").append("<li class='tag-item'>"+tagValue+"<span class='del-btn' idx='"+counter+"'>x</span></li>");
-                      addTag(tagValue);
-                      self.val("");
-                  } else {
-                      alert("태그값이 중복됩니다.");
-                  }
-              }
-              e.preventDefault(); // SpaceBar 시 빈공간이 생기지 않도록 방지
-          }
-      });
-
-      // 삭제 버튼 
-      // 인덱스 검사 후 삭제
-      $(document).on("click", ".del-btn", function (e) {
-          var index = $(this).attr("idx");
-          tag[index] = "";
-          $(this).parent().remove();
-      });
 	
-	/*==========기존 개설 키워드 자스 
+	//==========기존 개설 키워드 자스 
 	let itemList = [];
     let addBtn = document.querySelector('.add_btn');
 
@@ -201,7 +139,7 @@ document.addEventListener('DOMContentLoaded',function() {
         let id = this.getAttribute('id');
         itemList.splice(id,1);
         showList();
-    } */
+    } 
 });
 /*개설키워드 js 끝*/
 
@@ -335,7 +273,7 @@ $("#onePopBtn").next().attr("href", Phref);
 				</p>
 				<hr>
 				<div>
-					<span class="red">※</span> 방문예정 일시<br> <input type="text" class="form-control-lg form-control-date" style="width: 500px;" id="datetime" name="mmVisitDate" placeholder="클릭하여 선택해주세요." required>
+					<span class="red">※</span> 방문예정 일시<br> <input type="text" class="form-control-lg form-control-date" style="width: 500px;" id="datetime" name="mmVisitDate" placeholder="클릭하여 선택해주세요." readonly="readonly" required>
 				</div><br>
 				
 				<p class="infoText">
@@ -359,7 +297,7 @@ $("#onePopBtn").next().attr("href", Phref);
 			</div>
 			<br>
 			
-			<!-- ★주의★ 카카오맵 자바스크립트와 appKey 위치 위로 올리면 기능 안돌아가니 현재 위치 유지 바람. 이유는 저도 아직 모르겠음 --> 
+			<!-- ★주의★ 카카오맵 자바스크립트와 appKey 위치 head 영역으로 올리면 기능 안돌아가니 현재 위치 유지 바람. 이유는 저도 아직 모르겠음 --> 
 			<!--카카오맵 API APP KEY  -->
 			<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=73ce8ac5774ecbf47e6474dc618e62f2&libraries=services"></script>
 			<!--카카오맵 자바스크립트  -->
@@ -604,14 +542,14 @@ $("#onePopBtn").next().attr("href", Phref);
 			   });
 			} 
 			 
-			/* 카카오맵 자바스크립트 끝 */
 			</script>
+			<!-- 카카오맵 자바스크립트 끝 -->
 				
 				<div>
-					<span class="red">※</span> 방문예정 지역<br> <input type="text" class="form-control-lg" style="width: 500px;" id="local"  placeholder="방문예정지역을 입력해주세요" required>
+					<span class="red">※</span> 방문예정 지역<br> <input type="text" class="form-control-lg" style="width: 500px;" id="local"  name="mmRestLocation" readonly="readonly" required>
 				</div>
 				<div>
-					<span class="red">※</span> 방문예정 식당<br> <input type="text" class="form-control-lg" style="width: 500px;" id="restaurant"  name="mmRestName" placeholder="식당명을 입력해주세요" required>
+					<span class="red">※</span> 방문예정 식당<br> <input type="text" class="form-control-lg" style="width: 500px;" id="restaurant"  name="mmRestName" readonly="readonly" required>
 				</div>
 				<br>
 				<div>
@@ -639,9 +577,19 @@ $("#onePopBtn").next().attr("href", Phref);
 				<div>
 					<span class="red">※</span> 모집 희망 성별<br> <select class="form-select-lg" style="width: 500px;" id="gender" name="mmGenderCode" required>
 						<option selected disabled value="">==선택==</option>
-						<c:forEach var="genderList" items="${genderList }">
-							<option value="${genderList.GENDER_CODE}">${genderList.GENDER_CTG}</option>
-						</c:forEach>
+						 <c:choose>
+					         <c:when test = "${genderResult==1}"> <!--남자 회원이 개설할 시  -->
+					            <c:forEach var="MalegenderList" items="${MalegenderList }">
+									<option value="${MalegenderList.GENDER_CODE}">${MalegenderList.GENDER_CTG}</option>
+							    </c:forEach>
+					         </c:when>
+							
+							 <c:when test = "${genderResult==2}">  <!-- 여자 회원이 개설할 시   -->
+							 	<c:forEach var="FemalegenderList" items="${FemalegenderList }">
+									<option value="${FemalegenderList.GENDER_CODE}">${FemalegenderList.GENDER_CTG}</option>
+								</c:forEach>
+							</c:when>	
+					    </c:choose>
 					</select>
 				</div>
 				<div>
@@ -653,21 +601,16 @@ $("#onePopBtn").next().attr("href", Phref);
 					</select>
 				</div>
 				<!--개설키워드  -->
-				<div class="form-group">
-					<span class="red">※</span> 개설 키워드(최대 3개) :<input type="text" id="tag" class="form-control-lg item" style="width: 500px;" placeholder="엔터로 개설키워드를 등록해주세요."  />
-				</div>
-				<div class="form-group">
-					<input type="hidden" value="" name="tag" id="rdTag" />
-				</div>
 
-				<ul id="tag-list"></ul>
-				<!-- <div>
-					<span class="red">※</span> <span>개설 키워드(최대 3개) : </span><br> <input type="text" style="width: 500px;" class="form-control-lg item" autofocus>
+				 <div>
+					<span class="red">※</span> <span>개설 키워드(최대 3개) : </span><br> <input type="text" style="width: 500px;" class="item form-control-lg" autofocus>
 					<button type="button" class="add_btn">추가</button>
 					<hr>
 					<div class="item_list"></div>
-				</div> -->
-				<input style="display: none;" type="text" name="mmUserCode" id="userCode" value="${sessionScope.userCode}"> <input style="display: none;" type="text" name="mmOpenKeyWord" id="keyWord"> <span id="Check" class="red" style="text-align: center; display: none;">※항목은 필수입력값입니다.</span>
+				</div> 
+				<input style="display: none;" type="text" name="mmUserCode" id="userCode" value="${sessionScope.userCode}"> 
+				<input style="display: none;" type="text" name="mmOpenKeyWord" id="keyWord"> 
+				<span id="Check" class="red" style="text-align: center; display: none;">※항목은 필수입력값입니다.</span>
 			</div>
 			<!--end content  -->
 		</div>
