@@ -3,6 +3,8 @@ package com.kkini.controller;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,15 +19,13 @@ import com.kkini.mybatis.IMemaApplyDAO;
 @Controller
 public class MemaApplyController
 {
-	
 	@Autowired
 	private SqlSession sqlSession;
 	
-	/* 모집정보 보여주기 */
+	// 모집정보 보여주기
 	@RequestMapping(value = "/getMemaApplyInfo.kkini", method = RequestMethod.GET)
 	public String getMemaApplyInfo(MemaDTO dto, ModelMap model)
 	{
-		
 		String result = "";
 		
 		try
@@ -46,16 +46,19 @@ public class MemaApplyController
 		return result;
 	}
 	
-	/* 지원하기 */
+	// 지원하기
 	@RequestMapping(value = "/memaApply.kkini", method = RequestMethod.POST)
 	@ResponseBody
-	public void memaApply(MemaDTO dto)
+	public void memaApply(MemaDTO dto, HttpSession session)
 	{
 		try
 		{
 			IMemaApplyDAO dao = sqlSession.getMapper(IMemaApplyDAO.class);
 			
+			// session에 담긴 userCode를 dto에 담음
+			dto.setUserCode((String)session.getAttribute("userCode"));
 			
+			// userCode와 openCode가 담긴 dto를 dao 로 넘김
 			dao.memaApply(dto);
 			
 		} 
@@ -66,5 +69,4 @@ public class MemaApplyController
 		
 	}
 	
-
 }
