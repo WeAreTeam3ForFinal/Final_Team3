@@ -97,10 +97,88 @@ String cp = request.getContextPath();
 
 /*개설키워드 js */
 document.addEventListener('DOMContentLoaded',function() {
-	//sessionStorage.setItem('userCode', 'UC00000001'); // 세션에 로그인된 userCode 임의로 입력(더미 데이터)
+	//sessionStorage.setItem('userCode', 'UC00000001'); 	// 세션에 로그인된 userCode 임의로 입력(더미 데이터)
 	$("#userCode").val(sessionStorage.getItem('userCode'));	// 세션에 저장된 userCode 가져오기
+	  
+	  var tag = {};
+      var counter = 0;
+
+      // 입력한 값을 태그로 생성한다.
+      function addTag (value) {
+          tag[counter] = value;	// 태그를 Object 안에 추가
+          counter++; 			// counter 증가, 삭제를 위한 del-btn 의 고유 id 가 된다.
+      }
+
+      // 서버에 넘길 때 tag 안에 있는 값을 array type 으로 만들어서 넘긴다.
+      function marginTag () {
+          return Object.values(tag).filter(function (word) {
+              return word !== "";
+          });
+      }
+  
+      // 서버에 제공
+      $("#tag-form").on("submit", function (e) {
+          var value = marginTag(); // return array
+          $("#rdTag").val(value); 
+
+          $(this).submit();
+      });
+
+      $("#tag").on("keypress", function (e) {
+          var self = $(this);
+          
+          // 엔터나 스페이스바 눌렀을때 실행
+          if (e.key === "Enter" || e.keyCode == 32) {
+        	  
+        	  // 배열이 이미 3일 때는 해당 조건문을 탄다
+        	  if (Object.values(tag).length > 2)  {
+        		  alert("태그값은 3개까지 입력가능합니다.");
+        		  return;
+        	  }
+
+        	  var tagValue = self.val(); // 값 가져오기
+
+              // 해시태그 값 없으면 실행X
+              if (tagValue !== "") {
+
+                  // 같은 태그가 있는지 검사한다. 있다면 해당값이 array 로 return 된다.
+                  var result = Object.values(tag).filter(function (word) {
+                      return word === tagValue;
+                  })
+              
+                  // 해시태그가 중복되었는지 확인
+                  if (result.length == 0) { 
+                      $("#tag-list").append("<li class='tag-item'>"+tagValue+"<span class='del-btn' idx='"+counter+"'>x</span></li>");
+                      addTag(tagValue);
+                      self.val("");
+                  } else {
+                      alert("태그값이 중복됩니다.");
+                  }
+              }
+              e.preventDefault(); // SpaceBar 시 빈공간이 생기지 않도록 방지
+          }
+      });
+
+      // 삭제 버튼 
+      // 인덱스 검사 후 삭제
+      /*
+      $(document).on("click", ".del-btn", function (e) {
+          var index = $(this).attr("idx");
+          tag[index] = "";
+          $(this).parent().remove();
+      });
+      */
+      
+      $(document).on("click", ".del-btn", function (e) {
+          var index = $(this).attr("idx");
+          delete tag[index];	// 기존 방식은 입력한 개설키워드의 x 표시를 눌렀을 때 value값을 초기화시켜주는 방식이라 값은 보이지 않지만
+          						// key(index)는 남아있는 상태였음! 그래서 delete 키워드를 이용하여 key와 value 모두를 삭제했다.
+          $(this).parent().remove();
+      });
+      
+});
 	
-	//==========기존 개설 키워드 자스 
+	/*==========기존 개설 키워드 자스 
 	let itemList = [];
     let addBtn = document.querySelector('.add_btn');
 
@@ -139,9 +217,9 @@ document.addEventListener('DOMContentLoaded',function() {
         let id = this.getAttribute('id');
         itemList.splice(id,1);
         showList();
-    } 
-});
-/*개설키워드 js 끝*/
+    } */
+    
+// 개설키워드 js 끝
 
 
 <!-- 데이트피커 js -->
@@ -173,7 +251,7 @@ $(function() {
 });
 <!-- 데이트피커 js 끝-->
 
-/* 카카오맵 API 팝업창 띄우기 */
+// 카카오맵 API 팝업창 띄우기
  function openPopUp(url, name){
 
   var options = 'width=500, height=600, top=30, left=30, resizable=no, scrollbars=no, location=no';
@@ -182,18 +260,19 @@ $(function() {
 }
 
 
-/* 모집희망인원제한 & 메인메뉴 가격에 따른 인당예상 가격 자동입력 ==> keyUp 이벤트 처리  */
+// 모집희망인원제한 & 메인메뉴 가격에 따른 인당예상 가격 자동입력 ==> keyUp 이벤트 처리
 function perPriceCal()
 {
 	
 	var peopleCount = document.getElementById("peopleCount").value;
 	
-	if(!peopleCount)  //메인메뉴가격 입력시 모집희망 인원 미입력 상태라면   
+	// 메인메뉴가격 입력시 모집희망 인원 미입력 상태라면
+	if (!peopleCount)   
 	{
-		return false; //조건문 빠져나가겠다
+		return false; 	// 조건문 빠져나가겠다
 	} 
 	
-    if(peopleCount<2 || peopleCount>15)
+    if (peopleCount<2 || peopleCount>15)
 	{
 		alert("모집인원수는 2인 이상 15인 이하로 제한됩니다. ");
 		return;
@@ -201,9 +280,10 @@ function perPriceCal()
 	var mainMenuPrice = document.getElementById("mainMenuPrice").value;	
 	var perPrice = Math.floor(parseInt(mainMenuPrice) / parseInt(peopleCount));
 	
-	if(isNaN(perPrice)) // 메인메뉴 가격이나 모집희망 인원수에 값이 없을 경우
+	// 메인메뉴 가격이나 모집희망 인원수에 값이 없을 경우
+	if (isNaN(perPrice))
 	{
-		perPrice = 0;   //NaN -> 0 처리하겠다
+		perPrice = 0;   // NaN -> 0 처리하겠다
 	}
 	
 	
@@ -214,8 +294,8 @@ function perPriceCal()
 }
 
 
-/* 입력값 유효성 검사  */
- function checkUp()
+// 입력값 유효성 검사
+function checkUp()
 {
     var local = $('#local').val();   
 	var restautant = $('#restautant').val();   
@@ -225,7 +305,7 @@ function perPriceCal()
 	var count = $('#count').val(); 
 	
 	
-	if(datetime==null || datetime =="" || local==null || local =="" || restautant==null || restautant =="" 
+	if (datetime==null || datetime =="" || local==null || local =="" || restautant==null || restautant =="" 
 		|| mainMenu==null || mainMenu =="" || mainMenuPrice==null || mainMenuPrice =="" || count==null || count =="" )
 	{
 	    var check = document.getElementById("Check");
@@ -236,8 +316,8 @@ function perPriceCal()
 		 
 } 
 
-/* 버튼 1개인 팝업창 열기(범용)*/
-//여기저기 그대로 가져다 쓰기 가능
+/* 버튼 1개인 팝업창 열기(범용) */
+// 여기저기 그대로 가져다 쓰기 가능
 function oneBtnPopOpen(cond){
 
 let Pcontent = $(cond).attr("opCtn");
@@ -253,8 +333,6 @@ $("#onePopBtn").next().attr("href", Phref);
 </script>
 </head>
 <!--HEAD 종료 -->
-
-
 
 <!-- BODY 시작 -->
 <body>
@@ -298,6 +376,7 @@ $("#onePopBtn").next().attr("href", Phref);
 			<br>
 			
 			<!-- ★주의★ 카카오맵 자바스크립트와 appKey 위치 head 영역으로 올리면 기능 안돌아가니 현재 위치 유지 바람. 이유는 저도 아직 모르겠음 --> 
+			<!--        ㄴ 이거 아마 자바스크립트가 입력한 순서대로 코드가 진행되는거라 웹에서 보여지는 순서랑 같아야 돌아갈거야! -->
 			<!--카카오맵 API APP KEY  -->
 			<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=73ce8ac5774ecbf47e6474dc618e62f2&libraries=services"></script>
 			<!--카카오맵 자바스크립트  -->
@@ -601,16 +680,21 @@ $("#onePopBtn").next().attr("href", Phref);
 					</select>
 				</div>
 				<!--개설키워드  -->
+				<div class="form-group">
+					<span class="red">※</span> 개설 키워드(최대 3개) :<input type="text" id="tag" class="form-control-lg item" style="width: 500px;" placeholder="엔터로 개설키워드를 등록해주세요."  />
+				</div>
+				<div class="form-group">
+					<input type="hidden" value="" name="tag" id="rdTag" />
+				</div>
 
-				 <div>
-					<span class="red">※</span> <span>개설 키워드(최대 3개) : </span><br> <input type="text" style="width: 500px;" class="item form-control-lg" autofocus>
+				<ul id="tag-list"></ul>
+				<!-- <div>
+					<span class="red">※</span> <span>개설 키워드(최대 3개) : </span><br> <input type="text" style="width: 500px;" class="form-control-lg item" autofocus>
 					<button type="button" class="add_btn">추가</button>
 					<hr>
 					<div class="item_list"></div>
-				</div> 
-				<input style="display: none;" type="text" name="mmUserCode" id="userCode" value="${sessionScope.userCode}"> 
-				<input style="display: none;" type="text" name="mmOpenKeyWord" id="keyWord"> 
-				<span id="Check" class="red" style="text-align: center; display: none;">※항목은 필수입력값입니다.</span>
+				</div> -->
+				<input style="display: none;" type="text" name="mmUserCode" id="userCode" value="${sessionScope.userCode}"> <input style="display: none;" type="text" name="mmOpenKeyWord" id="keyWord"> <span id="Check" class="red" style="text-align: center; display: none;">※항목은 필수입력값입니다.</span>
 			</div>
 			<!--end content  -->
 		</div>
