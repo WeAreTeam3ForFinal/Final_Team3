@@ -656,16 +656,15 @@
 														<div class="form-group border-0">
 															<label class="form-label" style="text-align: center;">방문
 																가능 시간대</label> <input type="text" class="form-control-date"
-																id="datetime-start" style="width: 150px; border: none;">
+																id="datetime-start" style="width: 150px; border: none;" readonly="readonly">
 															-<input type="text" class="form-control-date"
-																id="datetime-end" style="width: 150px; border: none;">
+																id="datetime-end" style="width: 150px; border: none;" readonly="readonly">
 
 														</div>
 													</div>
 													<!-- 날짜 범위 선택 끝  -->
 												</div>
 											</div>
-									</form>
 									</div>
 									<!-- 메뉴메이트 개설하기 버튼 추가  -->
 									<br>
