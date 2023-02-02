@@ -48,5 +48,11 @@ public interface IUserDAO
 	
 	public ArrayList<MemaDTO> getOpenRoomList(String user_code); //메인 페이지 요청시 본인이 개설한 방 가져오기
 	
+	public UserDTO userGenderAge(@Param("nickName") String nickName); // 로그인 유저 성별 및 나이 정보
+	
+	public ArrayList<String> userIntregions(@Param("userCode") String userCode); // 로그인 유저 관심지역 정보
+	
+	
+	
 	
 }

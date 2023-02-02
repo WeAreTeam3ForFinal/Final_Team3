@@ -167,5 +167,37 @@ FROM USER_MM_OPEN_VIEW
 WHERE OPEN_USER_CODE = #{user_code}
 </select>
 
+<!-- 로그인 회원 연령 및 나이 -->
+<select id ="userGenderAge" parameterType="java.lang.String" resultType="com.kkini.dto.UserDTO">
+	SELECT CASE WHEN U.BACK_SSN = '1' OR U.BACK_SSN = '3' THEN '남성' ELSE '여성' END AS user_gender
+     , CASE WHEN INSTR(U.FRONT_SSN, '0',1) != 1 
+            THEN (SUBSTR(FRONT_SSN,1,2) - TO_CHAR(SYSDATE, 'YYYY') + 1900) * -1 
+            WHEN INSTR(U.FRONT_SSN, '0',1) = 1
+            THEN (SUBSTR(FRONT_SSN,1,2) - TO_CHAR(SYSDATE, 'YYYY') + 2000) * -1 
+            END AS user_age 
+	FROM U_PRIVATE_DATA U
+	WHERE U_NICKNAME = #{nickName}
+</select>
+
+<!-- 로그인 회원 관심지역 -->
+<select id ="userIntregions" parameterType="java.lang.String" resultType="java.lang.String">
+	SELECT CASE WHEN INSTR(L.REGION_NAME, '도 ') != 0 AND INSTR(L.REGION_NAME, '시 ') != 0 
+	                    THEN SUBSTR(L.REGION_NAME, INSTR(L.REGION_NAME, ' ')+1, INSTR(L.REGION_NAME, '구'))
+	                    WHEN INSTR(L.REGION_NAME, '광역시') != 0 
+	                    THEN REPLACE(L.REGION_NAME, '광역시', '')
+	                    WHEN INSTR(L.REGION_NAME, '특별시') != 0
+	                    THEN REPLACE(L.REGION_NAME, '특별시', '')
+	                    ELSE SUBSTR(L.REGION_NAME, INSTR(L.REGION_NAME, ' ')+1)
+	                    END AS user_intregions
+	FROM
+	    (
+	    SELECT R.REGION_NAME as REGION_NAME
+		FROM U_ATTENTION A, REGION R
+		WHERE A.U_CODE = 'UC00000055'
+	  	  AND A.REGION_CODE = R.REGION_CODE
+	    ) L
+</select>
+
+
 
 </mapper>

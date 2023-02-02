@@ -44,6 +44,7 @@ public interface IMemaDAO
 	
 	// 메뉴메이트 리스트 출력
 	public ArrayList<MemaDTO> memaList();
+	public ArrayList<MemaDTO> memaListLogin(@Param("gender") String gender, @Param("intregion") String intregion);
 	public ArrayList<MemaDTO> sortMemaListByDate();
 	public ArrayList<MemaDTO> sortMemaListByClose();
 	
