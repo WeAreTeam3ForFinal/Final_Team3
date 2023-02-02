@@ -668,6 +668,18 @@ $("#onePopBtn").next().attr("href", Phref);
 									<option value="${FemalegenderList.GENDER_CODE}">${FemalegenderList.GENDER_CTG}</option>
 								</c:forEach>
 							</c:when>	
+							
+							<c:when test = "${genderResult==3}"> <!--남자 회원이 개설할 시  -->
+					            <c:forEach var="MalegenderList" items="${MalegenderList }">
+									<option value="${MalegenderList.GENDER_CODE}">${MalegenderList.GENDER_CTG}</option>
+							    </c:forEach>
+					         </c:when>
+					         
+					         <c:when test = "${genderResult==4}"> <!--여자 회원이 개설할 시  -->
+					            <c:forEach var="MalegenderList" items="${MalegenderList }">
+									<option value="${MalegenderList.GENDER_CODE}">${MalegenderList.GENDER_CTG}</option>
+							    </c:forEach>
+					         </c:when>
 					    </c:choose>
 					</select>
 				</div>
