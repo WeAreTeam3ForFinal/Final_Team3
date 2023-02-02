@@ -1,4 +1,5 @@
 package com.kkini.controller;
+
 import com.kkini.dto.MemaDTO;
 
 import java.util.ArrayList;
@@ -25,22 +26,9 @@ public class MemaController
 	private SqlSession sqlSession;
 
 	
-	//카카오맵띄우기
-	@RequestMapping(value = "/kakaomap.kkini", method = RequestMethod.GET)
-	public String memakakao(ModelMap model)
-	{
-		String result="";
-		
-		
-		result="/WEB-INF/view/kakaomap.jsp";
-		
-		return result;
-	}
-	
-	
 	//메메 개설폼페이지 매핑
-	@RequestMapping(value = "/memaopenform.kkini", method = RequestMethod.GET)
-	public String memaOpenForm(ModelMap model)
+	@RequestMapping(value = "/memaopenform.kkini", method = RequestMethod.GET) 
+	public String memaOpenForm(ModelMap model,MemaOpenDTO dto, HttpSession session) // 기존에서 DTO, SESSION 추가
 	{
 		String result ="";
 		
@@ -48,7 +36,13 @@ public class MemaController
 		{
 			IMemaDAO dao = sqlSession.getMapper(IMemaDAO.class);
 			
-			model.addAttribute("genderList", dao.getGenderlist());
+			dto.setMmUserCode((String)session.getAttribute("userCode"));
+			
+			model.addAttribute("genderResult",  dao.checkGender(dto));
+			
+			model.addAttribute("MalegenderList", dao.getMaleGenderlist());
+			model.addAttribute("FemalegenderList", dao.getFemaleGenderlist());
+			//model.addAttribute("genderList", dao.getGenderlist());
 			model.addAttribute("ageGroupList", dao.getAgeGrouplist());
 			model.addAttribute("foodCtgList", dao.getFoodCtglist());
 		
@@ -68,14 +62,15 @@ public class MemaController
 	public String memaOpen(MemaOpenDTO dto, HttpSession session)
 	{
 		String result = null;
-		
-		;
+		//String restCode;
 		
 		dto.setMmUserCode((String)session.getAttribute("userCode"));
 		
 		//System.out.println(dto.getMmUserCode());
 		
 		IMemaDAO dao = sqlSession.getMapper(IMemaDAO.class);
+		
+		// 입력받은 식당정보 중복확인 프로시저단에서 진행 MM_OPEN_PRC
 		
 		dao.open(dto);
 		
@@ -191,8 +186,5 @@ public class MemaController
 		
 		return result;
 	}
-	
-	
-	
 	
 }
