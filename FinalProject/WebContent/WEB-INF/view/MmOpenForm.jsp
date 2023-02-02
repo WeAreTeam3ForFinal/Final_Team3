@@ -109,11 +109,11 @@ document.addEventListener('DOMContentLoaded',function() {
           counter++; 			// counter 증가, 삭제를 위한 del-btn 의 고유 id 가 된다.
       }
 
-      // 서버에 넘길 때 tag 안에 있는 값을 array type 으로 만들어서 넘긴다.
+   // 서버에 넘길 때 tag 안에 있는 값을 array type 으로 만들어서 넘긴다.
       function marginTag () {
           return Object.values(tag).filter(function (word) {
               return word !== "";
-          });
+          }).join(',');
       }
   
       // 서버에 제공
@@ -150,6 +150,11 @@ document.addEventListener('DOMContentLoaded',function() {
                   if (result.length == 0) { 
                       $("#tag-list").append("<li class='tag-item'>"+tagValue+"<span class='del-btn' idx='"+counter+"'>x</span></li>");
                       addTag(tagValue);
+                      
+                      // 개설키워드 서버에 제공하기
+                      $("#keyWord").val(marginTag);
+                      
+                      
                       self.val("");
                   } else {
                       alert("태그값이 중복됩니다.");
@@ -716,7 +721,9 @@ $("#onePopBtn").next().attr("href", Phref);
 					<hr>
 					<div class="item_list"></div>
 				</div> -->
-				<input style="display: none;" type="text" name="mmUserCode" id="userCode" value="${sessionScope.userCode}"> <input style="display: none;" type="text" name="mmOpenKeyWord" id="keyWord"> <span id="Check" class="red" style="text-align: center; display: none;">※항목은 필수입력값입니다.</span>
+				<input style="display: none;" type="text" name="mmUserCode" id="userCode" value="${sessionScope.userCode}">
+				<input style="display: none;" type="text" name="mmOpenKeyWord" id="keyWord">
+				<span id="Check" class="red" style="text-align: center; display: none;">※항목은 필수입력값입니다.</span>
 			</div>
 			<!--end content  -->
 		</div>
