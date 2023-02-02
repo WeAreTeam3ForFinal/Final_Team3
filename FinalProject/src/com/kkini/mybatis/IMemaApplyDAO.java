@@ -10,4 +10,6 @@ public interface IMemaApplyDAO
 	public List<Map<String,String>> getMemaApplyInfo(MemaDTO dto);
 	
 	public void memaApply(MemaDTO dto);
+	
+	public List<Map<String,String>> getMemaApplyCheck(MemaDTO dto);
 }

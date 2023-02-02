@@ -62,50 +62,65 @@
 <script type="text/javascript"> 
 
 $(document).ready(function ()
-{
-	perPriceCal(); 
-	
-	// 지원하기 버튼 클릭 시, 실행되는 기능
-	$("#mm_open").click(function() { 
-		
-		// 세션에 회원코드가 담겨있지 않다면 (= 비로그인 상태일 때)
-		// 서버의 세션에 userCode가 저장되어 있으므로 해당 방식으로 가져와야한다.(jstl방식으로!)
-		// sessionStorage 는 웹페이지에 값이 저장되므로 session 과는 저장되는 곳이 다름
-		if ('${userCode}' == null)
 		{
-			// 지원하기 버튼의 속성 값들을 변경
-			this.attributes.opCtn.nodeValue = '로그인이 필요한 서비스입니다.';
-			this.attributes.opBtn.nodeValue = '확인';
-			this.attributes.opBtnHref.nodeValue = '';
-			
-			// 변경된 값 매핑 완료
-			oneBtnPopOpen('#mm_open');
-			
-			// 팝업을 부른 후 다시 원래값으로 복구
-			this.attributes.opCtn.nodeValue = '지원이 완료되었습니다.';
-			this.attributes.opBtn.nodeValue = '메인페이지로 돌아갑니다.';
-			this.attributes.opBtnHref.nodeValue = 'mainPage.kkini';
-			
-			// 팝업 내용 보여주기
-			$('#oneBtnPopup').modal('show');
-			
-		} else {
-			$.ajax({ 
-				url : 'http://localhost:8090/FinalProject/memaApply.kkini', 
-				data : $("#mmApplyform").serialize(), 
-				type : 'POST', 
-				success: function(data) { 
-					oneBtnPopOpen('#mm_open');
-					$('#oneBtnPopup').modal('show');	/* show 는 부트스트랩 페이지 참조
-														   https://getbootstrap.kr/docs/5.2/components/modal/
-					        							   #%EB%8D%B0%EC%9D%B4%ED%84%B0-%EC%86%8D%EC%84%B1-%EC%82%AC%EC%9A%A9%ED%95%98%EA%B8%B0
-														*/
-				} 
-			});
-		}
+		   perPriceCal(); 
+		   
+		   // 지원하기 버튼 클릭 시, 실행되는 기능
+		   $("#mm_open").click(function() { 
+		      
+		      // 세션에 회원코드가 담겨있지 않다면 (= 비로그인 상태일 때)
+		      // 서버의 세션에 userCode가 저장되어 있으므로 해당 방식으로 가져와야한다.(jstl방식으로!)
+		      // sessionStorage 는 웹페이지에 값이 저장되므로 session 과는 저장되는 곳이 다름
+		      if ('${userCode}' == null)
+		      {
+		         // 지원하기 버튼의 속성 값들을 변경
+		         this.attributes.opCtn.nodeValue = '로그인이 필요한 서비스입니다.';
+		         this.attributes.opBtn.nodeValue = '확인';
+		         this.attributes.opBtnHref.nodeValue = '';
+		         
+		         // 변경된 값 매핑 완료
+		         oneBtnPopOpen('#mm_open');
+		         
+		         // 팝업을 부른 후 다시 원래값으로 복구
+		         this.attributes.opCtn.nodeValue = '지원이 완료되었습니다.';
+		         this.attributes.opBtn.nodeValue = '메인페이지로 돌아갑니다.';
+		         this.attributes.opBtnHref.nodeValue = 'mainPage.kkini';
+		         
+		         // 팝업 내용 보여주기
+		         $('#oneBtnPopup').modal('show');
+		         
+		      } else {
+		         $.ajax({
+		        	 		url : 'http://localhost:8090/FinalProject/getMemaApplyCheck.kkini', 
+		              		data : $("#mmApplyform").serialize(), 
+		              		type : 'POST', 
+		              		success: function(data)
+		              		{
+		                 		if (data == 'yes')
+		                 		{
+		                    		$.ajax({ 
+		                         				url : 'http://localhost:8090/FinalProject/memaApply.kkini', 
+		                         				data : $("#mmApplyform").serialize(), 
+		                         				type : 'POST', 
+		                         				success: function(data) { 
+		                            			oneBtnPopOpen('#mm_open');
+		                            			$('#oneBtnPopup').modal('show');    /* show 는 부트스트랩 페이지 참조
+		                                                         			 		https://getbootstrap.kr/docs/5.2/components/modal/
+		                                                            				#%EB%8D%B0%EC%9D%B4%ED%84%B0-%EC%86%8D%EC%84%B1-%EC%82%AC%EC%9A%A9%ED%95%98%EA%B8%B0
+		                                                       						*/
+		                         				} 
+		                      				});
+		                 		} else {
+		                	 		alert("이미 소속된 방에는 지원할 수 없습니다.");
+		                 		}
+		                 
+		              		} 
+		      			});
+				}
+		      
 	}) ;
-	 
-});     
+		    
+});
 
 
 // 메인메뉴 가격에 따른 인당예상 가격 자동입력 함수
@@ -140,7 +155,7 @@ function oneBtnPopOpen(cond)
 	$("#onePopContents").html(Pcontent); 
 	$("#onePopBtn").html(Pbtn); 
 	$("#onePopBtn").next().attr("href", Phref); 
-} 
+}
  
 </script>
 </head>
@@ -256,7 +271,7 @@ function oneBtnPopOpen(cond)
         </div>
         <br>
         <div>
-        	<span>개설 키워드(최대 3개) : </span>
+        	<span>개설 키워드(최대 3개) </span>
        		<ul>
        			<c:forEach var="tag" items="${tagList }">
        				<li><span>#</span>${tag }</li>
