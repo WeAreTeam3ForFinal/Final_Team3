@@ -30,6 +30,10 @@ public interface IMemaDAO
 	  public int addRest(MemaOpenDTO dto);
 	 */
 
+	 
+	// 개설회원 점수 가져오기 
+	public MemaOpenDTO getScore(MemaOpenDTO dto);
+	
 	// 회원 성별에 따른 모집 희망 성별 리스트 분기
 	public Integer checkGender(MemaOpenDTO dto);
 	

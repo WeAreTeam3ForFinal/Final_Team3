@@ -38,6 +38,9 @@ public class MemaController
 			
 			dto.setMmUserCode((String)session.getAttribute("userCode"));
 			
+			// 개설회원 점수 가져오기
+			model.addAttribute("getScore",  dao.getScore(dto));
+			
 			model.addAttribute("genderResult",  dao.checkGender(dto));
 			
 			model.addAttribute("MalegenderList", dao.getMaleGenderlist());

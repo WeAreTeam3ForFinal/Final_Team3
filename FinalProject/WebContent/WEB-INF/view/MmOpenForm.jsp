@@ -345,16 +345,26 @@ $("#onePopBtn").next().attr("href", Phref);
 	<form action="memaopen.kkini" method="post">
 		<!--개설폼 div  -->
 		<div class="openBox">
+		  <div class="scoreBtn">
+				<span class="checkScore" style="background-color: orange;">내 점수 확인하기!</span>
+						<div class="ScoreText" style=" background-color: #444444;opacity:0.9;">
+						출석 점수 : ${getScore.attendScore}<br>
+						신뢰 점수 : ${getScore.mannerScore}<br>
+						매너 점수 : ${getScore.biasScore}<br>
+						<p class="alertText">※개설자님의 출석,신뢰,매너 점수는 지원자에게 전체공개됩니다</p>
+						</div>
+		 </div>
 			<div class="content">
-				<p class="infoText">
-					내가 먹고싶은 메뉴로 <span class="mm">메뉴메이트</span>를 바로 개설해보세요!
-				</p>
-				<hr>
+					<p class="infoText">
+						내가 먹고싶은 메뉴로 <span class="mm">메뉴메이트</span>를 바로 개설해보세요!
+					</p>
+					<hr>
+				<br>
 				<div>
 					<span class="red">※</span> 방문예정 일시<br> <input type="text" class="form-control-lg form-control-date" style="width: 500px;" id="datetime" name="mmVisitDate" placeholder="클릭하여 선택해주세요." readonly="readonly" required>
 				</div><br>
 				
-				<p class="infoText">
+				<p>
 					방문하고자 하는 <span class="mm">식당명</span>을 검색 후 선택해주세요!
 				</p>
 				<!-- 카카오맵 팝업창 말고 개설페이지에 띄우는 방향으로 결정-->

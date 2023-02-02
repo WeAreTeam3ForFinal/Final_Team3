@@ -43,6 +43,18 @@ SELECT GENDER_CODE, GENDER_CTG
 FROM GENDER
 WHERE GENDER_CTG='남성' OR  GENDER_CTG='무관'
 </select>  
+
+<!--개설회원 점수 가져오기 -->
+<select id="getScore" parameterType="java.lang.String" resultType="com.kkini.dto.MemaOpenDTO">
+
+SELECT NVL(AC.ATTEND,5) AS attendScore, NVL(MBC.MANNER,5) AS mannerScore, NVL(MBC.BIAS,5) AS biasScore
+FROM U_ATTEND_SCORE AC JOIN U_MANNER_BIAS_SCORE MBC
+ON AC.USERCODE = MBC.USERCODE
+RIGHT JOIN U_PRIVATE_DATA UPD
+ON MBC.USERCODE = UPD.U_CODE
+WHERE UPD.U_CODE = #{mmUserCode}
+
+</select>
  
 <!-- 식당정보 중복 확인 프로시저단에서 진행 MM_OPEN_PRC -->
 <!-- 동일 식당명 존재 유무 확인 -->
