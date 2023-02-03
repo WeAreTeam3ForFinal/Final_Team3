@@ -231,11 +231,17 @@ document.addEventListener('DOMContentLoaded',function() {
 $(function() {
 	$.datetimepicker.setLocale('ko');
 	
-	// 최소 / 최대 방문 예정일 설정
-	var minDate = new Date();
-	var maxDate = new Date();
-	var dd = maxDate.getDate()+7;
-	maxDate.setDate(dd);
+	
+	// 최소 방문 예정일 제한(현재 날짜 및 시간으로부터 2시간 이후)
+    var minDateTime = new Date();
+	var time = minDateTime.getHours()+2;
+	minDateTime.setHours(time); 
+	//var minDate = now.getTime()+2;
+	
+	// 최대 방문 예정일 제한(현재날짜로부터 7일 안으로)
+    var maxDate = new Date();
+	var day = maxDate.getDate()+7;
+	maxDate.setDate(day);
 	
     $("#datetime").datetimepicker(
     		{
@@ -246,7 +252,8 @@ $(function() {
     				 '11:30', '12:00', '12:30', '13:00', '13:30', '14:00', '14:30', '15:00', '15:30', '16:00', '16:30', '17:00', '17:30', '18:00', '18:30', '19:00',
     				 '19:30', '20:00', '20:30', '21:00', '21:30', '22:00', '22:30', '23:00', '24:00'  
     				 ],
-    			minDate : minDate,   
+    		    /*상단에서 설정해놓은 방문일시 각각  minDateTime, minDate 속성에 추가 */
+    	        minDateTime : minDateTime,   
     			maxDate : maxDate
      		}); 
            
