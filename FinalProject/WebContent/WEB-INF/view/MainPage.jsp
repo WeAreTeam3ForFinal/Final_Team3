@@ -246,6 +246,21 @@
 			}
 		});
 	}
+	
+	/* 회원이 개설하기 버튼 클릭 시  */
+	function member_open()
+	{
+		// 개설폼으로 이동
+		window.location.href = 'memaopenform.kkini';
+	}
+	
+	/* 비회원이 개설하기 버튼 클릭 시  */
+	function unmember_open()
+	{
+		// 로그인 경고창 띄워주기
+	    alert("로그인이 필요한 서비스입니다. 로그인 후 이용해주세요!");
+		
+	}
 </script>
 </head>
 
@@ -668,9 +683,18 @@
 									</div>
 									<!-- 메뉴메이트 개설하기 버튼 추가  -->
 									<br>
-									<button class="btn btn-warning"
-										style="width: 150px; margin: auto;"
-										onclick="location.href='memaopenform.kkini'">개설하기</button>
+									<c:choose>
+										<c:when test="${sessionScope.nickName!=null }"> <!--회원 로그인 상태일 시 -->
+										<button class="btn btn-warning"
+											style="color: #ffffff; background-color:#FFA500; width: 270px; margin: auto; border-radius: 50px; font-size: 25px; font-weight: bold;"
+											onclick="member_open()">메뉴메이트 개설하기!</button>
+										</c:when>	
+										<c:when test="${sessionScope.nickName==null }"> <!--비회원 상태일 시 -->
+											<button class="btn btn-warning"
+											style=" color: #ffffff; background-color:#FFA500; width: 270px; margin: auto; border-radius: 50px; font-size: 25px; font-weight: bold;"
+											onclick="unmember_open()">메뉴메이트 개설하기!</button>
+										</c:when>	
+									</c:choose>
 								</div>
 
 								<!-- 메뉴메이트 끝 -->
