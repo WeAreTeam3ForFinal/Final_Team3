@@ -50,17 +50,31 @@ ORDER BY 1
 )}
 </select>
 
+
+<select id="region_InOut" parameterType="com.kkini.dto.UserDTO" statementType="CALLABLE">
+{CALL PRC_INSERTREGION(
+ #{region_name, mode=IN, jdbcType=VARCHAR}
+,#{region_code, mode=OUT, jdbcType=VARCHAR} 
+)}
+</select>
+
+
+
 <select id="regionSearch" parameterType="java.lang.String" resultType="java.lang.String">
 SELECT REGION_CODE
 FROM REGION
 WHERE REGION_NAME LIKE #{user_addr}
 </select>
 
-<select id="intregionSearch" parameterType="java.lang.String" resultType="java.lang.String">
-SELECT REGION_CODE
+
+<select id="check" resultType="java.lang.Integer" parameterType="java.lang.String">
+SELECT COUNT(*) AS COUNT
 FROM REGION
-WHERE REGION_NAME LIKE #{user_region}
+WHERE REGION_NAME LIKE #{region_name}
+
 </select>
+
+
 
 
 <insert id="addintregion" parameterType="java.lang.String">

@@ -48,5 +48,9 @@ public interface IUserDAO
 	
 	public ArrayList<MemaDTO> getOpenRoomList(String user_code); //메인 페이지 요청시 본인이 개설한 방 가져오기
 	
+	public void region_InOut(UserDTO dto); //사용자가 입력한 지역 정보가 지역테이블에 존재하면 코드값을 없다면 삽입후 코드값을 반환하는 함수
+
+
+	
 	
 }
