@@ -64,9 +64,6 @@ public class User
 					ArrayList<MemaDTO> openroomList = dao.getOpenRoomList(user_code);
 					model.addAttribute("openroomList", openroomList);
 				}
-				
-				
-				
 			}
 			
 			// 메뉴메이트 검색창 필터 항목 속성값 넣기
@@ -147,8 +144,6 @@ public class User
 		return result;
 	}
 	
-	
-	
 	@RequestMapping(value = "/userRegiste.kkini",method = RequestMethod.GET)
 	public String userRegisteForm(ModelMap model)
 	{
@@ -158,8 +153,6 @@ public class User
 		
 		return result;
 	}
-	
-	
 	
 	@RequestMapping(value = "/regist_Alignment.kkini", method = RequestMethod.POST)
 	public String userChainsertForm(ModelMap model)
@@ -188,7 +181,6 @@ public class User
 		return result;
 		
 	}
-	
 	
 	@RequestMapping(value = "/user_register.kkini", method = RequestMethod.POST)
 	public String userRegiste(ModelMap model, UserDTO dto)
@@ -260,9 +252,7 @@ public class User
 	{
 			String result="";
 		
-		
 			IUserDAO dao = sqlSession.getMapper(IUserDAO.class);
-			
 			
 			dto = dao.loginMember(dto);
 			//System.out.println(dto.getUser_code()); //유저코드 받아오기
@@ -278,8 +268,6 @@ public class User
 				
 				session.setAttribute("nickName", dto.getUser_nickname());
 				session.setAttribute("userCode", dto.getUser_code());
-				
-				
 				
 				result="redirect:mainPage.kkini";
 			}

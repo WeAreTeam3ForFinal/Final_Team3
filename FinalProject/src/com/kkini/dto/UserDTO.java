@@ -3,17 +3,13 @@ package com.kkini.dto;
 public class UserDTO
 {
 	
-	String user_id, user_pw, user_nickname, user_birth, user_gender, user_addr, user_phonenumber;
+	String user_id, user_pw, user_nickname, user_birth, user_gender, user_addr, user_phonenumber, user_age;
 	String[] user_intregions, user_interests, user_characters;
 	String user_eatSpeed, user_talk, user_introduce;
 	String attendScore, mannerScore, biasScore, region_name, region_code;
 	
 	String user_code;
 	String user_code_live;
-	
-	
-	
-	
 	
 	public String getRegion_name()
 	{
@@ -30,6 +26,15 @@ public class UserDTO
 	public void setRegion_code(String region_code)
 	{
 		this.region_code = region_code;
+
+	public String getUser_age()
+	{
+		return user_age;
+	}
+	public void setUser_age(String user_age)
+	{
+		this.user_age = user_age;
+
 	}
 	public String getUser_id()
 	{

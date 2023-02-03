@@ -2,8 +2,8 @@ package com.kkini.dto;
 
 public class MemaOpenDTO
 {
-    String mmUserCode,mmGenderCode,mmFoodCtgCode, mmRestName,
-           mmAgeGroupCode,mmVisitDate, mmMenu, mmOpenKeyWord; 
+    String mmUserCode,mmGenderCode,mmFoodCtgCode, mmRestLocation, mmRestName,
+           mmAgeGroupCode,mmVisitDate, mmMenu, mmOpenKeyWord, attendScore, mannerScore, biasScore ; 
    
     int mmNop,mmMenuPrice;
    
@@ -88,4 +88,37 @@ public class MemaOpenDTO
 	{
 		this.mmAgeGroupCode = mmAgeGroupCode;
 	}
+	public String getMmRestLocation()
+	{
+		return mmRestLocation;
+	}
+	public void setMmRestLocation(String mmRestLocation)
+	{
+		this.mmRestLocation = mmRestLocation;
+	}
+	public String getAttendScore()
+	{
+		return attendScore;
+	}
+	public void setAttendScore(String attendScore)
+	{
+		this.attendScore = attendScore;
+	}
+	public String getMannerScore()
+	{
+		return mannerScore;
+	}
+	public void setMannerScore(String mannerScore)
+	{
+		this.mannerScore = mannerScore;
+	}
+	public String getBiasScore()
+	{
+		return biasScore;
+	}
+	public void setBiasScore(String biasScore)
+	{
+		this.biasScore = biasScore;
+	}
+	
 }

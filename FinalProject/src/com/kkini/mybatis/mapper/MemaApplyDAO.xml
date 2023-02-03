@@ -21,5 +21,13 @@
 			, SYSDATE
 			)}
 	</select>
+	
+	<!-- 중복 지원 불가 처리 쿼리 -->
+	<select id="getMemaApplyCheck" resultType="java.util.HashMap">
+		 SELECT U_CODE
+		 FROM MM_APPLY
+		 WHERE MM_OPEN_CODE = #{openCode}
+		 AND U_CODE = #{userCode}
+	</select>
 
 </mapper>

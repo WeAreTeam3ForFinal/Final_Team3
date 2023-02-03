@@ -5,30 +5,94 @@
    
 <mapper namespace="com.kkini.mybatis.IMemaDAO"> 
   
-  
+<!--모집희망 성별 리스트  -->  
 <select id="getGenderlist" resultType="java.util.HashMap"> 
 SELECT GENDER_CODE,GENDER_CTG 
 FROM GENDER 
 </select> 
  
- 
+<!--모집희망 연령대 리스트  -->   
 <select id="getAgeGrouplist" resultType="java.util.HashMap"> 
 SELECT AGE_GROUP_CODE,AGE_GROUP_CASE 
 FROM AGE_GROUP 
 </select> 
  
- 
+<!--음식종류 리스트  -->   
 <select id="getFoodCtglist" resultType="java.util.HashMap"> 
 SELECT FOOD_CTG_CODE,FOOD_CASE 
 FROM FOOD_CTG 
 </select> 
+
+<!-- 회원 성별에 따른 모집희망 성별 리스트 분기  -->
+<select id="checkGender" resultType="java.lang.Integer"> 
+SELECT BACK_SSN 
+FROM U_PRIVATE_DATA
+WHERE U_CODE = #{mmUserCode}
+</select> 
  
+<!--여자 회원 개설 시  -->
+<select id="getFemaleGenderlist" resultType="java.util.HashMap"> 
+SELECT GENDER_CODE, GENDER_CTG
+FROM GENDER
+WHERE GENDER_CTG='여성' OR  GENDER_CTG='무관'
+</select> 
+
+<!--남자회원 개설 시  -->
+<select id="getMaleGenderlist" resultType="java.util.HashMap"> 
+SELECT GENDER_CODE, GENDER_CTG
+FROM GENDER
+WHERE GENDER_CTG='남성' OR  GENDER_CTG='무관'
+</select>  
+
+<!--개설회원 점수 가져오기 -->
+<select id="getScore" parameterType="java.lang.String" resultType="com.kkini.dto.MemaOpenDTO">
+
+SELECT NVL(AC.ATTEND,5) AS attendScore, NVL(MBC.MANNER,5) AS mannerScore, NVL(MBC.BIAS,5) AS biasScore
+FROM U_ATTEND_SCORE AC JOIN U_MANNER_BIAS_SCORE MBC
+ON AC.USERCODE = MBC.USERCODE
+RIGHT JOIN U_PRIVATE_DATA UPD
+ON MBC.USERCODE = UPD.U_CODE
+WHERE UPD.U_CODE = #{mmUserCode}
+
+</select>
+ 
+<!-- 식당정보 중복 확인 프로시저단에서 진행 MM_OPEN_PRC -->
+<!-- 동일 식당명 존재 유무 확인 -->
+<!-- 
+<select id="countRest" resultType="java.lang.Integer"> 
+SELECT COUNT(*)
+FROM REST
+WHERE REST_NAME = #{mmRestName}
+AND REST_LOCATION = #{mmRestLocation}
+</select> 
+--> 
+ 
+<!-- 존재하는 식당정보의 식당코드 가져오기 --> 
+<!-- 
+<select id="getRestCode" resultType="java.lang.String"> 
+SELECT REST_CODE
+FROM REST
+WHERE REST_NAME = #{mmRestName}
+AND REST_LOCATION = #{mmRestLocation}
+</select>  
+-->
+ 
+<!--새로운 식당정보 추가   --> 
+<!-- 
+<insert id="addRest">
+INSERT INTO REST(REST_CODE, U_CODE, REST_NAME, REST_LOCATION, REGIS_DATE )
+VALUES('RESC'||LPAD(GGINI.REST_SEQ.NEXTVAL, 6, 0), #{mmUserCode},#{mmRestName},#{mmRestLocation}, SYSDATE )
+</insert>  
+-->
+ 
+<!--메뉴메이트 개설하기  --> 
 <select id="open" parameterType="com.kkini.dto.MemaOpenDTO" statementType="CALLABLE"> 
 {CALL MM_OPEN_PRC( 
   #{mmUserCode, mode=IN,jdbcType=VARCHAR} 
 , #{mmGenderCode, mode=IN,jdbcType=VARCHAR}  
 , #{mmFoodCtgCode, mode=IN,jdbcType=VARCHAR} 
 , #{mmRestName, mode=IN,jdbcType=VARCHAR} 
+, #{mmRestLocation, mode=IN,jdbcType=VARCHAR} 
 , #{mmAgeGroupCode, mode=IN,jdbcType=VARCHAR} 
 , #{mmNop, mode=IN,jdbcType=VARCHAR} 
 , TO_DATE(#{mmVisitDate, mode=IN,jdbcType=VARCHAR}, 'YYYY-MM-DD HH24:MI') 
@@ -37,6 +101,5 @@ FROM FOOD_CTG
 , #{mmOpenKeyWord, mode=IN,jdbcType=NULL}  
 )} 
 </select> 
-  
   
  </mapper>
