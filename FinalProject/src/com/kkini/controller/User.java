@@ -187,13 +187,17 @@ public class User
 	{
 		
 		String result ="";
-		try
-		{
+	//	try
+	//	{
 			
 			
 		    IUserDAO dao = sqlSession.getMapper(IUserDAO.class);
 			
-		    dto.setUser_addr(dao.regionSearch(dto.getUser_addr()));
+		    
+		    //여기서 먼저 유저가 입력한 지역데이터가 테이블에 있는지 확인하고 있다면 210줄로 아니라면 새로이 지역 테이블에 데이터를 생성해주고 210줄로 가야한다. 물론 관심지역도 전부 확인해야함
+		    dto.setRegion_name(dto.getUser_addr());
+		    dao.region_InOut(dto);
+		   dto.setUser_addr(dto.getRegion_code());
 		       
 		   	 //유저 세부정보 테이블에 입력
 		     dao.userRegister(dto);
@@ -204,11 +208,13 @@ public class User
 		     //회원코드 생성
 		     String user_code = dto.getUser_code();
 		     
+		     //회원이 입력한 관심지역 데이터가 테이블이 존재하는지 아닌지
+		     
 		     //유저 관심지역 테이블에 회원코드와 함께 회원이 입력한 관심지역 개수만큼 입력
 		     for (String user_region : dto.getUser_intregions())
 			{
-		    	 //user_region = dao.intregionSearch(user_region);
-
+		    	 dto.setRegion_name(user_region);
+		    	 dao.region_InOut(dto);
 		    	 dao.addintregion(user_region, user_code);
 			}
 		     
@@ -230,11 +236,11 @@ public class User
 		     result="redirect:mainPage.kkini";
 		     
 			
-		} catch (Exception e)
-		{
-			System.out.println(e.toString());
+		//} catch (Exception e)
+		//{
+		//	System.out.println(e.toString());
 			// TODO: handle exception
-		}
+		//}
 		
 		return result;
 	}
@@ -303,14 +309,14 @@ public class User
 		
 		session.invalidate();
 		
-		result="/WEB-INF/view/MainPage.jsp";
+		result="redirect:mainPage.kkini";
 		
 		return result;
 		
 	}
 	
 	
-	
+		
 
 
 }
