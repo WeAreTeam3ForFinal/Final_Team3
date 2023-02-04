@@ -35,7 +35,7 @@ public class User
 		try
 		{
 			
-			if(session.getAttribute("nickName") != null && session.getAttribute("userCode") !=null )  //로그인 세션이 남아있을시
+			if(session.getAttribute("nickName") != null && session.getAttribute("userCode") != null )  //로그인 세션이 남아있을시
 			{
 				
 				IUserDAO dao = sqlSession.getMapper(IUserDAO.class);

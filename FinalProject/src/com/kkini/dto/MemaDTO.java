@@ -8,10 +8,30 @@ public class MemaDTO
 	private Timestamp readyDate;		// date 타입은 자바에서 시분초까지 받아오지 못하므로 timestamp 라는 타입으로 변수 선언
 
 	// 뷰 속성 구성 (속성 작명 통일 필요)
-	private String openCode, restName, region, foodctg, foodCode, ageGroup, ageCode, gender, genderCode, visitDate, mainMenu, deadline, partyMemberCount, 
-          nop, partyMaster, attendScore, mannerScore, biasScore, menuPrice, isClosed, openKeyword, userCode, roomStatus;
-    	  
+	private String openCode, restName, region, regionMatch, foodctg, foodCode, ageGroup, ageCode, gender, genderCode, genderMatch,
+				   visitDate, mainMenu, deadline, partyMemberCount, 
+				   nop, partyMaster, attendScore, mannerScore, biasScore, menuPrice, isClosed, openKeyword, userCode, roomStatus;
 	
+	public String getRegionMatch()
+	{
+		return regionMatch;
+	}
+
+	public void setRegionMatch(String regionMatch)
+	{
+		this.regionMatch = regionMatch;
+	}
+
+	public String getGenderMatch()
+	{
+		return genderMatch;
+	}
+
+	public void setGenderMatch(String genderMatch)
+	{
+		this.genderMatch = genderMatch;
+	}
+
 	public String getFoodCode()
 	{
 		return foodCode;

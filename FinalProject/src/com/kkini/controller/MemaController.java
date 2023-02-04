@@ -116,21 +116,73 @@ public class MemaController
 			// 로그인 회원 나이
 			String age = dao.userGenderAge(nickName).getUser_age();
 			
+			// 로그인 목록 성별 정렬용 문자열
+			String genderOrder = "";
+			
+			if(gender.equals("여성"))
+				genderOrder = "GENDER";
+			else
+				genderOrder = "GENDER";
+				
+			System.out.println(genderOrder);
 			
 			// 로그인 회원 관심지역 어레이리스트
 			ArrayList<String> intregions = dao.userIntregions(userCode);
 			
 			ArrayList<MemaDTO> list = new ArrayList<MemaDTO>(); 
 			
+			System.out.println(intregions);
+			
 			if(sortBy == null)
 				sortBy = "";
+			
+			int loop = 1;
 			
 			for (String intregion : intregions)
 			{
 				ArrayList<MemaDTO> tmp = new ArrayList<MemaDTO>(); 
 				
-				tmp = dao2.memaListLogin(gender, intregion);
-				list.addAll(tmp);
+				tmp = dao2.memaListLogin(gender, intregion, genderOrder);
+				
+				System.out.println(intregion);
+				System.out.println(gender);
+				System.out.println(genderOrder);
+				
+				System.out.println("=========================");
+				for (int i = 0; i < tmp.size(); i++)
+				{
+					System.out.println(tmp.get(i).getRestName());
+				}
+				System.out.println("=========================");
+				
+				for (int j = 0; j < tmp.size(); j++)
+				{
+					if(tmp.get(j).getGenderMatch().equals("1") && tmp.get(j).getRegionMatch().equals("1"))
+					{
+						list.add(tmp.get(j));
+						
+						if(loop != 3)
+						break;
+					}
+					else if(tmp.get(j).getGenderMatch().equals("1") && tmp.get(j).getRegionMatch().equals("0"))
+						list.add(tmp.get(j));
+					else if(tmp.get(j).getGenderMatch().equals("0") && tmp.get(j).getRegionMatch().equals("1"))
+						list.add(tmp.get(j));
+					else
+						list.add(tmp.get(j));
+					
+					loop++;
+				}
+				
+				for (int i = 0; i < list.size()-1; i++)
+					for (int j = i+1; j < list.size(); j++)
+					{
+						String openCode = list.get(i).getOpenCode();
+						
+						if(list.get(j).getOpenCode().equals(openCode))
+							list.remove(j);
+					}
+				
 			}
 			
 			if(sortBy.equals("memaDate"))
@@ -165,7 +217,6 @@ public class MemaController
 	{
 		
 		IMemaDAO dao = sqlSession.getMapper(IMemaDAO.class);
-		
 		
 		String result = "";
 		
