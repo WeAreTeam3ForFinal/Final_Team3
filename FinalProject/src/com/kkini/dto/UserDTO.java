@@ -26,7 +26,7 @@ public class UserDTO
 	public void setRegion_code(String region_code)
 	{
 		this.region_code = region_code;
-
+	}
 	public String getUser_age()
 	{
 		return user_age;
