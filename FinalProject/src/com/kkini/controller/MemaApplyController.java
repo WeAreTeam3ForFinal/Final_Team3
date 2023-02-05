@@ -24,7 +24,7 @@ public class MemaApplyController
 
 	// 모집정보 보여주기
 	@RequestMapping(value = "/getMemaApplyInfo.kkini", method = RequestMethod.GET)
-	public String getMemaApplyInfo(MemaDTO dto, ModelMap model)
+	public String getMemaApplyInfo(MemaDTO dto, HttpSession session, ModelMap model)
 	{
 		String result = "";
 
@@ -32,10 +32,14 @@ public class MemaApplyController
 		{
 			IMemaApplyDAO dao = sqlSession.getMapper(IMemaApplyDAO.class);
 
+			String userCode = session.getAttribute("userCode") == null ? "" : (String) session.getAttribute("userCode");
+			dto.setUserCode(userCode);
 			List<Map<String, String>> d = dao.getMemaApplyInfo(dto);
 			model.addAttribute("dto", d);
+			
+			if (d.get(0).get("OPENKEYWORD") != null) {
 			model.addAttribute("tagList", d.get(0).get("OPENKEYWORD").split(","));
-
+			}
 			result = "/WEB-INF/view/Mm_Apply.jsp";
 		} catch (Exception e)
 		{

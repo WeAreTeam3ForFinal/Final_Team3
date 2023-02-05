@@ -63,15 +63,19 @@
 
 $(document).ready(function ()
 		{
-		   perPriceCal(); 
+		   perPriceCal();
 		   
 		   // 지원하기 버튼 클릭 시, 실행되는 기능
 		   $("#mm_open").click(function() { 
-		      
+		   
+			   let memCount = ('${dto[0].PARTYMEMBERCOUNT}').split('/');
+			   let mem = Number(memCount[0]);
+			   let nop = Number(memCount[1]);
+			   
 		      // 세션에 회원코드가 담겨있지 않다면 (= 비로그인 상태일 때)
 		      // 서버의 세션에 userCode가 저장되어 있으므로 해당 방식으로 가져와야한다.(jstl방식으로!)
 		      // sessionStorage 는 웹페이지에 값이 저장되므로 session 과는 저장되는 곳이 다름
-		      if ('${userCode}' == null)
+		      if ('${userCode}' == '')
 		      {
 		         // 지원하기 버튼의 속성 값들을 변경
 		         this.attributes.opCtn.nodeValue = '로그인이 필요한 서비스입니다.';
@@ -89,6 +93,40 @@ $(document).ready(function ()
 		         // 팝업 내용 보여주기
 		         $('#oneBtnPopup').modal('show');
 		         
+		      } else if ('${dto[0].GENDER}' != '${dto[0].USER_GENDER}' && '${dto[0].GENDER}' != '무관') {
+		    	// 지원하기 버튼의 속성 값들을 변경
+			    this.attributes.opCtn.nodeValue = '성별이 다릅니다. \n 같은 성별이거나 무관일 경우만 지원이 가능합니다.';
+			    this.attributes.opBtn.nodeValue = '확인';
+			    this.attributes.opBtnHref.nodeValue = '';
+			         
+			    // 변경된 값 매핑 완료
+			    oneBtnPopOpen('#mm_open');
+			         
+			    // 팝업을 부른 후 다시 원래값으로 복구
+			    this.attributes.opCtn.nodeValue = '지원이 완료되었습니다.';
+			    this.attributes.opBtn.nodeValue = '메인페이지로 돌아갑니다.';
+			    this.attributes.opBtnHref.nodeValue = 'mainPage.kkini';
+			         
+			    // 팝업 내용 보여주기
+			    $('#oneBtnPopup').modal('show');
+			    
+		      } else if (mem >= nop) {
+		    	  // 지원하기 버튼의 속성 값들을 변경
+		    	  this.attributes.opCtn.nodeValue = '이미 모집 인원이 충족된 방입니다.';
+		    	  this.attributes.opBtn.nodeValue = '확인';
+		    	  this.attributes.opBtnHref.nodeValue = '';
+				  
+		    	  // 변경된 값 매핑 완료
+		    	  oneBtnPopOpen('#mm_open');
+				    
+		    	  // 팝업을 부른 후 다시 원래값으로 복구
+		    	  this.attributes.opCtn.nodeValue = '지원이 완료되었습니다.';
+		    	  this.attributes.opBtn.nodeValue = '메인페이지로 돌아갑니다.';
+		    	  this.attributes.opBtnHref.nodeValue = 'mainPage.kkini';
+		    	  
+		    	// 팝업 내용 보여주기
+				  $('#oneBtnPopup').modal('show');
+		    	   
 		      } else {
 		         $.ajax({
 		        	 		url : 'http://localhost:8090/FinalProject/getMemaApplyCheck.kkini', 
@@ -119,7 +157,8 @@ $(document).ready(function ()
 				}
 		      
 	}) ;
-		    
+			   
+		   
 });
 
 
