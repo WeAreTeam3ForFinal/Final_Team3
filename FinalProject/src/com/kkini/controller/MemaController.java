@@ -93,8 +93,6 @@ public class MemaController
 		// 로그인 상태일 경우
 		if ( session.getAttribute("nickName") != null && session.getAttribute("userCode") != null )
 		{
-//			System.out.println(session.getAttribute("nickName"));
-//			System.out.println(session.getAttribute("userCode"));
 			
 			IUserDAO dao = sqlSession.getMapper(IUserDAO.class);
 			IMemaDAO dao2 = sqlSession.getMapper(IMemaDAO.class);
@@ -105,10 +103,6 @@ public class MemaController
 			// 로그인 회원 유저코드
 			String userCode = (String) session.getAttribute("userCode");
 			
-//			System.out.println(nickName);
-//			System.out.println(userCode);
-//			System.out.println(dao.userGenderAge(nickName).getUser_age());
-//			System.out.println(dao.userGenderAge(nickName).getUser_gender());
 			
 			// 로그인 회원 성별
 			String gender = dao.userGenderAge(nickName).getUser_gender();
@@ -120,7 +114,7 @@ public class MemaController
 			String genderOrder = "";
 			
 			if(gender.equals("여성"))
-				genderOrder = "GENDER";
+				genderOrder = "GENDER DESC";
 			else
 				genderOrder = "GENDER";
 				
@@ -129,61 +123,64 @@ public class MemaController
 			// 로그인 회원 관심지역 어레이리스트
 			ArrayList<String> intregions = dao.userIntregions(userCode);
 			
+			// 최종적으로 사용자에게 보여줄 모임방 리스트 어레이리스트
 			ArrayList<MemaDTO> list = new ArrayList<MemaDTO>(); 
-			
-			System.out.println(intregions);
 			
 			if(sortBy == null)
 				sortBy = "";
 			
-			int loop = 1;
 			
-			for (String intregion : intregions)
+			int loop = 0;
+			boolean flag = false;
+			
+			for (int k = 0; k < intregions.size()+1; k++)
 			{
+				// 관심지역이 여러개 이므로 반복문 루프마다 각 관심지역을 담을 변수
+				String intregion = "";
+				
+				// loop 변수가 intregions의 size값이 된다는 것은 회원이 등록한 관심지역수 +1 값이 된다는 뜻.
+				// 즉 그 전 까지(관심지역이 있는 한은) intregion 변수에 관심지역을 대입.
+				if(loop != intregions.size())
+					intregion = intregions.get(loop);
+				
+				// 임시로 테이블 값을 담을 tmp 어레이리스트 선언
 				ArrayList<MemaDTO> tmp = new ArrayList<MemaDTO>(); 
 				
+				// tmp 변수에 모임방 리스트 대입 (성별, 관심지역, 성별정렬기준)
 				tmp = dao2.memaListLogin(gender, intregion, genderOrder);
-				
-				System.out.println(intregion);
-				System.out.println(gender);
-				System.out.println(genderOrder);
-				
-				System.out.println("=========================");
-				for (int i = 0; i < tmp.size(); i++)
-				{
-					System.out.println(tmp.get(i).getRestName());
-				}
-				System.out.println("=========================");
 				
 				for (int j = 0; j < tmp.size(); j++)
 				{
+					// tmp 변수 사이즈 동안 반복하면서 관심지역 및 성별 모두 일치한 모임방 우선 삽입
 					if(tmp.get(j).getGenderMatch().equals("1") && tmp.get(j).getRegionMatch().equals("1"))
 					{
 						list.add(tmp.get(j));
 						
-						if(loop != 3)
-						break;
+						flag = true;
 					}
-					else if(tmp.get(j).getGenderMatch().equals("1") && tmp.get(j).getRegionMatch().equals("0"))
+					// 다음으로 성별이 일치한 모임방 우선적으로 삽입
+					else if(tmp.get(j).getGenderMatch().equals("1") && tmp.get(j).getRegionMatch().equals("0") && flag == false)
 						list.add(tmp.get(j));
-					else if(tmp.get(j).getGenderMatch().equals("0") && tmp.get(j).getRegionMatch().equals("1"))
+					// 다음으로 지역이 일치한 모임방 우선적으로 삽입
+					else if(tmp.get(j).getGenderMatch().equals("0") && tmp.get(j).getRegionMatch().equals("1") && flag == false)
 						list.add(tmp.get(j));
-					else
+					// 다음으로 일치사항 없는 (참가 불가능한) 모임방들 삽입
+					else if (flag == false)
 						list.add(tmp.get(j));
 					
-					loop++;
 				}
 				
-				for (int i = 0; i < list.size()-1; i++)
-					for (int j = i+1; j < list.size(); j++)
-					{
-						String openCode = list.get(i).getOpenCode();
-						
-						if(list.get(j).getOpenCode().equals(openCode))
-							list.remove(j);
-					}
-				
+				loop++;
 			}
+			
+			for (int i = 0; i < list.size()-1; i++)
+				for (int j = i+1; j < list.size(); j++)
+				{
+					String openCode = list.get(i).getOpenCode();
+					
+					if(list.get(j).getOpenCode().equals(openCode))
+						list.remove(j);
+				}
 			
 			if(sortBy.equals("memaDate"))
 				model.addAttribute("memaList", dao2.sortMemaListByDate());
