@@ -167,7 +167,7 @@ AND OPEN.MM_OPEN_CODE NOT IN(SELECT MM_OPEN_CODE
 
 
 <select id="getJoinRoomList"  parameterType="java.lang.String" resultType="com.kkini.dto.MemaDTO">
-SELECT ROOM_STATUS AS "roomStatus", VISIT_DATE AS "visitDate", "REST_NAME" AS "restName"
+SELECT ROOM_STATUS AS "roomStatus", VISIT_DATE AS "visitDate", REST_NAME AS "restName", OPEN_CODE AS "openCode" 
 FROM USER_MM_APPLY_VIEW
 WHERE U_CODE =#{user_code}
 </select>

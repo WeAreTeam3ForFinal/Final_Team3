@@ -108,5 +108,19 @@
 	WHERE A.ISCLOSED = 'FALSE' OR A.ISCLOSED = 'TRUE'
 	
 	</select>
+	
+	
+	
+	<!-- 메메 참여자 방의 상세정보 및 수정 가능 정보 -madeBy동현-->
+	
+	<select id="mmjoinRoomInfo" parameterType="java.lang.String" resultType="java.util.HashMap">
+	SELECT U_NICKNAME AS "chief_nickName", AGE_GROUP_CASE AS "ageGroup" , GENDER_CTG AS "genderCtg", MAIN_MENU AS "mainMenu", PERSONAL_PRICE AS "personalPrice"
+      , REST_NAME AS "restName", REST_LOCATION AS "restLocation", OPEN_KEYWORD AS "openKeyword", VISIT_DATE AS "visteDate"
+      , NOP_CURRENT AS "nopCurrent" , NOP_HOPE AS "nopHope" 
+      , FOOD_CASE AS "foodCtg"
+      FROM MM_JOINROOM_INFO
+      WHERE OPEN_CODE = #{openCode}
+
+	</select>
 
 </mapper>
