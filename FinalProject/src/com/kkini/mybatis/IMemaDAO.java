@@ -62,4 +62,8 @@ public interface IMemaDAO
 										 @Param("food") String food, @Param("dateStart") String dateStart, @Param("dateEnd") String dateEnd);
 	
 	
+	
+	//메메 참여자 방의 상세정보 및 수정 가능정보 불러오기 - madeBy 동현
+	public Map<String, String> mmjoinRoomInfo(String openCode);
+	
 }

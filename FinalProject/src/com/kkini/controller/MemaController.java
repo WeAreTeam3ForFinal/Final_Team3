@@ -238,4 +238,19 @@ public class MemaController
 		return result;
 	}
 	
+	@RequestMapping(value="/mmjoinRoom.kkini",method = RequestMethod.GET)
+	public String joinRoomInfo(Model model,String openCode, HttpSession session)
+	{
+		
+		String result ="/WEB-INF/view/JoinRoom.jsp";
+		
+		model.addAttribute("openCode", openCode);
+		
+		return result;
+		
+	}
+	
+	
+	
+	
 }
