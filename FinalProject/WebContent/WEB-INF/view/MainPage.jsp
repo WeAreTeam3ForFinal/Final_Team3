@@ -225,6 +225,11 @@
 				{
 					$(this).next().children('button').click();
 				});
+				
+				$(document).on("click", ".myOpen", function()
+				{
+					$(this).next().children('button').click();
+				});
 			});
 
 	function initialList()
@@ -276,7 +281,6 @@
 				aria-expanded="false" style="background-color: #ffe4b5;">내
 				동아리</button>
 				
-				
 			<c:choose>
 					<c:when test="${sessionScope.nickName != null && sessionScope.userCode != null }">
 					<p style="font-size: small; text-align: center;">참가중인 방이 없어요</p>
@@ -287,7 +291,6 @@
 					</c:otherwise>
 				</c:choose>
 			
-			
 		</div>
 	</div>
 	<div class="box02">
@@ -296,7 +299,6 @@
 				id="dropdownMenuButton2" data-bs-toggle="dropdown"
 				aria-expanded="false" style="background-color: #ffe4b5;">나의
 				개설</button>
-			
 
 				<c:choose>
 					<c:when test="${sessionScope.nickName != null && sessionScope.userCode != null }">
@@ -306,18 +308,23 @@
 					<c:when test="${openroomList!=null }">
 					
 					<ul class="dropdown-menu dropdown5"
-				aria-labelledby="dropdownMenuButton2"
-				style="max-width: 190px; max-height: 155px;">
+						aria-labelledby="dropdownMenuButton2"
+						style="max-width: 190px; max-height: 155px;">
 				
-						<c:forEach var="openroomList" items="${openroomList }">
-					
-					<li><a class="dropdown-item" href="#" style="font-size: small;">[${openroomList.restName}]
-					${openroomList.visitDate} 마감 ${openroomList.deadline }</a></li>
-					
-					
-						</c:forEach>
-						
-			</ul>
+					<c:forEach var="openroomList" items="${openroomList }">
+						<li>
+							<div class="myOpen">
+								<span class="dropdown-item" style="font-size: small; cursor: pointer;">[${openroomList.restName}]
+								${openroomList.visitDate} 마감 ${openroomList.deadline }, ${openroomList.openCode }
+								</span>
+							</div>
+							<form action="./JoinRoom.jsp" id="test">
+								<input type="text" style="display:none;" name="openCode" value="${openroomList.openCode }"> <!-- value에는 각각의 개설코드 들어가야함  -->
+								<button type="submit" style="display:none;"></button>
+							</form>
+						</li>
+					</c:forEach>
+				</ul>
 			</c:when>
 			
 			<c:otherwise>
@@ -357,7 +364,7 @@
 						<c:forEach var="roomList" items="${roomList}">
 							<li><a class="dropdown-item" href="#"
 								style="font-size: small;">[${roomList.roomStatus}]
-									[${roomList.visitDate}] ${roomList.restName }</a></li>
+									[${roomList.visitDate}] ${roomList.restName }, ${roomList.openCode }</a></li>
 						</c:forEach>
 
 			</ul>
@@ -367,7 +374,6 @@
 			<p style="font-size: small; text-align: center;">참가중인 방이 없어요</p>
 			</c:otherwise>
 			</c:choose>
-			
 			
 					</c:when>
 
@@ -386,7 +392,6 @@
 				aria-expanded="false" style="background-color: #ffe4b5;">지원
 				수락 대기중</button>
 				
-				
 				<c:choose>
 					<c:when test="${sessionScope.nickName != null && sessionScope.userCode != null }">
 					<p style="font-size: small; text-align: center;">참가중인 방이 없어요</p>
@@ -396,9 +401,6 @@
 					<c:otherwise>
 					</c:otherwise>
 				</c:choose>
-			
-			
-			
 		</div>
 	</div>
 
