@@ -3,6 +3,8 @@ package com.kkini.controller;
 import com.kkini.dto.MemaDTO;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpSession;
@@ -240,7 +242,37 @@ public class MemaController
 	public String joinRoomInfo(Model model,String openCode, HttpSession session)
 	{
 		
-		String result ="/WEB-INF/view/JoinRoom.jsp";
+		String result ="";
+		
+		try
+		{
+			
+			if(session.getAttribute("userCode") != null)
+			{
+			
+			IMemaDAO dao = sqlSession.getMapper(IMemaDAO.class);
+			
+			Map<String, String>roomInfo = new HashMap<String, String>();
+			
+			roomInfo = dao.mmjoinRoomInfo(openCode);
+			
+			result = "/WEB-INF/view/JoinRoom.jsp";
+			
+			}
+			else// 로그인 세션이 만료되었을경우
+			{
+				result="redirect: mainPage.kkini";
+			}
+			
+			
+			
+		} catch (Exception e)
+		{
+			System.out.println(e.toString());
+			// TODO: handle exception
+		}
+		
+		
 		
 		model.addAttribute("openCode", openCode);
 		
