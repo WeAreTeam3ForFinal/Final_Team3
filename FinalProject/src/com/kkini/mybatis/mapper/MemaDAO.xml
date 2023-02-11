@@ -122,5 +122,43 @@
       WHERE OPEN_CODE = #{openCode}
 
 	</select>
+	
+	<!-- 메마 참가자 리스트 -->
+	<select id="mmAttendees" parameterType="java.lang.String" resultType="com.kkini.dto.MemaDTO">
+	
+	SELECT APPLY.U_CODE AS "userCode", U.U_NICKNAME AS "attendee", APPLY.MM_APPLY_CODE AS "applyCode", APPLY.READY_DATE AS "readyDate", APPLY.MM_OPEN_CODE AS "openCode" 
+		 , (CASE WHEN APPLY.U_CODE = OPEN.U_CODE THEN '개설자' ELSE '일반' END) AS "grade", OPEN.NOP as "nop"
+	FROM U_PRIVATE_DATA U LEFT JOIN MM_APPLY APPLY 
+	ON U.U_CODE = APPLY.U_CODE
+	LEFT JOIN MM_OPEN OPEN
+	ON APPLY.MM_OPEN_CODE = OPEN.MM_OPEN_CODE
+	LEFT JOIN MM_KICKOUT KICKOUT
+	ON APPLY.MM_APPLY_CODE != KICKOUT.MM_APPLY_CODE
+	LEFT JOIN MM_DROPOUT DROPOUT
+	ON APPLY.MM_APPLY_CODE != DROPOUT.MM_APPLY_CODE
+	WHERE APPLY.MM_OPEN_CODE = #{openCode}
+	  AND (
+	         SELECT COUNT(*)
+	         FROM MM_KICKOUT
+	         WHERE MM_APPLY_CODE = APPLY.MM_APPLY_CODE
+      	  ) = 0
+	ORDER BY (CASE WHEN APPLY.U_CODE = OPEN.U_CODE THEN '개설자' ELSE '일반' END), APPLY.READY_DATE
+	</select>
+	
+	<!-- 메마 강퇴하기 -->
+	<insert id="mmKickout" parameterType="java.lang.String">
+	INSERT INTO MM_KICKOUT(MM_KICKOUT_CODE, MM_APPLY_CODE, KICKOUT_DATE)
+	VALUES 
+	(
+	    'MKC'||LPAD(MM_KICKOUT_CODE_SEQ.NEXTVAL, 7, '0')
+	    ,(
+		    SELECT MM_APPLY_CODE
+		    FROM MM_APPLY
+		    WHERE U_CODE = #{userCode}
+		     AND MM_OPEN_CODE = #{openCode}
+	     )
+	     ,SYSDATE
+	)
+	</insert>
 
 </mapper>

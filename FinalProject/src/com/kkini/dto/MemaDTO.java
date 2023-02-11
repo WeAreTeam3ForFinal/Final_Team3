@@ -10,8 +10,41 @@ public class MemaDTO
 	// 뷰 속성 구성 (속성 작명 통일 필요)
 	private String openCode, restName, region, regionMatch, foodctg, foodCode, ageGroup, ageCode, gender, genderCode, genderMatch,
 				   visitDate, mainMenu, deadline, partyMemberCount, 
-				   nop, partyMaster, attendScore, mannerScore, biasScore, menuPrice, isClosed, openKeyword, userCode, roomStatus;
+				   nop, partyMaster, attendScore, mannerScore, biasScore, menuPrice, isClosed, openKeyword, userCode, roomStatus,
+				   applyCode, grade, attendee;
 	
+	
+	
+	public String getApplyCode()
+	{
+		return applyCode;
+	}
+
+	public void setApplyCode(String applyCode)
+	{
+		this.applyCode = applyCode;
+	}
+
+	public String getGrade()
+	{
+		return grade;
+	}
+
+	public void setGrade(String grade)
+	{
+		this.grade = grade;
+	}
+
+	public String getAttendee()
+	{
+		return attendee;
+	}
+
+	public void setAttendee(String attendee)
+	{
+		this.attendee = attendee;
+	}
+
 	public String getRegionMatch()
 	{
 		return regionMatch;

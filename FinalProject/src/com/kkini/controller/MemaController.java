@@ -24,7 +24,6 @@ public class MemaController
 {
 	@Autowired
 	private SqlSession sqlSession;
-
 	
 	//메메 개설폼페이지 매핑
 	@RequestMapping(value = "/memaopenform.kkini", method = RequestMethod.GET) 
@@ -128,7 +127,6 @@ public class MemaController
 			
 			if(sortBy == null)
 				sortBy = "";
-			
 			
 			int loop = 0;
 			boolean flag = false;
@@ -246,8 +244,55 @@ public class MemaController
 		
 		model.addAttribute("openCode", openCode);
 		
+//		System.out.println(openCode);
+		
+		// 내가 필요한 데이터
+		// 1. 참가자 닉네임들
+		// 2. 참가자 회원코드
+		// 3. 참가자 지원코드
+		// 4. 참가자
+		
+		IMemaDAO dao = sqlSession.getMapper(IMemaDAO.class);
+		
+		ArrayList<MemaDTO> attendees = dao.mmAttendees(openCode);
+		
+		model.addAttribute("attendees", attendees);
+		
+		for (MemaDTO memaDTO : attendees)
+		{
+			System.out.println("=================================");
+			System.out.printf("회원코드 : %s%n닉네임 : %s%n지원코드 : %s%n레디일시 : %s%n등급 : %s%n", memaDTO.getUserCode(), memaDTO.getAttendee(), 
+																				memaDTO.getApplyCode(), memaDTO.getReadyDate(), memaDTO.getGrade());
+			System.out.println("=================================");
+		}
+		
+		int nop = Integer.parseInt(attendees.get(0).getNop());
+		
+		model.addAttribute("nop", nop);
+		String nickName = (String)session.getAttribute("nickName");
+		model.addAttribute("nickName", nickName);
+		
+		
 		return result;
 		
+	}
+
+	
+	// 메메 강퇴하기
+	@RequestMapping(value = "/kickout.kkini", method = RequestMethod.POST)
+	public String kickOut(Model model, String userCode, String openCode)
+	{
+		String result = "";
+		
+		IMemaDAO dao = sqlSession.getMapper(IMemaDAO.class);
+		
+		System.out.println(userCode);
+		
+		dao.mmKickout(openCode, userCode);
+		
+		result = "redirect:mmjoinRoom.kkini?openCode="+openCode;
+		
+		return result;
 	}
 	
 	

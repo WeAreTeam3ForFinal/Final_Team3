@@ -226,7 +226,7 @@
 					$(this).next().children('button').click();
 				});
 				
-				$(document).on("click", ".myOpen", function()
+				$(document).on("click", ".joinRoom", function()
 				{
 					$(this).next().children('button').click();
 				});
@@ -313,12 +313,12 @@
 				
 					<c:forEach var="openroomList" items="${openroomList }">
 						<li>
-							<div class="myOpen">
+							<div class="joinRoom">
 								<span class="dropdown-item" style="font-size: small; cursor: pointer;">[${openroomList.restName}]
 								${openroomList.visitDate} 마감 ${openroomList.deadline }, ${openroomList.openCode }
 								</span>
 							</div>
-							<form action="./JoinRoom.jsp" id="test">
+							<form action="mmjoinRoom.kkini">
 								<input type="text" style="display:none;" name="openCode" value="${openroomList.openCode }"> <!-- value에는 각각의 개설코드 들어가야함  -->
 								<button type="submit" style="display:none;"></button>
 							</form>
@@ -362,9 +362,17 @@
 				aria-labelledby="dropdownMenuButton3"
 				style="max-width: 190px; max-height: 155px;">
 						<c:forEach var="roomList" items="${roomList}">
-							<li><a class="dropdown-item" href="#"
-								style="font-size: small;">[${roomList.roomStatus}]
-									[${roomList.visitDate}] ${roomList.restName }, ${roomList.openCode }</a></li>
+							<li>
+								<div class="joinRoom">
+									<span class="dropdown-item" style="font-size: small; cursor: pointer;">[${roomList.roomStatus}]
+									${roomList.visitDate} ${roomList.restName }
+									</span>
+								</div>
+								<form action="mmjoinRoom.kkini">
+									<input type="text" style="display:none;" name="openCode" value="${roomList.openCode }"> <!-- value에는 각각의 개설코드 들어가야함  -->
+									<button type="submit" style="display:none;"></button>
+								</form>			
+							</li>				
 						</c:forEach>
 
 			</ul>

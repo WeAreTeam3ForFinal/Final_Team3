@@ -66,4 +66,9 @@ public interface IMemaDAO
 	//메메 참여자 방의 상세정보 및 수정 가능정보 불러오기 - madeBy 동현
 	public Map<String, String> mmjoinRoomInfo(String openCode);
 	
+    // 메메 참여자 리스트	
+	public ArrayList<MemaDTO> mmAttendees(String openCode);
+	
+	// 메메 강퇴하기
+	public void mmKickout(@Param("openCode") String openCode, @Param("userCode") String userCode);
 }

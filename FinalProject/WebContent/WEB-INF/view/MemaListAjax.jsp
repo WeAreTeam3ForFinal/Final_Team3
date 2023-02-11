@@ -86,7 +86,7 @@
 									<div class="border"></div>
 									확인용-평소
 								</div>
-									<form action="getMemaApplyInfo.kkini" method="get">
+								<form action="getMemaApplyInfo.kkini" method="get">
 									<input type="text" style="display:none;" name="openCode" value="${dto.openCode }"> <!-- value에는 각각의 개설코드 들어가야함  -->
 									<button type="submit" style="display:none;"></button>
 								</form>                	

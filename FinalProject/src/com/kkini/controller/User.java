@@ -197,12 +197,12 @@ public class User
 		    //여기서 먼저 유저가 입력한 지역데이터가 테이블에 있는지 확인하고 있다면 210줄로 아니라면 새로이 지역 테이블에 데이터를 생성해주고 210줄로 가야한다. 물론 관심지역도 전부 확인해야함
 		    dto.setRegion_name(dto.getUser_addr());
 		    dao.region_InOut(dto);
+		    System.out.println(dto.getRegion_code());
 		   dto.setUser_addr(dto.getRegion_code());
 		       
 		   	 //유저 세부정보 테이블에 입력
 		     dao.userRegister(dto);
 		     
-		    
 		     dto.setUser_code(dto.getUser_code_live());
 		     
 		     //회원코드 생성
