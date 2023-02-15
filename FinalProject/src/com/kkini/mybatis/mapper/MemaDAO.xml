@@ -115,9 +115,9 @@
 	
 	<select id="mmjoinRoomInfo" parameterType="java.lang.String" resultType="java.util.HashMap">
 	SELECT U_NICKNAME AS "chief_nickName", AGE_GROUP_CASE AS "ageGroup" , GENDER_CTG AS "genderCtg", MAIN_MENU AS "mainMenu", PERSONAL_PRICE AS "personalPrice"
-      , REST_NAME AS "restName", REST_LOCATION AS "restLocation", OPEN_KEYWORD AS "openKeyword", VISIT_DATE AS "visteDate"
+      , REST_NAME AS "restName", REST_LOCATION AS "restLocation", OPEN_KEYWORD AS "openKeyword", VISIT_DATE AS "visitDate"
       , NOP_CURRENT AS "nopCurrent" , NOP_HOPE AS "nopHope" 
-      , FOOD_CASE AS "foodCtg"
+      , FOOD_CASE AS "foodCtg", MENU_PRICE AS "menuPrice"
       FROM MM_JOINROOM_INFO
       WHERE OPEN_CODE = #{openCode}
 
@@ -146,5 +146,59 @@
 	     ,SYSDATE
 	)
 	</insert>
+	
+	
+	
+	<!-- 메마 수정시 식당이 등록되어있는지 확인 -->
+	<select id="existRestCount" parameterType="com.kkini.dto.MemaOpenDTO" resultType="java.lang.Integer">
+	SELECT COUNT(*)
+	FROM REST
+	WHERE REST_NAME LIKE #{mmRestName}
+    AND REST_LOCATION LIKE #{mmRestLocation}
+	</select>
+	
+	<!-- 등록되어있는 식당 코드 가져오기 -->
+	<select id="getRestCode" parameterType="com.kkini.dto.MemaOpenDTO" resultType="java.lang.String">
+	SELECT REST_CODE
+	FROM REST
+	WHERE REST_NAME LIKE #{mmRestName}
+	AND   REST_LOCATION LIKE #{mmRestLocation}
+	</select>
+	
+	
+	<!--수정시 식당테이블에 등록되어있지 않다면 식당테이블에 등록  -->
+	<insert id="addRest" parameterType="com.kkini.dto.MemaOpenDTO">
+	INSERT INTO REST(REST_CODE,U_CODE,REST_NAME,REST_LOCATION, REGIS_DATE)
+	VALUES('RESC'||LPAD(REST_SEQ.NEXTVAL,6,'0'),#{mmUserCode} ,#{mmRestName}  ,#{mmRestLocation}  , SYSDATE)
+	<selectKey keyColumn="REST_CODE" keyProperty="restCode" order="AFTER" resultType="java.lang.String">
+	SELECT REST_CODE
+	FROM REST
+	WHERE REST_NAME LIKE #{mmRestName}
+	AND   REST_LOCATION LIKE #{mmRestLocation}
+	</selectKey>
+	</insert>
+
+	<!-- 메메 개설방 업데이트문 -->
+	<update id="updateOpenMM" parameterType="com.kkini.dto.MemaOpenDTO">
+	UPDATE MM_OPEN
+	SET GENDER_CODE = #{mmGenderCode}
+    ,FOOD_CTG_CODE = #{mmFoodCtgCode}
+    ,REST_CODE = #{restCode}
+    ,NOP = #{mmNop}
+    ,VISIT_DATE = TO_DATE(#{mmVisitDate},'YYYY-MM-DD HH24:MI')
+    ,MAIN_MENU =  #{mmMenu}
+    ,MAIN_MENU_PRICE= #{mmMenuPrice}
+    ,AGE_GROUP_CODE = #{mmAgeGroupCode}
+    ,OPEN_KEYWORD = #{mmOpenKeyWord}
+	WHERE MM_OPEN_CODE = #{openCode}
+	</update>
+	
+	<!-- 메메 수정시 현재 방 참여인원 조회 -->
+	<select id="nopCurrentMM" parameterType="java.lang.String" resultType="java.lang.Integer">
+	SELECT NOP_CURRENT AS "nopCurrent"
+	FROM MM_JOINROOM_INFO
+	WHERE OPEN_CODE = #{openCode}
+	</select>
+
 
 </mapper>

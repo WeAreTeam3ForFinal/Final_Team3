@@ -3,6 +3,9 @@
 <% 
 	request.setCharacterEncoding("UTF-8");
 	String cp = request.getContextPath();
+	String openCode = request.getParameter("openCode");
+	
+	
 %>
 <!DOCTYPE html>
 <html>
@@ -68,6 +71,27 @@
 		text-overflow: ellipsis;
 	}
 	
+	.info-title
+	{
+	    font-size: 15pt;
+		font-weight: bold;
+		font-family: 휴먼편지체;
+		overflow: hidden;
+		white-space: nowrap; 
+		text-overflow: ellipsis;
+	}
+	
+	.info-detail
+	{
+		font-size: 13pt;
+		font-weight: bold;
+		font-family: 휴먼편지체;
+		overflow: hidden;
+		white-space: nowrap; 
+		text-overflow: ellipsis;
+	
+	}
+	
 	.nickName-Attendee
 	{
 		font-size: 11pt;
@@ -110,7 +134,7 @@
 <script src="assets/js/bootstrap.bundle.min.js"></script>
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-	
+
 <script>
 
 	$(document).ready(function()
@@ -128,9 +152,23 @@
 				return;
 		});
 		
+		
+		$("#Update").click(function()  //수정버튼 클릭시 데이터 전송
+		{
+			location.href = "mmRoomUpdateForm.kkini?openCode=<%=openCode %>";
+		});
+		
+		$("#Delete").click(function()
+		{
+			alert("삭제버튼 클릭");
+		})
+		
 	});
 
 </script>
+
+
+
 
 
 </head>
@@ -146,7 +184,122 @@
 
 	<div class="row">
 	
-		<div class="col-4">
+		<div class="col-4 info">
+		<br><br><br>
+		<span class="info-title">방문 예정 식당</span>
+		<br>
+		<span class="info-detail">: ${roomInfo.restName}</span>
+		<br>
+		<br>
+		
+		<span class="info-title">방문 예정 일시</span>
+		<br>
+		<span class="info-detail">: ${roomInfo.visitDate }</span>
+		<br>
+		<br>
+		
+		<span class="info-title">방문 예정 지역</span>
+		<br>
+		<span class="info-detail">: ${roomInfo.restLocation }</span>
+		<br>
+		<div id="mapArea" style="width:400px; height:300px;">
+		</div>
+		
+		<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b0adb6cf684c4c502462a6673bf822bf&libraries=services"></script>
+		<script type="text/javascript">
+		
+		
+		
+		var mapContainer = document.getElementById('mapArea'), // 지도를 표시할 div 
+	    mapOption = {
+	        center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+	        level: 3 // 지도의 확대 레벨
+	    };  
+
+	// 지도를 생성합니다    
+	var map = new kakao.maps.Map(mapContainer, mapOption); 
+
+	// 주소-좌표 변환 객체를 생성합니다
+	var geocoder = new kakao.maps.services.Geocoder();
+
+	// 주소로 좌표를 검색합니다
+	geocoder.addressSearch('${roomInfo.restLocation}', function(result, status) {
+
+	    // 정상적으로 검색이 완료됐으면 
+	     if (status === kakao.maps.services.Status.OK) {
+
+	        var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+
+	        // 결과값으로 받은 위치를 마커로 표시합니다
+	        var marker = new kakao.maps.Marker({
+	            map: map,
+	            position: coords
+	        });
+
+	        // 인포윈도우로 장소에 대한 설명을 표시합니다
+	        var infowindow = new kakao.maps.InfoWindow({
+	            content: '<div style="width:150px;text-align:center;padding:6px 0;">${roomInfo.restName}</div>'
+	        });
+	        infowindow.open(map, marker);
+
+	        // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+	        map.setCenter(coords);
+	    } 
+	});    
+</script>
+		
+		
+		<br>
+		<span class="info-title">모집 연령대</span>
+		<br>
+		<span class="info-detail">: ${roomInfo.ageGroup }</span>
+		<br>
+		<br>
+		
+		<span class="info-title">모집 성별</span>
+		<br>
+		<span class="info-detail">: ${roomInfo.genderCtg }</span>
+		<br>
+		<br>
+		
+		<span class="info-title">메인메뉴</span>
+		<br>
+		<span class="info-detail">: ${roomInfo.mainMenu }</span>
+		<br>
+		<br>
+		
+		
+		<span class="info-title">음식 종류</span>
+		<br>
+		<span class="info-detail">: ${roomInfo.foodCtg }</span>
+		<br>
+		<br>
+		
+		<span class="info-title">인당 예상지출</span>
+		<br>
+		<span class="info-detail">: ${roomInfo.personalPrice }</span>
+		<br>
+		<br>
+		
+		<span class="info-title">현재인원/모집인원</span>
+		<br>
+		<span class="info-detail">: ${roomInfo.nopCurrent } / ${roomInfo.nopHope }</span>
+		<br>
+		<br>
+		
+		
+		<span class="info-title">개설 키워드</span>
+		<br>
+		<span class="info-detail">: ${roomInfo.openKeyword }</span>
+		
+		<br>
+		<br>
+		
+		
+		<button type="button" id="Update">수정</button>
+		<button type="button" id="Delete">삭제</button>
+		
+		
 		</div>
 
 
@@ -229,9 +382,9 @@
 				</c:forEach>
 		</div>
 		
-		nop : ${nop } <br>
+	<%-- 	nop : ${nop } <br>
 		count : ${count } <br>
-		nickName : ${nickName }
+		nickName : ${nickName } --%>
 	<br />
 	<br />
 	<br />

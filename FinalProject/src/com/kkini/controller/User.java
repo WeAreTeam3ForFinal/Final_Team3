@@ -2,6 +2,7 @@ package com.kkini.controller;
 
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.coyote.Request;
@@ -17,6 +18,7 @@ import com.kkini.dto.MemaDTO;
 import com.kkini.dto.UserDTO;
 import com.kkini.mybatis.IMemaDAO;
 import com.kkini.mybatis.IUserDAO;
+import com.util.AlertMsg;
 
 
 
@@ -28,7 +30,7 @@ public class User
 	private SqlSession sqlSession;
 
 	@RequestMapping(value = "/mainPage.kkini", method = RequestMethod.GET)
-	public String loadMain(ModelMap model, HttpSession session)
+	public String loadMain(ModelMap model, HttpSession session, HttpServletResponse response)
 	{
 		String result ="";
 		
@@ -72,6 +74,9 @@ public class User
 			model.addAttribute("age", dao2.memaSearchAge());
 			model.addAttribute("gender", dao2.memaSearchGender());
 			model.addAttribute("food", dao2.memaSearchFood());
+			
+			
+			 
 			
 			result="/WEB-INF/view/MainPage.jsp";
 			
@@ -183,7 +188,7 @@ public class User
 	}
 	
 	@RequestMapping(value = "/user_register.kkini", method = RequestMethod.POST)
-	public String userRegiste(ModelMap model, UserDTO dto)
+	public String userRegiste(ModelMap model, UserDTO dto,HttpServletResponse response)
 	{
 		
 		String result ="";
@@ -232,6 +237,8 @@ public class User
 		    	 dao.addcharacter(user_character, user_code);
 		     }
 		     
+		     
+		     //AlertMsg.alert(response, "회원가입이 완료되었습니다.");
 		     
 		     result="redirect:mainPage.kkini";
 		     

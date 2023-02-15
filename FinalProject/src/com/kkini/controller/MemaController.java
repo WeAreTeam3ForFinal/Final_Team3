@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.session.SqlSession;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.kkini.dto.MemaOpenDTO;
 import com.kkini.mybatis.IMemaDAO;
 import com.kkini.mybatis.IUserDAO;
+import com.util.AlertMsg;
 
 @Controller
 public class MemaController
@@ -71,7 +73,7 @@ public class MemaController
 		dto.setMmUserCode((String)session.getAttribute("userCode"));
 		
 		//System.out.println(dto.getMmUserCode());
-		
+		System.out.println(dto.getMmVisitDate());
 		IMemaDAO dao = sqlSession.getMapper(IMemaDAO.class);
 		
 		// 입력받은 식당정보 중복확인 프로시저단에서 진행 MM_OPEN_PRC
@@ -286,6 +288,12 @@ public class MemaController
 		
 		IMemaDAO dao = sqlSession.getMapper(IMemaDAO.class);
 		
+		
+		Map<String, String>roomInfo = new HashMap<String, String>();
+		
+		roomInfo = dao.mmjoinRoomInfo(openCode);
+
+		
 		ArrayList<MemaDTO> attendees = dao.mmAttendees(openCode);
 		
 		model.addAttribute("attendees", attendees);
@@ -300,6 +308,7 @@ public class MemaController
 		
 		int nop = Integer.parseInt(attendees.get(0).getNop());
 		
+		model.addAttribute("roomInfo", roomInfo);
 		model.addAttribute("nop", nop);
 		String nickName = (String)session.getAttribute("nickName");
 		model.addAttribute("nickName", nickName);
@@ -323,6 +332,130 @@ public class MemaController
 		dao.mmKickout(openCode, userCode);
 		
 		result = "redirect:mmjoinRoom.kkini?openCode="+openCode;
+		
+		return result;
+	}
+	
+	
+	@RequestMapping(value ="/mmRoomUpdateForm.kkini", method = RequestMethod.GET )
+	public String UpdatemmForm(Model model, String openCode,MemaOpenDTO dto, HttpSession session)
+	{
+		String result = "";
+		
+		try
+		{
+			
+			IMemaDAO dao = sqlSession.getMapper(IMemaDAO.class);
+			
+			
+			Map<String, String>roomInfo = new HashMap<String, String>();
+			
+			roomInfo = dao.mmjoinRoomInfo(openCode);
+			
+			//System.out.println(roomInfo.values());
+			
+			model.addAttribute("roomInfo", roomInfo);
+			
+			dto.setMmUserCode((String)session.getAttribute("userCode"));
+			
+			// 개설회원 점수 가져오기
+			model.addAttribute("getScore",  dao.getScore(dto));
+			
+			int gender = dao.checkGender(dto);
+			
+			System.out.println(gender);
+			
+			if(gender == 1 || gender == 3)
+			{
+				//System.out.println(dao.getMaleGenderlist());
+				model.addAttribute("genderList", dao.getMaleGenderlist());
+			}
+			else
+			{
+				model.addAttribute("genderList", dao.getFemaleGenderlist());
+				
+			}
+			model.addAttribute("ageGroupList", dao.getAgeGrouplist());
+			model.addAttribute("foodCtgList", dao.getFoodCtglist());
+			
+		} catch (Exception e)
+		{
+			System.out.println(e.toString());
+			// TODO: handle exception
+		}
+		result = "/WEB-INF/view/mmRoomInfoUpdateForm.jsp";
+		
+		return result;
+	}
+	
+	
+	@RequestMapping(value = "/memaUpdate.kkini", method = RequestMethod.POST)
+	public String UpdatemmOpen(Model model, MemaOpenDTO dto,String openCode,HttpSession session, HttpServletResponse response)
+	{
+		String result = "";
+		
+		try
+		{
+			IMemaDAO dao = sqlSession.getMapper(IMemaDAO.class);
+			
+			dto.setOpenCode(openCode);
+			System.out.println(dto.getMmNop());
+			
+			if(session.getAttribute("userCode") == null) //세션 만료시 
+			{
+				//AlertMsg.alert(response, "세션이 만료되었습니다. 다시 로그인해주세요");
+				result="redirect: mainPage.kkini";
+				
+			}
+			
+			else if (dto.getMmNop()<dao.nopCurrentMM(openCode)) //현재인원보다 낮은 인원수로 수정하려고 할시
+			{
+				System.out.println("수정할인원 : "+dto.getMmNop() +"현재인원 : "+dao.nopCurrentMM(openCode));
+			 //AlertMsg.alert(response, "현재인원보다 낮게 수정할 수는 없습니다.");	
+			 result="redirect: mmRoomUpdateForm.kkini?openCode="+openCode;
+			}
+			
+			else
+			{
+				
+			
+			
+			//1. 식당 확인
+			int count = dao.existRestCount(dto);
+			
+			//2. 식당 코드 가져오기 
+			if(count == 1)
+			{
+				dto.setRestCode(dao.getRestCode(dto));
+			}
+			
+			//3. 없는 식당이면 코드 생성 및 insert 후 식당코드 반환
+			else
+			{
+				//맵형태로 데이터 주고받아 보기
+//				HashMap<String, String> rest = new HashMap<String, String>();
+//				rest.put("restCode", "");
+//				rest.put("mmUserCode", dto.getMmUserCode());
+//				rest.put("mmRestName", dto.getMmRestName());
+//				rest.put("mmRestLocation", dto.getMmRestLocation());
+//				//System.out.println(rest);
+				dao.addRest(dto);
+				//System.out.println(dto.getRestCode());
+			}
+			
+			//4.가져온 식당코드를 통해 수정
+			dao.updateOpenMM(dto);
+			
+			result = "redirect:mmjoinRoom.kkini?openCode="+openCode;
+			}
+			
+		} catch (Exception e)
+		{
+			System.out.println(e.toString());
+			// TODO: handle exception
+		}
+		
+		
 		
 		return result;
 	}

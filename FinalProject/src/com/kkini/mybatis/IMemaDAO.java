@@ -1,6 +1,7 @@
 package com.kkini.mybatis;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -71,4 +72,20 @@ public interface IMemaDAO
 	
 	// 메메 강퇴하기
 	public void mmKickout(@Param("openCode") String openCode, @Param("userCode") String userCode);
+	
+	//수정하는 방의 식당이 식당테이블에 있는지 확인
+	public Integer existRestCount(MemaOpenDTO dto);
+	
+	//식당테이블에서 사용자가 입력한 식당코드 추출
+	public String getRestCode(MemaOpenDTO dto);
+	
+	//식당 테이블에 새로운 식당 추가
+	public void addRest(MemaOpenDTO dto);
+	
+	//개설 정보 수정
+	public void updateOpenMM(MemaOpenDTO dto);
+	
+	//수정시 방의 현재인원 가져오기
+	public Integer nopCurrentMM(String openCode);
+	
 }

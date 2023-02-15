@@ -4,9 +4,31 @@ public class MemaOpenDTO
 {
     String mmUserCode,mmGenderCode,mmFoodCtgCode, mmRestLocation, mmRestName,
            mmAgeGroupCode,mmVisitDate, mmMenu, mmOpenKeyWord, attendScore, mannerScore, biasScore ; 
+    
+    String openCode, restCode;
    
     int mmNop,mmMenuPrice;
    
+    
+    
+    
+    
+	public String getRestCode()
+	{
+		return restCode;
+	}
+	public void setRestCode(String restCode)
+	{
+		this.restCode = restCode;
+	}
+	public String getOpenCode()
+	{
+		return openCode;
+	}
+	public void setOpenCode(String openCode)
+	{
+		this.openCode = openCode;
+	}
 	public String getMmUserCode()
 	{
 		return mmUserCode;
