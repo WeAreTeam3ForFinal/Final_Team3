@@ -446,6 +446,9 @@ public class MemaController
 			//4.가져온 식당코드를 통해 수정
 			dao.updateOpenMM(dto);
 			
+			//5.수정완료시 전원 레디상태 해제
+			dao.updatemmReady(dto.getOpenCode());
+			
 			result = "redirect:mmjoinRoom.kkini?openCode="+openCode;
 			}
 			
@@ -456,6 +459,38 @@ public class MemaController
 		}
 		
 		
+		
+		return result;
+	}
+	
+	
+	@RequestMapping(value = "/deleteMM.kkini", method = RequestMethod.POST)
+	public String MMDelete(Model model,String openCode,String checkType)
+	{
+		String result="";
+		
+		try
+		{
+			IMemaDAO dao = sqlSession.getMapper(IMemaDAO.class);
+			
+			
+			Map<String, String> dataMap = new HashMap<String, String>();
+			
+			dataMap.put("openCode", openCode);
+			dataMap.put("checkType", checkType);
+			
+			
+			dao.deleteMM(dataMap);
+			
+			
+			
+		} catch (Exception e)
+		{
+			System.out.println(e.toString());
+			// TODO: handle exception
+		}
+		
+		result="redirect:mainPage.kkini";
 		
 		return result;
 	}

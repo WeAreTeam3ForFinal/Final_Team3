@@ -199,6 +199,18 @@
 	FROM MM_JOINROOM_INFO
 	WHERE OPEN_CODE = #{openCode}
 	</select>
-
-
+	
+	<!-- 수정시 전원 레디상태 해제 -->
+	<update id="updatemmReady" parameterType="java.lang.String">
+	UPDATE MM_APPLY
+	SET READY_DATE = NULL
+	WHERE MM_OPEN_CODE = #{openCode}
+	</update>
+	
+	<!-- 메메방 삭제 -->
+	<insert id="deleteMM" parameterType="java.util.HashMap">
+	INSERT INTO MM_CHECK(MM_CHECK_CODE,MM_CT_CODE,MM_OPEN_CODE,CHECK_DATE)
+	VALUES('MCC'||LPAD(MM_CHECK_SEQ.NEXTVAL,7,'0'),(SELECT MM_CT_CODE FROM MM_CHECK_TYPE WHERE CHECK_TYPE LIKE #{checkType} ),#{openCode} ,SYSDATE)
+	</insert>
+	
 </mapper>

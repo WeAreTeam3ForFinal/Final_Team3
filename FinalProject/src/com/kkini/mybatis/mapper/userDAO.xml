@@ -134,16 +134,20 @@ WHERE UPD.U_CODE = #{user_code}
 
 <select id="checkJoinRoomList" parameterType="java.lang.String" resultType="java.lang.Integer">
 SELECT COUNT(*) AS COUNT   
-FROM MM_KICKOUT KICKOUT RIGHT JOIN MM_APPLY APPLY
-ON KICKOUT.MM_APPLY_CODE = APPLY.MM_APPLY_CODE
-JOIN MM_OPEN OPEN
+FROM MM_APPLY APPLY JOIN MM_OPEN OPEN
 ON OPEN.MM_OPEN_CODE = APPLY.MM_OPEN_CODE
-WHERE APPLY.U_CODE= #{user_code}
+WHERE APPLY.U_CODE= #{userCode}
 AND OPEN.VISIT_DATE > SYSDATE
 AND APPLY.MM_APPLY_CODE NOT IN(
                     SELECT KICKOUT.MM_APPLY_CODE
                     FROM MM_KICKOUT KICKOUT
 					)
+AND OPEN.MM_OPEN_CODE NOT IN(SELECT MM_OPEN_CODE
+                     FROM MM_CHECK C LEFT JOIN MM_CHECK_TYPE CT
+                     ON C.MM_CT_CODE = CT.MM_CT_CODE
+                     WHERE CT.CHECK_TYPE='삭제'
+                     AND C.MM_OPEN_CODE = OPEN.MM_OPEN_CODE
+                    )
 </select>
 
 
