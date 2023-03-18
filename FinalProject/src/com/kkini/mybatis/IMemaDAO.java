@@ -99,4 +99,11 @@ public interface IMemaDAO
 	
 	// 레디 해제
 	public void mmUnReady(@Param("openCode") String openCode, @Param("userCode") String userCode);
+
+	//수정 완료시 방 참여인원 전원 레디상태 해제
+	public void updatemmReady(String openCode);
+	
+	//방 삭제
+	public void deleteMM(Map<String, String> openMM);
+
 }

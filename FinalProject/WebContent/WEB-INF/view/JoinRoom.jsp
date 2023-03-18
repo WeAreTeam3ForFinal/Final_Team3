@@ -208,8 +208,8 @@
 		
 		$("#Delete").click(function()
 		{
-			alert("삭제버튼 클릭");
-		})
+			$(this).next().children().children("button").click();
+		});
 		
 		// 퇴장 기능
 		$("#out").click(function()
@@ -360,7 +360,9 @@
 	     if (status === kakao.maps.services.Status.OK) {
 
 	        var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-
+//			var location = "${roomInfo.restName}"+","+result[0].x+","+result[0].y;
+			var location = "${roomInfo.restName},"+result[0].x+","+result[0].y;
+			
 	        // 결과값으로 받은 위치를 마커로 표시합니다
 	        var marker = new kakao.maps.Marker({
 	            map: map,
@@ -369,7 +371,25 @@
 
 	        // 인포윈도우로 장소에 대한 설명을 표시합니다
 	        var infowindow = new kakao.maps.InfoWindow({
-	            content: '<div style="width:150px;text-align:center;padding:6px 0;">${roomInfo.restName}</div>'
+	            content: '<div style="width:150px;text-align:center;padding:6px 0;">${roomInfo.restName}<br>'
+	            		+'<a href="https://map.kakao.com/link/to/'+location+'">길찾기</a>'
+	            		+ '</div>'
+	            		
+	            //result[0] = [object Object]
+	            //result[0].place_name = undefined
+	            //result[0].address_name = 서울 용산구 이태원동 79-44
+	            //JSON.stringify(place) = object Object 전부 출력
+	            
+	            
+	            /*
+	            JSON.stringify(result[0]) 의 결과
+	            [{"address":{"address_name":"서울 용산구 이태원동 79-44","b_code":"1117013000","h_code":"1117065000","main_address_no":"79","mountain_yn":"N","region_1depth_name":"서울"
+	            	,"region_2depth_name":"용산구","region_3depth_h_name":"이태원1동","region_3depth_name":"이태원동","sub_address_no":"44","x":"126.9928233877","y":"37.5324983211659"}
+	            ,"address_name":"서울 용산구 이태원동 79-44","address_type":"REGION_ADDR","road_address":{"address_name":"서울 용산구 녹사평대로26가길 24","building_name":""
+	            	,"main_building_no":"24","region_1depth_name":"서울","region_2depth_name":"용산구","region_3depth_name":"이태원동","road_name":"녹사평대로26가길","sub_building_no":""
+	            	,"underground_yn":"N","x":"126.992826894903","y":"37.5324993124802","zone_no":"04391"},"x":"126.9928233877","y":"37.5324983211659"}]
+	            */
+	            
 	        });
 	        infowindow.open(map, marker);
 
@@ -426,13 +446,19 @@
 		<br>
 		<br>
 		
-		
-		<button type="button" id="Update">수정</button>
-		<button type="button" id="Delete">삭제</button>
-		
-		${sessionScope.attendScore }
-		${sessionScope.mannerScore }
-		${sessionScope.biasScore }
+
+		<!-- 방장이라면 수정/삭제가 보이게 -->
+		<c:if test="${sessionScope.nickName == roomInfo.chief_nickName}">
+		<button type="button" id="Update" class="btn btn-primary">수정</button>
+		<button type="button" id="Delete" class="btn btn-danger">삭제</button>
+		<div style="display: none;">
+		<form action="deleteMM.kkini" method="post">
+		<input type="text" name="openCode" value="<%=openCode%>">
+		<input type="text" name="checkType" value="삭제">
+		<button type="submit"></button>
+		</form>
+		</div>
+		</c:if>
 		
 		</div>
 		
