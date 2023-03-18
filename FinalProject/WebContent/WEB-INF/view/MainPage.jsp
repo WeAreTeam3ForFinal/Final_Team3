@@ -283,7 +283,7 @@
 				
 			<c:choose>
 					<c:when test="${sessionScope.nickName != null && sessionScope.userCode != null }">
-					<p style="font-size: small; text-align: center;">참가중인 방이 없어요</p>
+					<p style="font-size: small; text-align: center;">참가 중인 방이 없어요</p>
 			
 					</c:when>
 					
@@ -328,7 +328,7 @@
 			</c:when>
 			
 			<c:otherwise>
-			<p style="font-size: small; text-align: center;">참가중인 방이 없어요</p>
+			<p style="font-size: small; text-align: center;">개설 중인 방이 없어요</p>
 			</c:otherwise>
 			</c:choose>
 			
@@ -379,7 +379,7 @@
 			
 			</c:when>
 			<c:otherwise>
-			<p style="font-size: small; text-align: center;">참가중인 방이 없어요</p>
+			<p style="font-size: small; text-align: center;">참가 중인 방이 없어요</p>
 			</c:otherwise>
 			</c:choose>
 			
@@ -402,7 +402,7 @@
 				
 				<c:choose>
 					<c:when test="${sessionScope.nickName != null && sessionScope.userCode != null }">
-					<p style="font-size: small; text-align: center;">참가중인 방이 없어요</p>
+					<p style="font-size: small; text-align: center;">참가 중인 방이 없어요</p>
 			
 					</c:when>
 					
@@ -422,7 +422,7 @@
 				<div class="container headerMargin">
 
 					<nav class="navbar navbar-expand-lg py-0 px-0">
-						<a class="navbar-brand" href="index3.html"><img
+						<a class="navbar-brand" href="mainPage.kkini"><img
 							src="assets/images/logo1.png" alt="Brand Logo" title="Brand Logo"
 							class="img-fluid"></a>
 						<button class="navbar-toggler px-1 btn rounded-0" type="button"
@@ -477,7 +477,7 @@
 												<ul class="dropdown-menu sub-menu"
 													aria-labelledby="nickNameDropdown">
 													<li style="font-size: small"><a class="dropdown-item"
-														role="button" href="">마이페이지</a> <!-- 내 정보 페이지 생성필요!!!!!!! -->
+														role="button" href="myPage.kkini">마이페이지</a> <!-- 내 정보 페이지 생성필요!!!!!!! -->
 													</li>
 
 													<li style="font-size: small"><a class="dropdown-item"

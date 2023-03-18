@@ -9,10 +9,6 @@ public class MemaOpenDTO
    
     int mmNop,mmMenuPrice;
    
-    
-    
-    
-    
 	public String getRestCode()
 	{
 		return restCode;

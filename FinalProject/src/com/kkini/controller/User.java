@@ -9,6 +9,7 @@ import org.apache.coyote.Request;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -49,15 +50,18 @@ public class User
 				model.addAttribute("mannerScore", dto.getMannerScore());
 				model.addAttribute("biasScore", dto.getBiasScore());
 				
+				session.setAttribute("attendScore", dto.getAttendScore());
+				session.setAttribute("mannerScore", dto.getMannerScore());
+				session.setAttribute("biasScore", dto.getBiasScore());
+				
 				
 				
 				//본인이 참가한 방이 있을경우 참가방 리스트를 뽑아온다.
 				if(dao.checkJoinRoomList(user_code)!=0)
 				{
-				
-				ArrayList<MemaDTO> roomList = dao.getJoinRoomList(user_code);
-				
-				model.addAttribute("roomList", roomList);
+					ArrayList<MemaDTO> roomList = dao.getJoinRoomList(user_code);
+					model.addAttribute("roomList", roomList);
+					session.setAttribute("roomList", roomList);
 				}
 				
 				//
@@ -65,6 +69,7 @@ public class User
 				{
 					ArrayList<MemaDTO> openroomList = dao.getOpenRoomList(user_code);
 					model.addAttribute("openroomList", openroomList);
+					session.setAttribute("openroomList", openroomList);
 				}
 			}
 			
@@ -75,15 +80,11 @@ public class User
 			model.addAttribute("gender", dao2.memaSearchGender());
 			model.addAttribute("food", dao2.memaSearchFood());
 			
-			
-			 
-			
 			result="/WEB-INF/view/MainPage.jsp";
 			
 		} catch (Exception e)
 		{
 			System.out.println(e.toString());
-			// TODO: handle exception
 		}
 		
 		
@@ -320,6 +321,168 @@ public class User
 		
 		return result;
 		
+	}
+	
+	// 마이 페이지
+	@RequestMapping(value = "/myPage.kkini", method = RequestMethod.GET)
+	public String myPage(HttpSession session, Model model)
+	{
+		String result = "/WEB-INF/view/MyPage.jsp";
+		
+		String userCode = (String)session.getAttribute("userCode");
+		
+		IUserDAO dao = sqlSession.getMapper(IUserDAO.class);
+		
+		// 유저 정보
+		UserDTO userInfo = dao.getUserInfo(userCode);
+		
+		// 유저 관심지역
+		ArrayList<String> intregionsList = dao.userIntregions(userCode);
+		String intregions = "";
+		
+		for (int i = 0; i < intregionsList.size(); i++)
+		{
+			if(i != intregionsList.size()-1)
+				intregions += intregionsList.get(i) + ", ";
+			else
+				intregions += intregionsList.get(i);
+		}
+		
+		// 유저 관심사
+		ArrayList<String> userIntList = dao.getUserInt(userCode);
+		String userInt = "";
+
+		for (int i = 0; i < userIntList.size(); i++)
+		{
+			if(i != userIntList.size()-1)
+				userInt += userIntList.get(i) + ", ";
+			else
+				userInt += userIntList.get(i);
+		}
+		
+		// 유저 성격
+		ArrayList<String> userChaList = dao.getUserCha(userCode);
+		String userCha = "";
+		
+		for (int i = 0; i < userChaList.size(); i++)
+		{
+			if(i != userChaList.size()-1)
+				userCha += userChaList.get(i) + ", ";
+			else
+				userCha += userChaList.get(i);
+		}
+		
+		// 유저 대화량
+		String userTalk = dao.getUserTalk(userCode);
+		// 유저 식사속도
+		String userSpeed = dao.getUserSpeed(userCode);
+		
+		model.addAttribute("userInfo", userInfo);
+		model.addAttribute("intregions", intregions);
+		model.addAttribute("userInt", userInt);
+		model.addAttribute("userCha", userCha);
+		model.addAttribute("userTalk", userTalk);
+		model.addAttribute("userSpeed", userSpeed);
+		
+		return result;
+	}
+	
+	// 자기소개 수정
+	@RequestMapping(value = "/updateIntroduce.kkini", method = RequestMethod.POST)
+	public String updateIntroduce(HttpSession session, Model model, String introduce)
+	{
+		String result = "redirect: myPage.kkini";
+		String userCode = (String)session.getAttribute("userCode");
+		IUserDAO dao = sqlSession.getMapper(IUserDAO.class);
+		
+		dao.updateIntroduce(userCode, introduce);
+		
+		return result;
+	}
+	
+	// 회원 정보 수정 전 비밀번호 확인
+	@RequestMapping(value = "/checkpw.kkini", method = RequestMethod.GET)
+	public String checkPw(String nickName, String user_id, String user_phonenumber, String user_addr, String intregions, Model model)
+	{
+		String result = "WEB-INF/view/CheckPw.jsp";
+		model.addAttribute("nickName", nickName);
+		model.addAttribute("user_id", user_id);
+		model.addAttribute("user_phonenumber", user_phonenumber);
+		model.addAttribute("user_addr", user_addr);
+		model.addAttribute("intregions", intregions);		
+		return result;
+	}
+	
+	// 회원 정보 수정 폼 이동
+	@RequestMapping(value = "/updateprivateinfoform.kkini", method = RequestMethod.GET)
+	public String updatePrivateInfoForm(HttpSession session, Model model, String nickName, String user_phonenumber, String user_addr, String intregions, String user_id, String user_pw)
+	{
+		String result = "/WEB-INF/view/UpdateUserInfoForm.jsp";
+		String userCode = (String)session.getAttribute("userCode");
+		IUserDAO dao = sqlSession.getMapper(IUserDAO.class);
+		
+		if(dao.checkPw(userCode, user_pw) != 1)
+			result = "redirect: myPage.kkini";
+		
+		String[] intregionsArr = intregions.split(", ");
+		String number = user_phonenumber.replaceAll("-", "");
+		
+		model.addAttribute("nickName", nickName);
+		model.addAttribute("user_id", user_id);
+		model.addAttribute("user_phonenumber", number);
+		model.addAttribute("user_addr", user_addr);
+		model.addAttribute("intregions", intregionsArr);
+		model.addAttribute("user_pw", user_pw);
+		
+		return result;
+	}
+	
+	@RequestMapping(value = "/updateprivateinfo.kkini", method = RequestMethod.POST)
+	public String updatePrivateInfo(HttpSession session, Model model, String nickName, String user_phonenumber, String user_addr, String[] user_intregions, String user_id, String user_pw)
+	{
+		String result = "redirect: myPage.kkini";
+		String userCode = (String)session.getAttribute("userCode");
+		IUserDAO dao = sqlSession.getMapper(IUserDAO.class);
+		
+		
+		// 거주지를 위한 지역 유무 검증 프로세스 수행
+		String region = user_addr;
+		
+		if(dao.countRegion(region) < 1)
+			dao.createRegion(region);
+		
+		// 반복문을 통해서 관심지역 유무 검증 프로세스 수행
+		for (int i = 0; i < user_intregions.length; i++)
+		{
+			region = user_intregions[i];
+			
+			if(dao.countRegion(region) < 1)
+				dao.createRegion(region);
+		}
+		
+		// 거주지 업데이트
+		dao.updateAddr(userCode, user_addr);
+		
+		// 관심지역 업데이트
+		dao.deleteIntregions(userCode);
+		for (int i = 1; i < user_intregions.length; i++)
+		{
+			if(!user_intregions[i].equals(" "))
+				dao.addintregion(user_intregions[i], userCode);
+		}
+		// 닉네임, 전화번호, 비밀번호 업데이트
+		dao.updatePrivateInfo(userCode, nickName, user_phonenumber, user_pw);
+		
+		System.out.println(nickName);
+		System.out.println(user_addr);
+		System.out.println(user_pw);
+		System.out.println(user_phonenumber);
+		
+		for (String string : user_intregions)
+		{
+			System.out.println(string);
+		}
+		return result;
 	}
 	
 	

@@ -4,6 +4,7 @@ import com.kkini.dto.MemaDTO;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import javax.servlet.ServletRequest;
@@ -17,8 +18,10 @@ import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.context.request.SessionScope;
 
 import com.kkini.dto.MemaOpenDTO;
+import com.kkini.dto.UserDTO;
 import com.kkini.mybatis.IMemaDAO;
 import com.kkini.mybatis.IUserDAO;
 import com.util.AlertMsg;
@@ -133,10 +136,12 @@ public class MemaController
 				sortBy = "";
 			
 			int loop = 0;
-			boolean flag = false;
 			
 			for (int k = 0; k < intregions.size()+1; k++)
 			{
+				// 삽입 우선순위에 쓰일 플래그 변수
+				boolean flag = false;
+				
 				// 관심지역이 여러개 이므로 반복문 루프마다 각 관심지역을 담을 변수
 				String intregion = "";
 				
@@ -144,6 +149,9 @@ public class MemaController
 				// 즉 그 전 까지(관심지역이 있는 한은) intregion 변수에 관심지역을 대입.
 				if(loop != intregions.size())
 					intregion = intregions.get(loop);
+				
+				if (intregion.equals(""))
+					break;
 				
 				// 임시로 테이블 값을 담을 tmp 어레이리스트 선언
 				ArrayList<MemaDTO> tmp = new ArrayList<MemaDTO>(); 
@@ -171,19 +179,37 @@ public class MemaController
 						list.add(tmp.get(j));
 					
 				}
-				
+				System.out.println("====== "+(loop+1) +"회차 리스트 ====== ");
+				for (MemaDTO memaDTO : list)
+				{
+					System.out.print(memaDTO.getRestName() + ", ");
+				}
+				System.out.println("\n====================================");
 				loop++;
 			}
 			
 			for (int i = 0; i < list.size()-1; i++)
+			{
+				System.out.println("list 사이즈 = " + list.size());
+				System.out.println("제거대상 = " + list.get(i).getRestName());
 				for (int j = i+1; j < list.size(); j++)
 				{
 					String openCode = list.get(i).getOpenCode();
 					
 					if(list.get(j).getOpenCode().equals(openCode))
 						list.remove(j);
+					
+					if(list.get(list.size()-1).getOpenCode().equals(openCode))
+						list.remove(list.size()-1);
 				}
-			
+				
+				for (MemaDTO memaDTO : list)
+				{
+					System.out.println(memaDTO.getRestName());
+				}
+				System.out.println();
+				System.out.println();
+			}
 			if(sortBy.equals("memaDate"))
 				model.addAttribute("memaList", dao2.sortMemaListByDate());
 			else if(sortBy.equals("memaClose"))
@@ -287,31 +313,41 @@ public class MemaController
 		// 4. 참가자
 		
 		IMemaDAO dao = sqlSession.getMapper(IMemaDAO.class);
-		
+		IUserDAO dao2 = sqlSession.getMapper(IUserDAO.class);
 		
 		Map<String, String>roomInfo = new HashMap<String, String>();
 		
 		roomInfo = dao.mmjoinRoomInfo(openCode);
-
 		
 		ArrayList<MemaDTO> attendees = dao.mmAttendees(openCode);
+		ArrayList<UserDTO> scores = new ArrayList<UserDTO>();
 		
 		model.addAttribute("attendees", attendees);
 		
+		
 		for (MemaDTO memaDTO : attendees)
 		{
+			
 			System.out.println("=================================");
 			System.out.printf("회원코드 : %s%n닉네임 : %s%n지원코드 : %s%n레디일시 : %s%n등급 : %s%n", memaDTO.getUserCode(), memaDTO.getAttendee(), 
 																				memaDTO.getApplyCode(), memaDTO.getReadyDate(), memaDTO.getGrade());
 			System.out.println("=================================");
+			
+			scores.add(dao2.getScore(memaDTO.getUserCode()));
 		}
+		
+		for (int i = 0; i < scores.size(); i++)
+			scores.get(i).setUser_nickname(attendees.get(i).getAttendee());
 		
 		int nop = Integer.parseInt(attendees.get(0).getNop());
 		
 		model.addAttribute("roomInfo", roomInfo);
 		model.addAttribute("nop", nop);
 		String nickName = (String)session.getAttribute("nickName");
+		int isReady = dao.mmReadyCheck(openCode, nickName);
 		model.addAttribute("nickName", nickName);
+		model.addAttribute("isReady", isReady);
+		model.addAttribute("scores", scores);
 		
 		
 		return result;
@@ -456,6 +492,33 @@ public class MemaController
 		}
 		
 		
+		
+		return result;
+	}
+	
+	@RequestMapping(value = "/mmOut.kkini", method = RequestMethod.POST)
+	public String mmOut(String userCode, String openCode, Model model)
+	{
+		String result = "redirect: mainPage.kkini";
+		
+		IMemaDAO dao = sqlSession.getMapper(IMemaDAO.class);
+		
+		dao.mmOut(openCode, userCode);
+		
+		return result;
+	}
+	
+	@RequestMapping(value = "//mmSetReady.kkini", method = RequestMethod.POST)
+	public String mmSetReady(String userCode, String openCode, String set)
+	{
+		String result = "redirect:mmjoinRoom.kkini?openCode="+openCode;
+		
+		IMemaDAO dao = sqlSession.getMapper(IMemaDAO.class);
+		
+		if (set.equals("ready"))
+			dao.mmReady(openCode, userCode);
+		else
+			dao.mmUnReady(openCode, userCode);
 		
 		return result;
 	}

@@ -104,6 +104,4 @@ public class ClubDTO
 	{
 		this.isActive = isActive;
 	}
-	
-	
 }

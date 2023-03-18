@@ -88,4 +88,15 @@ public interface IMemaDAO
 	//수정시 방의 현재인원 가져오기
 	public Integer nopCurrentMM(String openCode);
 	
+	// 메메 퇴장하기
+	public void mmOut(@Param("openCode") String openCode, @Param("userCode") String userCode);
+	
+	// 메메 레디여부 확인
+	public int mmReadyCheck(@Param("openCode") String openCode, @Param("nickName") String nickName);
+	
+	// 레디
+	public void mmReady(@Param("openCode") String openCode, @Param("userCode") String userCode);
+	
+	// 레디 해제
+	public void mmUnReady(@Param("openCode") String openCode, @Param("userCode") String userCode);
 }

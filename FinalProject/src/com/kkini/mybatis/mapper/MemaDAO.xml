@@ -22,13 +22,13 @@
        ATTENDSCORE, MENUPRICE, ISCLOSED, OPENCODE, GENDER
        , (
             SELECT COUNT(*) 
-            FROM MM_LIST_VIEW M1, LOGIN_INFO_VIEW L 
+            FROM MM_LIST_VIEW M1
             WHERE M1.OPENCODE = M2.OPENCODE
               AND M1.REGION LIKE '%' || #{intregion} ||'%'
          ) AS REGIONMATCH
        , (
             SELECT COUNT(*) 
-            FROM MM_LIST_VIEW M1, LOGIN_INFO_VIEW L 
+            FROM MM_LIST_VIEW M1 
             WHERE M1.OPENCODE = M2.OPENCODE
               AND (M1.GENDER = #{gender} OR M1.GENDER = '무관')
          ) AS GENDERMATCH
@@ -199,6 +199,38 @@
 	FROM MM_JOINROOM_INFO
 	WHERE OPEN_CODE = #{openCode}
 	</select>
-
+	
+	<!-- 메메 퇴장 -->
+	<delete id="mmOut" parameterType="java.lang.String">
+		DELETE
+		FROM MM_APPLY
+		WHERE MM_OPEN_CODE = #{openCode}
+ 		AND U_CODE = #{userCode}
+	</delete>
+	
+	<!-- 로그인 회원 레디 여부 확인 -->
+	<select id="mmReadyCheck" parameterType="java.lang.String" resultType="java.lang.Integer">
+		SELECT COUNT(*)
+		FROM MM_JOINROOM_MEMBER_VIEW
+		WHERE OPENCODE = #{openCode}
+		  AND U_NICKNAME = #{nickName}
+		  AND READY_DATE IS NOT NULL
+	</select>
+	
+	<!-- 레디 -->
+	<update id="mmReady" parameterType="java.lang.String">
+		UPDATE MM_APPLY
+		SET READY_DATE = SYSDATE
+		WHERE MM_OPEN_CODE = #{openCode}
+		  AND U_CODE = #{userCode}
+	</update>
+	
+	<!-- 레디 해제 -->
+	<update id="mmUnReady" parameterType="java.lang.String">
+		UPDATE MM_APPLY
+		SET READY_DATE = NULL
+		WHERE MM_OPEN_CODE = #{openCode}
+		  AND U_CODE = #{userCode}
+	</update>
 
 </mapper>

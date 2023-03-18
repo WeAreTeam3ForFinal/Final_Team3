@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.kkini.dto.MemaDTO;
 import com.kkini.dto.UserDTO;
+import com.sun.org.glassfish.gmbal.ParameterNames;
 
 public interface IUserDAO
 {
@@ -51,12 +52,22 @@ public interface IUserDAO
 
 	public void region_InOut(UserDTO dto); //사용자가 입력한 지역 정보가 지역테이블에 존재하면 코드값을 없다면 삽입후 코드값을 반환하는 함수
 
-
-
 	public UserDTO userGenderAge(@Param("nickName") String nickName); // 로그인 유저 성별 및 나이 정보
 	
 	public ArrayList<String> userIntregions(@Param("userCode") String userCode); // 로그인 유저 관심지역 정보
 	
+	public UserDTO getUserInfo (@Param("userCode") String userCode); // 마이페이지용 회원정보 불러오기 (id, 연락처, 자기소개) 
 	
+	public String getUserTalk (@Param("userCode") String userCode); // 회원 대화량
+	public String getUserSpeed (@Param("userCode") String userCode); // 회원 식사속도 
+	public ArrayList<String> getUserCha (@Param("userCode") String userCode); // 회원 성격 
+	public ArrayList<String> getUserInt (@Param("userCode") String userCode); // 회원 관심사
 	
+	public int checkPw(@Param("userCode") String userCode, @Param("user_pw") String user_pw); // 수정 페이지 진입 전 비밀번호 확인
+	public int updateIntroduce(@Param("userCode") String userCode, @Param("introduce") String introduce); // 자기소개 수정
+	public int updateAddr(@Param("userCode") String userCode, @Param("user_addr") String user_addr); // 거주지 수정
+	public int deleteIntregions(@Param("userCode") String userCode); // 관심지역 삭제
+	public int updatePrivateInfo(@Param("userCode") String userCode, @Param("nickName") String nickName, @Param("user_phonenumber") String user_phonenumber, @Param("user_pw") String user_pw); // 닉네임, 비밀번호, 전화번호 수정
+	public int countRegion(@Param("region") String region); // 지역 세기 (임시)
+	public int createRegion(@Param("region") String region); // 지역 생성 (임시)
 }
