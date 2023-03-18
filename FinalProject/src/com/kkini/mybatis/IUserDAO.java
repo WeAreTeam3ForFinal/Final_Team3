@@ -57,11 +57,13 @@ public interface IUserDAO
 	public ArrayList<String> userIntregions(@Param("userCode") String userCode); // 로그인 유저 관심지역 정보
 	
 	public UserDTO getUserInfo (@Param("userCode") String userCode); // 마이페이지용 회원정보 불러오기 (id, 연락처, 자기소개) 
+	public List<Map<String, String>> userRecord(String userCode); //나의 이력 페이지
 	
 	public String getUserTalk (@Param("userCode") String userCode); // 회원 대화량
 	public String getUserSpeed (@Param("userCode") String userCode); // 회원 식사속도 
 	public ArrayList<String> getUserCha (@Param("userCode") String userCode); // 회원 성격 
 	public ArrayList<String> getUserInt (@Param("userCode") String userCode); // 회원 관심사
+	//complete feedback dropout join applying 
 	
 	public int checkPw(@Param("userCode") String userCode, @Param("user_pw") String user_pw); // 수정 페이지 진입 전 비밀번호 확인
 	public int updateIntroduce(@Param("userCode") String userCode, @Param("introduce") String introduce); // 자기소개 수정
@@ -70,4 +72,15 @@ public interface IUserDAO
 	public int updatePrivateInfo(@Param("userCode") String userCode, @Param("nickName") String nickName, @Param("user_phonenumber") String user_phonenumber, @Param("user_pw") String user_pw); // 닉네임, 비밀번호, 전화번호 수정
 	public int countRegion(@Param("region") String region); // 지역 세기 (임시)
 	public int createRegion(@Param("region") String region); // 지역 생성 (임시)
+	public List<Map<String, String>> userRecord_complete(String userCode); //나의 이력 페이지 참여완료
+
+	public List<Map<String, String>> userRecord_join(String userCode); //나의 이력 페이지 참여완료
+	
+	public List<Map<String, String>> userRecord_opened(String userCode); //나의 이력 페이지 참여완료
+	
+	//public List<Map<String, String>> userRecord_applying(String userCode); //나의 이력 페이지 참여완료
+	
+	//public List<Map<String, String>> userRecord_dropout(String userCode); //나의 이력 페이지 참여완료
+
+	//public List<Map<String, String>> userRecord_feedback(String userCode); //나의 이력 페이지 참여완료
 }

@@ -217,6 +217,7 @@ public class MemaController
 			else
 				model.addAttribute("memaList", list);
 		}
+		//비회원
 		else
 		{
 			if(sortBy == null)

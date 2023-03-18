@@ -514,8 +514,8 @@
 							</ul>
 						</div>
 
-						<button type="button" class="btn btn-warning btn-sm"
-							onclick="location.href='MyPage.html'" style="float: right;">나의이력</button>
+						<button type="button" class="btn btn-warning btn-sm" 
+							onclick="location.href='MyRecord.kkini'" style="float: right;">나의이력</button>
 					</nav>
 				</div>
 				<!-- <button type="button" class="btn btn-warning btn-sm" onclick="location.href='MyPage.html'" style="float: right;">나의이력</button> -->

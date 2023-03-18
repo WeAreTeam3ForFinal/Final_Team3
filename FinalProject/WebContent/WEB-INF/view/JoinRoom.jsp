@@ -371,15 +371,11 @@
 
 	        // 인포윈도우로 장소에 대한 설명을 표시합니다
 	        var infowindow = new kakao.maps.InfoWindow({
-	            content: '<div style="width:150px;text-align:center;padding:6px 0;">${roomInfo.restName}<br>'
-	            		+'<a href="https://map.kakao.com/link/to/'+location+'">길찾기</a>'
+	            content: '<div style="width:150px;text-align:center;padding:6px 0;">${roomInfo.restName}'
 	            		+ '</div>'
-	            		
-	            //result[0] = [object Object]
-	            //result[0].place_name = undefined
-	            //result[0].address_name = 서울 용산구 이태원동 79-44
-	            //JSON.stringify(place) = object Object 전부 출력
 	            
+	            //result[0] = [object Object]
+	            //result[0].address_name = 서울 용산구 이태원동 79-44            
 	            
 	            /*
 	            JSON.stringify(result[0]) 의 결과
