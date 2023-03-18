@@ -1,9 +1,15 @@
 package com.kkini.dto;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
-public class MemaDTO
+public class MemaDTO implements Serializable
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	// 주요 속성 구성
 	private Timestamp readyDate;		// date 타입은 자바에서 시분초까지 받아오지 못하므로 timestamp 라는 타입으로 변수 선언
 
@@ -12,8 +18,6 @@ public class MemaDTO
 				   visitDate, mainMenu, deadline, partyMemberCount, 
 				   nop, partyMaster, attendScore, mannerScore, biasScore, menuPrice, isClosed, openKeyword, userCode, roomStatus,
 				   applyCode, grade, attendee;
-	
-	
 	
 	public String getApplyCode()
 	{

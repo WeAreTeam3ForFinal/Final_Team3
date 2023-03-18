@@ -29,7 +29,5 @@
 			FROM C_LIST_VIEW
 			ORDER BY CLUBMEMBERCOUNT DESC
 	</select>
-	
-
 
 </mapper>

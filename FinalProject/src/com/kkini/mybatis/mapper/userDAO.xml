@@ -216,6 +216,100 @@ WHERE OPEN_USER_CODE = #{user_code}
 	    ) L
 </select>
 
+<!-- 마이페이지용 회원 정보 불러오기 -->
+<select id ="getUserInfo" parameterType="java.lang.String" resultType="com.kkini.dto.UserDTO">
+	SELECT U.U_ID AS USER_ID, SUBSTR(U.U_PHONE_NUMBER,0,3)||'-'||SUBSTR(U.U_PHONE_NUMBER,4,4)||'-'||SUBSTR(U.U_PHONE_NUMBER,8,4) AS USER_PHONENUMBER, U.U_INTRODUCE AS USER_INTRODUCE ,R.REGION_NAME AS USER_ADDR
+	FROM REGION R, U_PRIVATE_DATA U
+	WHERE R.REGION_CODE = U.U_REGION_CODE
+  	AND U.U_CODE = #{userCode}
+</select>
 
+<!-- 회원 성격 -->
+<select id ="getUserCha" parameterType="java.lang.String" resultType="java.lang.String">
+	SELECT CT.CHA AS CHARACTER
+	FROM CHARACTER C, CHA_TYPE CT
+	WHERE C.U_CODE = #{userCode}
+	AND C.CHA_TYPE_CODE = CT.CHA_TYPE_CODE
+</select>
+
+<!-- 회원 관심사 -->
+<select id ="getUserInt" parameterType="java.lang.String" resultType="java.lang.String">
+	SELECT IT.INTER AS USER_INTERESTS
+	FROM INTEREST I, INTER_TYPE IT
+	WHERE I.U_CODE = #{userCode}
+	  AND I.INTER_TYPE_CODE = IT.INTER_TYPE_CODE
+</select>
+
+<!-- 회원 식사 속도 -->
+<select id ="getUserSpeed" parameterType="java.lang.String" resultType="java.lang.String">
+	SELECT E.U_SPEED AS USER_EATSPEED
+	FROM EATINGSPEED E, U_PRIVATE_DATA U
+	WHERE U.U_CODE = #{userCode}
+	  AND E.U_SPEED_CODE = U.U_SPEED_CODE
+</select>
+
+<!-- 회원 대화량 -->
+<select id ="getUserTalk" parameterType="java.lang.String" resultType="java.lang.String">
+	SELECT T.AMOUNT AS USER_TALK
+	FROM TALK_AMOUNT T, U_PRIVATE_DATA U
+	WHERE U.U_CODE = #{userCode}
+	  AND T.TALK_AMOUNT_CODE = U.TALK_AMOUNT_CODE
+</select>
+
+<!-- 자기소개 수정 -->
+<update id="updateIntroduce" parameterType="java.lang.String">
+	UPDATE U_PRIVATE_DATA
+	SET U_INTRODUCE = #{introduce}
+	WHERE U_CODE = #{userCode}
+</update>
+
+<!-- 비밀번호 재확인 -->
+<select id="checkPw" parameterType="java.lang.String" resultType="java.lang.Integer">
+	SELECT COUNT(*) AS COUNT
+	FROM U_PRIVATE_DATA
+	WHERE CRYPTPACK.DECRYPT(U_PW, #{user_pw}) = #{user_pw}
+	  AND U_CODE = #{userCode}
+</select> 
+
+<!-- 거주지 업데이트 -->
+<update id="updateAddr" parameterType="java.lang.String">
+	UPDATE U_PRIVATE_DATA
+	SET U_REGION_CODE =
+	(
+	SELECT REGION_CODE
+	FROM REGION
+	WHERE REGION_NAME = #{user_addr}
+	)
+	WHERE U_CODE = #{userCode}
+</update>
+
+<!-- 관심지역 삭제 -->
+<delete id="deleteIntregions">
+DELETE
+FROM U_ATTENTION
+WHERE U_CODE = #{userCode}
+</delete>
+
+<!-- 닉네임, 전화번호, 비밀번호 업데이트 -->
+<update id="updatePrivateInfo" parameterType="java.lang.String">
+	UPDATE U_PRIVATE_DATA
+	SET  U_PW = CRYPTPACK.ENCRYPT(#{user_pw}, #{user_pw})
+	     , U_PHONE_NUMBER = #{user_phonenumber}
+	     , U_NICKNAME = #{nickName}
+	WHERE U_CODE = #{userCode}
+</update>
+
+<!-- 카운트 리전(임시) -->
+<select id="countRegion" parameterType="java.lang.String" resultType="java.lang.Integer">
+	SELECT COUNT(*)
+	FROM REGION
+	WHERE REGION_NAME = #{region}
+</select>
+
+<!-- 지역 생성(임시) -->
+<insert id="createRegion" parameterType="java.lang.String">
+	INSERT INTO REGION(REGION_CODE,REGION_NAME)
+	VALUES('RC'||LPAD(SEQ_REGION.NEXTVAL,8,'0'),#{region})
+</insert>
 
 </mapper>

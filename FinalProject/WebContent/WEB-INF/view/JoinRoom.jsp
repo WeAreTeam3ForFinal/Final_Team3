@@ -51,6 +51,11 @@
 		margin-right: 3%;
 	}
 	
+	.img-box:hover
+	{
+		border: 2px solid green;
+	}
+	
 	.attendee
 	{
 		margin-top: 3%; 
@@ -118,6 +123,42 @@
 		display: none;
 	}
 	
+	.readyMark
+	{
+		width: 20px;
+		bottom: 2px;
+		position: relative;
+	}
+	
+	#out
+	{
+		position: relative; 
+		bottom: 1160px; 
+		width: 100%; 
+		height: 100%; 
+		border-radius: 10%;
+		font-weight: bold;
+		font-family: 맑은고딕;
+		font-size: 17pt;
+		border: 2px solid black;
+		left: 150px;
+	}
+	
+	#ready, #unReady
+	{
+		position: relative; 
+		bottom: 1160px; 
+		width: 100%; 
+		height: 100%; 
+		border-radius: 10%;
+		font-weight: bold;
+		font-family: 맑은고딕;
+		font-size: 17pt;
+		border: 2px solid black;
+		bottom: 1230px;
+		right: 150px;
+	}
+	
 </style>
 
 <!-- font-awsome v5.8.2 -->
@@ -142,6 +183,13 @@
 		if($(".nickName-Master").text() == $("#masterCheck").text())
 		{
 			$(".kickButton").css("display","inline");
+			$("#out").css("display","none");
+			$("#unReady").css("display","none");
+			$(".readyMark").css("bottom","25px");
+		}
+		else
+		{
+			
 		}
 		
 		$(".kickButton").click(function()
@@ -163,7 +211,90 @@
 			$(this).next().children().children("button").click();
 		});
 		
+		// 퇴장 기능
+		$("#out").click(function()
+		{
+			
+			// 퇴장여부 재확인
+			
+			if(confirm("현재 참가 중인 방에서 나가시겠습니까?"))
+			{
+				// 로그인한 회원코드
+				var userCode = $("#loginUcode").text();
+				
+				// 참가한 방 오픈코드 받아오기
+				var openCode = document.getElementsByName("openCode")[0].value;
+				
+				// 강퇴 처리를 위해 유저코드 파라미터 넘기기
+				var url = "mmOut.kkini?userCode=" + userCode + "&openCode=" + openCode; 
+				// out 버튼 부모(Form 태그) action 속성에 url 대입
+				$(this).parent().attr("action", url);
+				
+				// 서브밋
+				$(this).parent().submit();
+			}
+			else
+				return;
+			
+		});
+		
+		
+		// 레디 기능
+		$("#ready").click(function()
+		{
+			
+				// 로그인한 회원코드
+				var userCode = $("#loginUcode").text();
+				
+				// 참가한 방 오픈코드 받아오기
+				var openCode = document.getElementsByName("openCode")[0].value;
+				
+				// 강퇴 처리를 위해 유저코드 파라미터 넘기기
+				var url = "mmSetReady.kkini?userCode=" + userCode + "&openCode=" + openCode + "&set=" + $(this).attr("id"); 
+				// out 버튼 부모(Form 태그) action 속성에 url 대입
+				$(this).parent().attr("action", url);
+				
+				// 서브밋
+				$(this).parent().submit();
+			
+		});
+		
+		// 레디 해제 기능
+		$("#unReady").click(function()
+		{
+			
+				// 로그인한 회원코드
+				var userCode = $("#loginUcode").text();
+				
+				// 참가한 방 오픈코드 받아오기
+				var openCode = document.getElementsByName("openCode")[0].value;
+				
+				// 강퇴 처리를 위해 유저코드 파라미터 넘기기
+				var url = "mmSetReady.kkini?userCode=" + userCode + "&openCode=" + openCode + "&set=" + $(this).attr("id"); 
+				// out 버튼 부모(Form 태그) action 속성에 url 대입
+				$(this).parent().attr("action", url);
+				
+				// 서브밋
+				$(this).parent().submit();
+			
+		});
+		
+		$(".profile").click(function()
+		{
+			var nickName = $(this).next("button").next().children("#nickName").text();
+			var attend = $(this).next("button").next().children("#attend").text();
+			var manner = $(this).next("button").next().children("#manner").text();
+			var bias = $(this).next("button").next().children("#bias").text();
+			
+			$(".modal-title").text(nickName + " 님의 점수");
+			$(".modal-body").html($(this).next("button").next().html());
+			
+			$(this).next("button").click();
+						
+		});
 	});
+	
+	
 
 </script>
 
@@ -315,6 +446,7 @@
 		<br>
 		<br>
 		
+
 		<!-- 방장이라면 수정/삭제가 보이게 -->
 		<c:if test="${sessionScope.nickName == roomInfo.chief_nickName}">
 		<button type="button" id="Update" class="btn btn-primary">수정</button>
@@ -329,6 +461,35 @@
 		</c:if>
 		
 		</div>
+		
+		
+		
+									
+									<!-- 모달 코드 영역 -->
+									<div class="modal fade" id="miniProfile" tabindex="-1" aria-labelledby="miniProfileLabel" aria-hidden="true">
+										<div class="modal-dialog modal-dialog-centered">
+											<div class="modal-content">
+												<div class="modal-header">
+													<h5 class="modal-title" id="miniProfileLabel"></h5>
+													<button class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+												</div>
+												<div class="modal-body">
+							
+												</div>
+												<div class="modal-footer">
+													<button class="btn btn-danger" data-bs-dismiss="modal">닫기</button>
+												</div>
+											</div>
+										</div>
+									</div>
+									<!-- 모달 코드 영역 종료 -->
+		
+		
+		
+		
+		
+		
+		
 
 
 		<div class="col-8 attendList mt-3 mb-3">
@@ -341,6 +502,23 @@
 						<img src="assets/images/crown.png" alt="" id="crown"/>
 						<div class="img-box" style="width: 100px; height: 100px;">
 							<img src="assets/images/미오.jpg" alt="" class="profile"/>
+								<!-- 모달 호출 버튼 -->
+								<button id="modalTest" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#miniProfile" style="display: none;"></button>
+								
+								<div style="display: none;">
+										<c:forEach var="scores" items="${scores }">
+											<c:if test="${scores.user_nickname eq attendees.attendee }">
+												<div class="img-box">
+													<img src="assets/images/미오.jpg" alt="" class="profile" />
+												</div>
+													<span id="nickName" style="display: none;"> ${attendees.attendee }</span>
+													<span id="attendScore"> 참가점수 : ${scores.attendScore } </span> <br>
+													<span id="mannerScore"> 매너점수 : ${scores.mannerScore } </span> <br>
+													<span id="biasScore"> 신뢰점수 : ${scores.biasScore } </span> <br>
+											</c:if>
+										</c:forEach>
+								</div>
+								
 						</div>
 						<span class="nickName-Master">${attendees.attendee }</span>
 						<span id="masterCheck" style="display: none;">${sessionScope.nickName }</span>
@@ -356,6 +534,9 @@
 						<div class="attendee">
 							<div style="width: 0px; height: 0px;">
 								<img src="assets/images/x버튼.png" alt="" class="kickButton"/>
+								<c:if test="${not empty attendees.readyDate}">
+									<img src="assets/images/ready.png" alt="" class="readyMark"/>
+								</c:if>
 								<div style="display: none;">
 									<form action="kickout.kkini" method="post">
 										<input type="text" name="userCode" value="${attendees.userCode }" />
@@ -366,6 +547,25 @@
 							</div>
 							<div class="img-box">
 								<img src="assets/images/카가미.png" alt="" class="profile" />
+									
+									<!-- 모달 호출 버튼 -->
+									<button id="modalTest" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#miniProfile" style="display: none;">${attendees.attendee }</button>
+									
+									<div style="display: none;">
+										<c:forEach var="scores" items="${scores }">
+											<c:if test="${scores.user_nickname eq attendees.attendee }">
+												<div class="img-box">
+													<img src="assets/images/카가미.png" alt="" class="profile" />
+												</div>
+													<span id="nickName" style="display: none;"> ${attendees.attendee }</span>
+													<span id="attendScore"> 참가점수 : ${scores.attendScore } </span> <br>
+													<span id="mannerScore"> 매너점수 : ${scores.mannerScore } </span> <br>
+													<span id="biasScore"> 신뢰점수 : ${scores.biasScore } </span> <br>
+											</c:if>
+										</c:forEach>
+									</div>
+									
+									
 							</div>
 							<span class="nickName-Attendee">${attendees.attendee }</span>
 						</div>
@@ -408,6 +608,28 @@
 						<span class="nickName-Attendee">막힘</span>
 					</div>
 				</c:forEach>
+				
+				<form action="" method="post" style="width: 200px; height: 70px; position: relative; top: 38%; left: 38%; border-radius: 10%; text-align: center;">
+					<button class="btn btn-danger" type="button" id="out">
+						퇴장하기
+						<span id="loginUcode" style="display: none;">${sessionScope.userCode }</span>
+					</button>
+					
+					<c:choose>
+						<c:when test="${isReady == 0 }">
+							<button class="btn btn-success" type="button" id="ready">
+								레디하기
+							</button>
+						</c:when>
+						
+						<c:otherwise>
+							<button class="btn btn-secondary" type="button" id="unReady">
+								레디해제
+							</button>
+						</c:otherwise>
+					</c:choose>
+					
+				</form>
 		</div>
 		
 	<%-- 	nop : ${nop } <br>
@@ -426,7 +648,7 @@
 	<br />
 	<br />
 	<br />
-
+	
 	</div>
 
 
