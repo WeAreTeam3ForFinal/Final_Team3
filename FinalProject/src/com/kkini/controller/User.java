@@ -299,6 +299,12 @@ public class User
 	public String myRecord(ModelMap model, HttpSession session)
 	{
 		String result = "";
+		
+		if(session.getAttribute("userCode")==null)
+		{
+			result ="redirect: logout.kkini";
+			return result;
+		}
 
 		result = "/WEB-INF/view/MyRecord.jsp";
 
@@ -306,28 +312,117 @@ public class User
 	}
 
 	@RequestMapping(value = "/myRecordList.kkini", method = RequestMethod.GET)
-	public String myRecordList(ModelMap model, HttpSession session,String bar,String detail)
+	public String myRecordList(ModelMap model, HttpSession session,String bar,String detail,String sortBy)
 	{
 		String result ="";
+		
+		
 		List<Map<String, String>> recordList=null;
 		
 		IUserDAO dao = sqlSession.getMapper(IUserDAO.class);
 		
-		if(detail.equals("none"))
+		System.out.println(sortBy);
+		
+		if(detail.equals("none") || detail == null )
 		{
+			if(sortBy.equals("none")) // 정렬기준이 없을시
+			{
 			recordList = dao.userRecord((String)session.getAttribute("userCode"));
+			}
+			
+			else          //정렬기준이 있을시
+			{
+				if(sortBy.equals("recordDate")) //정렬기준이 개설일 기준
+				{
+					
+					recordList = dao.userRecordSortDate((String)session.getAttribute("userCode"));
+				}
+				else //정렬기준이 마감일기준
+				{
+					recordList = dao.userRecordSortClose((String)session.getAttribute("userCode"));
+					
+					
+				}
+				
+			}
+			
 		}
 		else if(detail.equals("complete"))
 		{
-			recordList = dao.userRecord_complete((String)session.getAttribute("userCode"));
+			
+			if(sortBy.equals("none")) // 정렬기준이 없을시
+			{
+				recordList = dao.userRecord_complete((String)session.getAttribute("userCode"));
+			}
+			
+			else          //정렬기준이 있을시
+			{
+				if(sortBy.equals("recordDate")) //정렬기준이 개설일 기준
+				{
+					
+					recordList = dao.userRecord_completeSortDate((String)session.getAttribute("userCode"));
+				}
+				else //정렬기준이 마감일기준
+				{
+					recordList = dao.userRecord_completeSortClose((String)session.getAttribute("userCode"));
+					
+					
+				}
+				
+			}
+			
+			
 		}
 		else if(detail.equals("join"))
 		{
-			recordList = dao.userRecord_join((String)session.getAttribute("userCode"));
+			
+			
+			if(sortBy.equals("none")) // 정렬기준이 없을시
+			{
+				recordList = dao.userRecord_join((String)session.getAttribute("userCode"));
+			}
+			
+			else          //정렬기준이 있을시
+			{
+				if(sortBy.equals("recordDate")) //정렬기준이 개설일 기준
+				{
+					
+					recordList = dao.userRecord_joinSortDate((String)session.getAttribute("userCode"));
+				}
+				else //정렬기준이 마감일기준
+				{
+					recordList = dao.userRecord_joinSortClose((String)session.getAttribute("userCode"));
+					
+					
+				}
+				
+			}
+			
+			
 		}
 		else if(detail.equals("opened"))
 		{
-			recordList = dao.userRecord_opened((String)session.getAttribute("userCode"));
+			
+			if(sortBy.equals("none")) // 정렬기준이 없을시
+			{
+				recordList = dao.userRecord_opened((String)session.getAttribute("userCode"));
+			}
+			
+			else          //정렬기준이 있을시
+			{
+				if(sortBy.equals("recordDate")) //정렬기준이 개설일 기준
+				{
+					
+					recordList = dao.userRecord_openedSortDate((String)session.getAttribute("userCode"));
+				}
+				else //정렬기준이 마감일기준
+				{
+					recordList = dao.userRecord_openedSortClose((String)session.getAttribute("userCode"));
+					
+					
+				}
+				
+			}
 		}
 		else if(detail.equals("applying"))
 		{
@@ -348,6 +443,8 @@ public class User
 		if(recordList.size()>0)
 		{
 		model.addAttribute("recordList", recordList);
+		model.addAttribute("bar", bar);
+		model.addAttribute("detail", detail);
 		result="/WEB-INF/view/MyRecordListAjax.jsp";
 		}
 		else

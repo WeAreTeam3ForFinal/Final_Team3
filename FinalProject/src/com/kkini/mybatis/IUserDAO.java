@@ -56,7 +56,6 @@ public interface IUserDAO
 	public ArrayList<String> userIntregions(@Param("userCode") String userCode); // 로그인 유저 관심지역 정보
 	
 	public UserDTO getUserInfo (@Param("userCode") String userCode); // 마이페이지용 회원정보 불러오기 (id, 연락처, 자기소개) 
-	public List<Map<String, String>> userRecord(String userCode); //나의 이력 페이지
 	
 	public String getUserTalk (@Param("userCode") String userCode); // 회원 대화량
 	public String getUserSpeed (@Param("userCode") String userCode); // 회원 식사속도 
@@ -77,11 +76,25 @@ public interface IUserDAO
 	public int updateSpeedTalk(@Param("userCode") String userCode, @Param("user_eatSpeed") String user_eatSpeed, @Param("user_talk") String user_talk); // 식사속도, 대화량 업데이트
 	//=============================================================================================================================
 	
+	
+	public List<Map<String, String>> userRecord(String userCode); //나의 이력 페이지
+	public List<Map<String, String>> userRecordSortDate(@Param("userCode") String userCode); //나의 이력 개설일순 정렬
+	public List<Map<String, String>> userRecordSortClose(@Param("userCode") String userCode); //나의 이력 마감순 정렬
+	
+	
+	
+	
 	public List<Map<String, String>> userRecord_complete(String userCode); //나의 이력 페이지 참여완료
+	public List<Map<String, String>> userRecord_completeSortDate(String userCode); //나의 이력 페이지 참여완료
+	public List<Map<String, String>> userRecord_completeSortClose(String userCode); //나의 이력 페이지 참여완료
 
 	public List<Map<String, String>> userRecord_join(String userCode); //나의 이력 페이지 참여완료
+	public List<Map<String, String>> userRecord_joinSortDate(String userCode); //나의 이력 페이지 참여완료
+	public List<Map<String, String>> userRecord_joinSortClose(String userCode); //나의 이력 페이지 참여완료
 	
 	public List<Map<String, String>> userRecord_opened(String userCode); //나의 이력 페이지 참여완료
+	public List<Map<String, String>> userRecord_openedSortDate(String userCode); //나의 이력 페이지 참여완료
+	public List<Map<String, String>> userRecord_openedSortClose(String userCode); //나의 이력 페이지 참여완료
 	
 	//public List<Map<String, String>> userRecord_applying(String userCode); //나의 이력 페이지 참여완료
 	
