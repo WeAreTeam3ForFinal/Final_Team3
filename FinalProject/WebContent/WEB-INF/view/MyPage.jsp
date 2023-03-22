@@ -8,7 +8,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>마이 페이지</title>
 <link rel="styleSheet" type="text/css" href="<%=cp %>/css/style.css">
 <!-- font-awsome v5.8.2 -->
 <link rel="stylesheet"
@@ -106,10 +106,18 @@
 			});
 		});
 		
+		// 개인정보 수정
 		$("#privateInfo").click(function()
 		{
 			$("#privateForm").submit();
 		});
+		
+		// 식사성향 정보 수정
+		$("#biasInfo").click(function()
+		{
+			$("#biasForm").submit();
+		});
+		
 	});
 	
 		
@@ -149,12 +157,12 @@
 					</form>
 					<br>
 					
-					<form action="">
-						<h5 class="fw-bold mb-2" style="color: #FFA500">식사성향 <i style="color: #FFA500; cursor: pointer;" id="matchingInfo" class="bi bi-gear-fill"></i></h5> 
-						<i class="bi bi-emoji-smile"></i> ${userCha } <br>
-						<i class="bi bi-chat-heart"></i> ${userInt } <br>
-						<i class="bi bi-clock"></i> ${userSpeed } <br>
-						<i class="bi bi-chat-dots"></i> ${userTalk } <br>
+					<form action="updateBiasInfoForm.kkini" method="get" id="biasForm">
+						<h5 class="fw-bold mb-2" style="color: #FFA500">식사성향 <i style="color: #FFA500; cursor: pointer;" id="biasInfo" class="bi bi-gear-fill"></i></h5> 
+						<i class="bi bi-emoji-smile"></i> ${userCha } <br> <input type="text" name="userCha" value="${userCha }" style="display: none;"/>
+						<i class="bi bi-chat-heart"></i> ${userInt } <br> <input type="text" name="userInt" value="${userInt }" style="display: none;"/>
+						<i class="bi bi-clock"></i> ${userSpeed } <br> <input type="text" name="userSpeed" value="${userSpeed }" style="display: none;"/>
+						<i class="bi bi-chat-dots"></i> ${userTalk } <br> <input type="text" name="userTalk" value="${userTalk }" style="display: none;"/>
 					</form>
 					<br>
 					

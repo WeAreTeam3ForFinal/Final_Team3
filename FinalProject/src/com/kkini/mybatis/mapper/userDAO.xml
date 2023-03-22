@@ -402,4 +402,26 @@ AND MM_OPEN.U_CODE = #{userCode}
 AND MM_APPLY.U_CODE = #{userCode}
 </select>
 
+<!-- 식사속도, 대화량 업데이트 -->
+<update id="updateSpeedTalk" parameterType="java.lang.String">
+	UPDATE U_PRIVATE_DATA
+	SET TALK_AMOUNT_CODE = #{user_talk}, U_SPEED_CODE = #{user_eatSpeed}
+	WHERE U_CODE = #{userCode}
+</update>
+
+<!-- 수정을 위한 기존 성격 삭제 -->
+<delete id="deleteCha" parameterType="java.lang.String">
+	DELETE 
+	FROM CHARACTER
+	WHERE U_CODE = #{userCode}
+</delete>
+<!-- 수정을 위한 기존 관심사 삭제 -->
+<delete id="deleteInt" parameterType="java.lang.String">
+	DELETE 
+	FROM INTEREST
+	WHERE U_CODE = #{userCode}
+</delete>
+
+
+
 </mapper>

@@ -497,7 +497,7 @@
 					<div class="partyMaster">
 						<img src="assets/images/crown.png" alt="" id="crown"/>
 						<div class="img-box" style="width: 100px; height: 100px;">
-							<img src="assets/images/미오.jpg" alt="" class="profile"/>
+							<img src="assets/images/tmp.jpg" alt="" class="profile"/>
 								<!-- 모달 호출 버튼 -->
 								<button id="modalTest" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#miniProfile" style="display: none;"></button>
 								
@@ -505,7 +505,7 @@
 										<c:forEach var="scores" items="${scores }">
 											<c:if test="${scores.user_nickname eq attendees.attendee }">
 												<div class="img-box">
-													<img src="assets/images/미오.jpg" alt="" class="profile" />
+													<img src="assets/images/tmp.jpg" alt="" class="profile" />
 												</div>
 													<span id="nickName" style="display: none;"> ${attendees.attendee }</span>
 													<span id="attendScore"> 참가점수 : ${scores.attendScore } </span> <br>
@@ -542,7 +542,7 @@
 								</div>
 							</div>
 							<div class="img-box">
-								<img src="assets/images/카가미.png" alt="" class="profile" />
+								<img src="assets/images/tmp1.jpg" alt="" class="profile" />
 									
 									<!-- 모달 호출 버튼 -->
 									<button id="modalTest" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#miniProfile" style="display: none;">${attendees.attendee }</button>
@@ -551,7 +551,7 @@
 										<c:forEach var="scores" items="${scores }">
 											<c:if test="${scores.user_nickname eq attendees.attendee }">
 												<div class="img-box">
-													<img src="assets/images/카가미.png" alt="" class="profile" />
+													<img src="assets/images/tmp1.jpg" alt="" class="profile" />
 												</div>
 													<span id="nickName" style="display: none;"> ${attendees.attendee }</span>
 													<span id="attendScore"> 참가점수 : ${scores.attendScore } </span> <br>

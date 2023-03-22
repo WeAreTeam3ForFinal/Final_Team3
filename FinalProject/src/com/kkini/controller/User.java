@@ -474,6 +474,7 @@ public class User
 		return result;
 	}
 	
+	// 회원정보 수정 기능
 	@RequestMapping(value = "/updateprivateinfo.kkini", method = RequestMethod.POST)
 	public String updatePrivateInfo(HttpSession session, Model model, String nickName, String user_phonenumber, String user_addr, String[] user_intregions, String user_id, String user_pw)
 	{
@@ -519,6 +520,47 @@ public class User
 		{
 			System.out.println(string);
 		}
+		return result;
+	}
+	
+	// 성향 수정 폼
+	@RequestMapping(value = "/updateBiasInfoForm.kkini", method = RequestMethod.GET)
+	public String updateBiasForm(String userCha, String userSpeed, String userTalk, String userInt, Model model)
+	{
+		String result = "/WEB-INF/view/UpdateBiasForm.jsp";
+		
+		IUserDAO dao = sqlSession.getMapper(IUserDAO.class);
+		
+		model.addAttribute("talkList", dao.getTalklist());
+		model.addAttribute("chaList", dao.getChalist());
+		model.addAttribute("intList", dao.getIntlist());
+		model.addAttribute("speedList", dao.getSpeedlist());
+		
+		model.addAttribute("userCha", userCha);
+		model.addAttribute("userInt", userInt);
+		model.addAttribute("userSpeed", userSpeed);
+		model.addAttribute("userTalk", userTalk);
+		
+		return result;
+	}
+	
+	@RequestMapping(value = "/updatebias.kkini", method = RequestMethod.POST)
+	public String updateBias(HttpSession session,String[]user_interests, String[]user_characters, String user_eatSpeed, String user_talk)
+	{
+		String result = "redirect: myPage.kkini";
+		String userCode = (String)session.getAttribute("userCode");
+		IUserDAO dao = sqlSession.getMapper(IUserDAO.class);
+		
+		dao.updateSpeedTalk(userCode, user_eatSpeed, user_talk);
+		dao.deleteCha(userCode);
+		dao.deleteInt(userCode);
+		
+		for (String user_character : user_characters)
+			dao.addcharacter(user_character, userCode);
+		
+		for (String user_interest : user_interests)
+			dao.addinterest(user_interest, userCode);
+		
 		return result;
 	}
 	

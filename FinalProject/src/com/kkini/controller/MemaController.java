@@ -109,7 +109,6 @@ public class MemaController
 			// 로그인 회원 유저코드
 			String userCode = (String) session.getAttribute("userCode");
 			
-			
 			// 로그인 회원 성별
 			String gender = dao.userGenderAge(nickName).getUser_gender();
 			
@@ -199,7 +198,7 @@ public class MemaController
 					if(list.get(j).getOpenCode().equals(openCode))
 						list.remove(j);
 					
-					if(list.get(list.size()-1).getOpenCode().equals(openCode))
+					if(list.get(list.size()-1).getOpenCode().equals(openCode) && list.size() != 1)
 						list.remove(list.size()-1);
 				}
 				
@@ -210,6 +209,13 @@ public class MemaController
 				System.out.println();
 				System.out.println();
 			}
+			
+			System.out.println("=========최종리스트=======");
+			for (MemaDTO memaDTO : list)
+			{
+				System.out.println(memaDTO.getRestName());
+			}
+			
 			if(sortBy.equals("memaDate"))
 				model.addAttribute("memaList", dao2.sortMemaListByDate());
 			else if(sortBy.equals("memaClose"))

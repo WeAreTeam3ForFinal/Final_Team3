@@ -49,7 +49,6 @@ public interface IUserDAO
 	
 	public ArrayList<MemaDTO> getOpenRoomList(String user_code); //메인 페이지 요청시 본인이 개설한 방 가져오기
 	
-
 	public void region_InOut(UserDTO dto); //사용자가 입력한 지역 정보가 지역테이블에 존재하면 코드값을 없다면 삽입후 코드값을 반환하는 함수
 
 	public UserDTO userGenderAge(@Param("nickName") String nickName); // 로그인 유저 성별 및 나이 정보
@@ -65,6 +64,7 @@ public interface IUserDAO
 	public ArrayList<String> getUserInt (@Param("userCode") String userCode); // 회원 관심사
 	//complete feedback dropout join applying 
 	
+	// 수정 기능 모음 =============================================================================================================
 	public int checkPw(@Param("userCode") String userCode, @Param("user_pw") String user_pw); // 수정 페이지 진입 전 비밀번호 확인
 	public int updateIntroduce(@Param("userCode") String userCode, @Param("introduce") String introduce); // 자기소개 수정
 	public int updateAddr(@Param("userCode") String userCode, @Param("user_addr") String user_addr); // 거주지 수정
@@ -72,6 +72,11 @@ public interface IUserDAO
 	public int updatePrivateInfo(@Param("userCode") String userCode, @Param("nickName") String nickName, @Param("user_phonenumber") String user_phonenumber, @Param("user_pw") String user_pw); // 닉네임, 비밀번호, 전화번호 수정
 	public int countRegion(@Param("region") String region); // 지역 세기 (임시)
 	public int createRegion(@Param("region") String region); // 지역 생성 (임시)
+	public int deleteCha(@Param("userCode") String userCode); // 관심사 삭제
+	public int deleteInt(@Param("userCode") String userCode); // 성격 삭제
+	public int updateSpeedTalk(@Param("userCode") String userCode, @Param("user_eatSpeed") String user_eatSpeed, @Param("user_talk") String user_talk); // 식사속도, 대화량 업데이트
+	//=============================================================================================================================
+	
 	public List<Map<String, String>> userRecord_complete(String userCode); //나의 이력 페이지 참여완료
 
 	public List<Map<String, String>> userRecord_join(String userCode); //나의 이력 페이지 참여완료
