@@ -128,6 +128,24 @@ String cp = request.getContextPath();
 					
 
 				});
+				
+				$(document).on("click",".recordRoom",function()
+				{
+					 if($(this).prev().text() == '참가중')
+						{
+						$(location).attr("href","mmjoinRoom.kkini?openCode="+$(this).next().children("input").val()); //참가중인방은 피드백 못하게
+						}
+				
+			/* 		else if()
+						{
+						alert("이미 피드백을 완료한 방입니다."). 
+						}*/
+					 
+					else
+					{
+					$(this).next().children("button").click();
+					} 
+				});
 
 			});
 

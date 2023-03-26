@@ -42,7 +42,7 @@
 			             <c:forEach var="recordList" items="${recordList }">
 			                
 			                
-			                <div class="col-12 col-md-6 col-lg-3 h-50 mb-4 mb-lg-3 me-3 border border-warning" style="width: 280px;">
+			                <div class="col-12 col-md-6 col-lg-3 h-50 mb-4 mb-lg-3 me-3 border border-warning " style="width: 280px;">
 			                	<button style="background-color: orange; border: 0">${recordList.BAR}</button>
 			                	<c:choose>
 			                	<c:when test="${recordList.GRADE=='참가'}">
@@ -54,7 +54,7 @@
 			                	</c:choose>
 			                	<button style="background-color: black; border: 0;color: white;">${recordList.STATUS }</button>
 			                	<!-- div 스타일 속성 추가. div영역 넘어가는 해시태그 ... 처리 -->
-								<div style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;" class="selectInfo">
+								<div style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;" class="recordRoom">
 								<!-- 일시, 지역, 식당명, 음식종류, 메인메뉴, 모집 연령대, 인원수 -->
 									<p id="club-list-title" class="text-center fw-bold h4 mt-4">${recordList.REST_NAME }</p>
 									<div class="border"></div>
@@ -68,10 +68,10 @@
 								
 								
 								
-									<%-- <form action="getMemaApplyInfo.kkini" method="get">
-									<input type="text" style="display:none;" name="openCode" value="${dto.openCode }"> <!-- value에는 각각의 개설코드 들어가야함  -->
+									 <form action="mmRecordRoom.kkini" method="get">
+									<input type="text" style="display:none;" name="openCode" value="${recordList.openCode }"> <!-- value에는 각각의 개설코드 들어가야함  -->
 									<button type="submit" style="display:none;"></button>
-								</form>  --%>               	
+								</form>                 	
 			                </div>
 			             </c:forEach>
 			             

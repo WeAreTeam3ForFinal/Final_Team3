@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -49,15 +50,13 @@ public class User
 				model.addAttribute("attendScore", dto.getAttendScore());
 				model.addAttribute("mannerScore", dto.getMannerScore());
 				model.addAttribute("biasScore", dto.getBiasScore());
-				
+
 				session.setAttribute("attendScore", dto.getAttendScore());
 				session.setAttribute("mannerScore", dto.getMannerScore());
 				session.setAttribute("biasScore", dto.getBiasScore());
-				
-				
-				
-				//본인이 참가한 방이 있을경우 참가방 리스트를 뽑아온다.
-				if(dao.checkJoinRoomList(user_code)!=0)
+
+				// 본인이 참가한 방이 있을경우 참가방 리스트를 뽑아온다.
+				if (dao.checkJoinRoomList(user_code) != 0)
 				{
 					ArrayList<MemaDTO> roomList = dao.getJoinRoomList(user_code);
 					model.addAttribute("roomList", roomList);
@@ -79,9 +78,9 @@ public class User
 			model.addAttribute("age", dao2.memaSearchAge());
 			model.addAttribute("gender", dao2.memaSearchGender());
 			model.addAttribute("food", dao2.memaSearchFood());
-			
-			result="/WEB-INF/view/MainPage.jsp";
-			
+
+			result = "/WEB-INF/view/MainPage.jsp";
+
 		} catch (Exception e)
 		{
 			System.out.println(e.toString());
@@ -299,10 +298,10 @@ public class User
 	public String myRecord(ModelMap model, HttpSession session)
 	{
 		String result = "";
-		
-		if(session.getAttribute("userCode")==null)
+
+		if (session.getAttribute("userCode") == null)
 		{
-			result ="redirect: logout.kkini";
+			result = "redirect: logout.kkini";
 			return result;
 		}
 
@@ -312,356 +311,341 @@ public class User
 	}
 
 	@RequestMapping(value = "/myRecordList.kkini", method = RequestMethod.GET)
-	public String myRecordList(ModelMap model, HttpSession session,String bar,String detail,String sortBy)
+	public String myRecordList(ModelMap model, HttpSession session, String bar, String detail, String sortBy)
 	{
-		String result ="";
-		
-		
-		List<Map<String, String>> recordList=null;
-		
+		String result = "";
+
+		List<Map<String, String>> recordList = null;
+
 		IUserDAO dao = sqlSession.getMapper(IUserDAO.class);
-		
-		System.out.println(sortBy);
-		
-		if(detail.equals("none") || detail == null )
+
+		if (detail.equals("none") || detail == null)
 		{
-			if(sortBy.equals("none")) // 정렬기준이 없을시
+			if (sortBy.equals("none")) // 정렬기준이 없을시
 			{
-			recordList = dao.userRecord((String)session.getAttribute("userCode"));
+				recordList = dao.userRecord((String) session.getAttribute("userCode"));
 			}
-			
-			else          //정렬기준이 있을시
+
+			else // 정렬기준이 있을시
 			{
-				if(sortBy.equals("recordDate")) //정렬기준이 개설일 기준
+				if (sortBy.equals("recordDate")) // 정렬기준이 개설일 기준
 				{
-					
-					recordList = dao.userRecordSortDate((String)session.getAttribute("userCode"));
-				}
-				else //정렬기준이 마감일기준
+
+					recordList = dao.userRecordSortDate((String) session.getAttribute("userCode"));
+				} else // 정렬기준이 마감일기준
 				{
-					recordList = dao.userRecordSortClose((String)session.getAttribute("userCode"));
-					
-					
+					recordList = dao.userRecordSortClose((String) session.getAttribute("userCode"));
+
 				}
-				
+
 			}
-			
-		}
-		else if(detail.equals("complete"))
+
+		} else if (detail.equals("complete"))
 		{
-			
-			if(sortBy.equals("none")) // 정렬기준이 없을시
+
+			if (sortBy.equals("none")) // 정렬기준이 없을시
 			{
-				recordList = dao.userRecord_complete((String)session.getAttribute("userCode"));
+				recordList = dao.userRecord_complete((String) session.getAttribute("userCode"));
 			}
-			
-			else          //정렬기준이 있을시
+
+			else // 정렬기준이 있을시
 			{
-				if(sortBy.equals("recordDate")) //정렬기준이 개설일 기준
+				if (sortBy.equals("recordDate")) // 정렬기준이 개설일 기준
 				{
-					
-					recordList = dao.userRecord_completeSortDate((String)session.getAttribute("userCode"));
-				}
-				else //정렬기준이 마감일기준
+
+					recordList = dao.userRecord_completeSortDate((String) session.getAttribute("userCode"));
+				} else // 정렬기준이 마감일기준
 				{
-					recordList = dao.userRecord_completeSortClose((String)session.getAttribute("userCode"));
-					
-					
+					recordList = dao.userRecord_completeSortClose((String) session.getAttribute("userCode"));
+
 				}
-				
+
 			}
-			
-			
-		}
-		else if(detail.equals("join"))
+
+		} else if (detail.equals("join"))
 		{
-			
-			
-			if(sortBy.equals("none")) // 정렬기준이 없을시
+
+			if (sortBy.equals("none")) // 정렬기준이 없을시
 			{
-				recordList = dao.userRecord_join((String)session.getAttribute("userCode"));
+				recordList = dao.userRecord_join((String) session.getAttribute("userCode"));
 			}
-			
-			else          //정렬기준이 있을시
+
+			else // 정렬기준이 있을시
 			{
-				if(sortBy.equals("recordDate")) //정렬기준이 개설일 기준
+				if (sortBy.equals("recordDate")) // 정렬기준이 개설일 기준
 				{
-					
-					recordList = dao.userRecord_joinSortDate((String)session.getAttribute("userCode"));
-				}
-				else //정렬기준이 마감일기준
+
+					recordList = dao.userRecord_joinSortDate((String) session.getAttribute("userCode"));
+				} else // 정렬기준이 마감일기준
 				{
-					recordList = dao.userRecord_joinSortClose((String)session.getAttribute("userCode"));
-					
-					
+					recordList = dao.userRecord_joinSortClose((String) session.getAttribute("userCode"));
+
 				}
-				
+
 			}
-			
-			
-		}
-		else if(detail.equals("opened"))
+
+		} else if (detail.equals("opened"))
 		{
-			
-			if(sortBy.equals("none")) // 정렬기준이 없을시
+
+			if (sortBy.equals("none")) // 정렬기준이 없을시
 			{
-				recordList = dao.userRecord_opened((String)session.getAttribute("userCode"));
+				recordList = dao.userRecord_opened((String) session.getAttribute("userCode"));
 			}
-			
-			else          //정렬기준이 있을시
+
+			else // 정렬기준이 있을시
 			{
-				if(sortBy.equals("recordDate")) //정렬기준이 개설일 기준
+				if (sortBy.equals("recordDate")) // 정렬기준이 개설일 기준
 				{
-					
-					recordList = dao.userRecord_openedSortDate((String)session.getAttribute("userCode"));
-				}
-				else //정렬기준이 마감일기준
+
+					recordList = dao.userRecord_openedSortDate((String) session.getAttribute("userCode"));
+				} else // 정렬기준이 마감일기준
 				{
-					recordList = dao.userRecord_openedSortClose((String)session.getAttribute("userCode"));
-					
-					
+					recordList = dao.userRecord_openedSortClose((String) session.getAttribute("userCode"));
+
 				}
-				
+
 			}
-		}
-		else if(detail.equals("applying"))
+		} else if (detail.equals("applying"))
 		{
-			recordList = dao.userRecord((String)session.getAttribute("userCode"));
-		}
-		else if(detail.equals("feedback"))
+			recordList = dao.userRecord((String) session.getAttribute("userCode"));
+		} else if (detail.equals("feedback"))
 		{
-			recordList = dao.userRecord((String)session.getAttribute("userCode"));
-		}
-		else if(detail.equals("dropout"))
+			recordList = dao.userRecord((String) session.getAttribute("userCode"));
+		} else if (detail.equals("dropout"))
 		{
-			recordList = dao.userRecord((String)session.getAttribute("userCode"));
+			recordList = dao.userRecord((String) session.getAttribute("userCode"));
 		}
-		
-		else 
-			recordList = null;
-		
-		if(recordList.size()>0)
-		{
-		model.addAttribute("recordList", recordList);
-		model.addAttribute("bar", bar);
-		model.addAttribute("detail", detail);
-		result="/WEB-INF/view/MyRecordListAjax.jsp";
-		}
+
 		else
+			recordList = null;
+
+		if (recordList.size() > 0)
+		{
+			model.addAttribute("recordList", recordList);
+			// model.addAttribute("bar", bar);
+			// model.addAttribute("detail", detail);
+			result = "/WEB-INF/view/MyRecordListAjax.jsp";
+		} else
 		{
 			model.addAttribute("str", "이력조회 결과가 없습니다.");
-			result="/WEB-INF/view/MyRecordListAjaxFail.jsp";
+			result = "/WEB-INF/view/MyRecordListAjaxFail.jsp";
 		}
-		
-		
+
 		return result;
 	}
-	
+
 	// 마이 페이지
 	@RequestMapping(value = "/myPage.kkini", method = RequestMethod.GET)
 	public String myPage(HttpSession session, Model model)
 	{
 		String result = "/WEB-INF/view/MyPage.jsp";
-		
-		String userCode = (String)session.getAttribute("userCode");
-		
+
+		String userCode = (String) session.getAttribute("userCode");
+
 		IUserDAO dao = sqlSession.getMapper(IUserDAO.class);
-		
+
 		// 유저 정보
 		UserDTO userInfo = dao.getUserInfo(userCode);
-		
+
 		// 유저 관심지역
 		ArrayList<String> intregionsList = dao.userIntregions(userCode);
 		String intregions = "";
-		
+
 		for (int i = 0; i < intregionsList.size(); i++)
 		{
-			if(i != intregionsList.size()-1)
+			if (i != intregionsList.size() - 1)
 				intregions += intregionsList.get(i) + ", ";
 			else
 				intregions += intregionsList.get(i);
 		}
-		
+
 		// 유저 관심사
 		ArrayList<String> userIntList = dao.getUserInt(userCode);
 		String userInt = "";
 
 		for (int i = 0; i < userIntList.size(); i++)
 		{
-			if(i != userIntList.size()-1)
+			if (i != userIntList.size() - 1)
 				userInt += userIntList.get(i) + ", ";
 			else
 				userInt += userIntList.get(i);
 		}
-		
+
 		// 유저 성격
 		ArrayList<String> userChaList = dao.getUserCha(userCode);
 		String userCha = "";
-		
+
 		for (int i = 0; i < userChaList.size(); i++)
 		{
-			if(i != userChaList.size()-1)
+			if (i != userChaList.size() - 1)
 				userCha += userChaList.get(i) + ", ";
 			else
 				userCha += userChaList.get(i);
 		}
-		
+
 		// 유저 대화량
 		String userTalk = dao.getUserTalk(userCode);
 		// 유저 식사속도
 		String userSpeed = dao.getUserSpeed(userCode);
-		
+
 		model.addAttribute("userInfo", userInfo);
 		model.addAttribute("intregions", intregions);
 		model.addAttribute("userInt", userInt);
 		model.addAttribute("userCha", userCha);
 		model.addAttribute("userTalk", userTalk);
 		model.addAttribute("userSpeed", userSpeed);
-		
+
 		return result;
 	}
-	
+
 	// 자기소개 수정
 	@RequestMapping(value = "/updateIntroduce.kkini", method = RequestMethod.POST)
 	public String updateIntroduce(HttpSession session, Model model, String introduce)
 	{
 		String result = "redirect: myPage.kkini";
-		String userCode = (String)session.getAttribute("userCode");
+		String userCode = (String) session.getAttribute("userCode");
 		IUserDAO dao = sqlSession.getMapper(IUserDAO.class);
-		
+
 		dao.updateIntroduce(userCode, introduce);
-		
+
 		return result;
 	}
-	
+
 	// 회원 정보 수정 전 비밀번호 확인
 	@RequestMapping(value = "/checkpw.kkini", method = RequestMethod.GET)
-	public String checkPw(String nickName, String user_id, String user_phonenumber, String user_addr, String intregions, Model model)
+	public String checkPw(String nickName, String user_id, String user_phonenumber, String user_addr, String intregions,
+			Model model)
 	{
 		String result = "WEB-INF/view/CheckPw.jsp";
 		model.addAttribute("nickName", nickName);
 		model.addAttribute("user_id", user_id);
 		model.addAttribute("user_phonenumber", user_phonenumber);
 		model.addAttribute("user_addr", user_addr);
-		model.addAttribute("intregions", intregions);		
+		model.addAttribute("intregions", intregions);
 		return result;
 	}
-	
+
 	// 회원 정보 수정 폼 이동
 	@RequestMapping(value = "/updateprivateinfoform.kkini", method = RequestMethod.GET)
-	public String updatePrivateInfoForm(HttpSession session, Model model, String nickName, String user_phonenumber, String user_addr, String intregions, String user_id, String user_pw)
+	public String updatePrivateInfoForm(HttpSession session, Model model, String nickName, String user_phonenumber,
+			String user_addr, String intregions, String user_id, String user_pw)
 	{
 		String result = "/WEB-INF/view/UpdateUserInfoForm.jsp";
-		String userCode = (String)session.getAttribute("userCode");
+		String userCode = (String) session.getAttribute("userCode");
 		IUserDAO dao = sqlSession.getMapper(IUserDAO.class);
-		
-		if(dao.checkPw(userCode, user_pw) != 1)
+
+		if (dao.checkPw(userCode, user_pw) != 1)
 			result = "redirect: myPage.kkini";
-		
+
 		String[] intregionsArr = intregions.split(", ");
 		String number = user_phonenumber.replaceAll("-", "");
-		
+
 		model.addAttribute("nickName", nickName);
 		model.addAttribute("user_id", user_id);
 		model.addAttribute("user_phonenumber", number);
 		model.addAttribute("user_addr", user_addr);
 		model.addAttribute("intregions", intregionsArr);
 		model.addAttribute("user_pw", user_pw);
-		
+
 		return result;
 	}
-	
-	// 회원정보 수정 기능
+
 	@RequestMapping(value = "/updateprivateinfo.kkini", method = RequestMethod.POST)
-	public String updatePrivateInfo(HttpSession session, Model model, String nickName, String user_phonenumber, String user_addr, String[] user_intregions, String user_id, String user_pw)
+	public String updatePrivateInfo(HttpSession session, Model model, String nickName, String user_phonenumber,
+			String user_addr, String[] user_intregions, String user_id, String user_pw)
 	{
 		String result = "redirect: myPage.kkini";
-		String userCode = (String)session.getAttribute("userCode");
+		String userCode = (String) session.getAttribute("userCode");
 		IUserDAO dao = sqlSession.getMapper(IUserDAO.class);
-		
-		
+
 		// 거주지를 위한 지역 유무 검증 프로세스 수행
 		String region = user_addr;
-		
-		if(dao.countRegion(region) < 1)
+
+		if (dao.countRegion(region) < 1)
 			dao.createRegion(region);
-		
+
 		// 반복문을 통해서 관심지역 유무 검증 프로세스 수행
 		for (int i = 0; i < user_intregions.length; i++)
 		{
 			region = user_intregions[i];
-			
-			if(dao.countRegion(region) < 1)
+
+			if (dao.countRegion(region) < 1)
 				dao.createRegion(region);
 		}
-		
+
 		// 거주지 업데이트
 		dao.updateAddr(userCode, user_addr);
-		
+
 		// 관심지역 업데이트
 		dao.deleteIntregions(userCode);
 		for (int i = 1; i < user_intregions.length; i++)
 		{
-			if(!user_intregions[i].equals(" "))
+			if (!user_intregions[i].equals(" "))
 				dao.addintregion(user_intregions[i], userCode);
 		}
 		// 닉네임, 전화번호, 비밀번호 업데이트
 		dao.updatePrivateInfo(userCode, nickName, user_phonenumber, user_pw);
-		
+
 		System.out.println(nickName);
 		System.out.println(user_addr);
 		System.out.println(user_pw);
 		System.out.println(user_phonenumber);
-		
+
 		for (String string : user_intregions)
 		{
 			System.out.println(string);
 		}
 		return result;
 	}
-	
-	// 성향 수정 폼
-	@RequestMapping(value = "/updateBiasInfoForm.kkini", method = RequestMethod.GET)
-	public String updateBiasForm(String userCha, String userSpeed, String userTalk, String userInt, Model model)
+
+	@RequestMapping(value = "/feedBack.kkini", method = RequestMethod.POST)
+	public String feedBackSend(Model model, HttpSession session, ServletRequest request)
 	{
-		String result = "/WEB-INF/view/UpdateBiasForm.jsp";
-		
+		String result = "";
+
+		if (session.getAttribute("userCode") == null)
+		{
+			result = "redirect: mainPage.kkini";
+			return result;
+		}
+
+		// 회원이 체크한 출석자, 불참자 받아오기
+		String[] absents = request.getParameterValues("absent");
+		String[] attends = request.getParameterValues("attend");
+
 		IUserDAO dao = sqlSession.getMapper(IUserDAO.class);
-		
-		model.addAttribute("talkList", dao.getTalklist());
-		model.addAttribute("chaList", dao.getChalist());
-		model.addAttribute("intList", dao.getIntlist());
-		model.addAttribute("speedList", dao.getSpeedlist());
-		
-		model.addAttribute("userCha", userCha);
-		model.addAttribute("userInt", userInt);
-		model.addAttribute("userSpeed", userSpeed);
-		model.addAttribute("userTalk", userTalk);
-		
+
+		String openCode = request.getParameter("openCode");
+		String applyCodeG = request.getParameter("applyCodeU");
+		// System.out.println(openCode);
+
+		// 나온사람이 없을수도 안나온사람이 없을수도 있음
+
+		if (absents.length != 0)
+		{
+			for (String applyCodeT : absents)
+			{
+				dao.send_feedBack(applyCodeG, applyCodeT, openCode);
+				dao.send_Absent(applyCodeG, applyCodeT);
+			}
+		} else
+		{
+		}
+
+		if (attends.length != 0)
+		{
+			for (String applyCodeT : attends)
+			{
+				dao.send_feedBack(applyCodeG, applyCodeT, openCode);
+
+			}
+		} else
+		{
+
+		}
+		result = "redirect:MyRecord.kkini";
+
 		return result;
 	}
-	
-	@RequestMapping(value = "/updatebias.kkini", method = RequestMethod.POST)
-	public String updateBias(HttpSession session,String[]user_interests, String[]user_characters, String user_eatSpeed, String user_talk)
-	{
-		String result = "redirect: myPage.kkini";
-		String userCode = (String)session.getAttribute("userCode");
-		IUserDAO dao = sqlSession.getMapper(IUserDAO.class);
-		
-		dao.updateSpeedTalk(userCode, user_eatSpeed, user_talk);
-		dao.deleteCha(userCode);
-		dao.deleteInt(userCode);
-		
-		for (String user_character : user_characters)
-			dao.addcharacter(user_character, userCode);
-		
-		for (String user_interest : user_interests)
-			dao.addinterest(user_interest, userCode);
-		
-		return result;
-	}
-	
-	
-		
 
 }

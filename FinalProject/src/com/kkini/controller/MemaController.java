@@ -11,6 +11,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.catalina.connector.Request;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -565,7 +566,92 @@ public class MemaController
 		return result;
 	}
 	
+	@RequestMapping(value="/mmRecordRoom.kkini",method = RequestMethod.GET)
+	public String recordRoomInfo(Model model,String openCode, HttpSession session)
+	{
+		
+		String result ="";
+		
+		
+		
+		try
+		{
+			
+			if(session.getAttribute("userCode") != null)
+			{
+			
+			IMemaDAO dao = sqlSession.getMapper(IMemaDAO.class);
+			
+			Map<String, String>roomInfo = new HashMap<String, String>();
+			
+			roomInfo = dao.mmjoinRoomInfo(openCode);
+			
+			result = "/WEB-INF/view/RecordRoom.jsp";
+			
+			}
+			else// 로그인 세션이 만료되었을경우
+			{
+				result="redirect: mainPage.kkini";
+			}
+			
+			
+			
+		} catch (Exception e)
+		{
+			System.out.println(e.toString());
+			// TODO: handle exception
+		}
+		
+		
+		
+		model.addAttribute("openCode", openCode);
+		
+//		System.out.println(openCode);
+		
+		// 내가 필요한 데이터
+		// 1. 참가자 닉네임들
+		// 2. 참가자 회원코드
+		// 3. 참가자 지원코드
+		// 4. 참가자
+		
+		IMemaDAO dao = sqlSession.getMapper(IMemaDAO.class);
+		IUserDAO dao2 = sqlSession.getMapper(IUserDAO.class);
+		
+		Map<String, String>roomInfo = new HashMap<String, String>();
+		
+		roomInfo = dao.mmjoinRoomInfo(openCode);
+		
+		ArrayList<MemaDTO> attendees = dao.mmAttendees(openCode);
+		ArrayList<UserDTO> scores = new ArrayList<UserDTO>();
+		
+		model.addAttribute("attendees", attendees);
+		
+		
+		for (MemaDTO memaDTO : attendees)
+		{
+			
 	
+			
+			scores.add(dao2.getScore(memaDTO.getUserCode()));
+		}
+		
+		for (int i = 0; i < scores.size(); i++)
+			scores.get(i).setUser_nickname(attendees.get(i).getAttendee());
+		
+		int nop = Integer.parseInt(attendees.get(0).getNop());
+		
+		model.addAttribute("roomInfo", roomInfo);
+		model.addAttribute("nop", nop);
+		String nickName = (String)session.getAttribute("nickName");
+		int isReady = dao.mmReadyCheck(openCode, nickName);
+		model.addAttribute("nickName", nickName);
+		model.addAttribute("isReady", isReady);
+		model.addAttribute("scores", scores);
+		
+		
+		return result;
+		
+	}
 	
 	
 }
