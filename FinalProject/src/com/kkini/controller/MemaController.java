@@ -124,98 +124,104 @@ public class MemaController
 			else
 				genderOrder = "GENDER";
 				
-			System.out.println(genderOrder);
-			
 			// 로그인 회원 관심지역 어레이리스트
 			ArrayList<String> intregions = dao.userIntregions(userCode);
 			
 			// 최종적으로 사용자에게 보여줄 모임방 리스트 어레이리스트
 			ArrayList<MemaDTO> list = new ArrayList<MemaDTO>(); 
 			
+			// 임시로 테이블 값을 담을 tmp 어레이리스트 선언
+			ArrayList<MemaDTO> tmp = new ArrayList<MemaDTO>();
+			
 			if(sortBy == null)
 				sortBy = "";
 			
 			int loop = 0;
 			
-			for (int k = 0; k < intregions.size()+1; k++)
-			{
-				// 삽입 우선순위에 쓰일 플래그 변수
-				boolean flag = false;
-				
-				// 관심지역이 여러개 이므로 반복문 루프마다 각 관심지역을 담을 변수
-				String intregion = "";
-				
-				// loop 변수가 intregions의 size값이 된다는 것은 회원이 등록한 관심지역수 +1 값이 된다는 뜻.
-				// 즉 그 전 까지(관심지역이 있는 한은) intregion 변수에 관심지역을 대입.
-				if(loop != intregions.size())
-					intregion = intregions.get(loop);
-				
-				if (intregion.equals(""))
-					break;
-				
-				// 임시로 테이블 값을 담을 tmp 어레이리스트 선언
-				ArrayList<MemaDTO> tmp = new ArrayList<MemaDTO>(); 
-				
-				// tmp 변수에 모임방 리스트 대입 (성별, 관심지역, 성별정렬기준)
-				tmp = dao2.memaListLogin(gender, intregion, genderOrder);
-				
-				for (int j = 0; j < tmp.size(); j++)
-				{
-					// tmp 변수 사이즈 동안 반복하면서 관심지역 및 성별 모두 일치한 모임방 우선 삽입
-					if(tmp.get(j).getGenderMatch().equals("1") && tmp.get(j).getRegionMatch().equals("1"))
-					{
-						list.add(tmp.get(j));
-						
-						flag = true;
-					}
-					// 다음으로 성별이 일치한 모임방 우선적으로 삽입
-					else if(tmp.get(j).getGenderMatch().equals("1") && tmp.get(j).getRegionMatch().equals("0") && flag == false)
-						list.add(tmp.get(j));
-					// 다음으로 지역이 일치한 모임방 우선적으로 삽입
-					else if(tmp.get(j).getGenderMatch().equals("0") && tmp.get(j).getRegionMatch().equals("1") && flag == false)
-						list.add(tmp.get(j));
-					// 다음으로 일치사항 없는 (참가 불가능한) 모임방들 삽입
-					else if (flag == false)
-						list.add(tmp.get(j));
-					
-				}
-				System.out.println("====== "+(loop+1) +"회차 리스트 ====== ");
-				for (MemaDTO memaDTO : list)
-				{
-					System.out.print(memaDTO.getRestName() + ", ");
-				}
-				System.out.println("\n====================================");
-				loop++;
-			}
+			// 생성된 방 갯수 파악용 비로그인 리스트
+			tmp = dao2.memaList();
 			
-			for (int i = 0; i < list.size()-1; i++)
+			// 만약 생성된 방이 1개 초과라면 리스트 정렬 로직 수행
+			if(tmp.size() != 1)
 			{
-				System.out.println("list 사이즈 = " + list.size());
-				System.out.println("제거대상 = " + list.get(i).getRestName());
-				for (int j = i+1; j < list.size(); j++)
+				for (int k = 0; k < intregions.size()+1; k++)
 				{
-					String openCode = list.get(i).getOpenCode();
+					// 삽입 우선순위에 쓰일 플래그 변수
+					boolean flag = false;
 					
-					if(list.get(j).getOpenCode().equals(openCode))
-						list.remove(j);
+					// 관심지역이 여러개 이므로 반복문 루프마다 각 관심지역을 담을 변수
+					String intregion = "";
 					
-					if(list.get(list.size()-1).getOpenCode().equals(openCode) && list.size() != 1)
-						list.remove(list.size()-1);
+					// loop 변수가 intregions의 size값이 된다는 것은 회원이 등록한 관심지역수 +1 값이 된다는 뜻.
+					// 즉 그 전 까지(관심지역이 있는 한은) intregion 변수에 관심지역을 대입.
+					if(loop != intregions.size())
+						intregion = intregions.get(loop);
+					
+					if (intregion.equals(""))
+						break;
+					
+					// tmp 변수에 모임방 리스트 대입 (성별, 관심지역, 성별정렬기준)
+					tmp = dao2.memaListLogin(gender, intregion, genderOrder);
+					
+					for (int j = 0; j < tmp.size(); j++)
+					{
+						// tmp 변수 사이즈 동안 반복하면서 관심지역 및 성별 모두 일치한 모임방 우선 삽입
+						if(tmp.get(j).getGenderMatch().equals("1") && tmp.get(j).getRegionMatch().equals("1"))
+						{
+							list.add(tmp.get(j));
+							
+							flag = true;
+						}
+						// 다음으로 성별이 일치한 모임방 우선적으로 삽입
+						else if(tmp.get(j).getGenderMatch().equals("1") && tmp.get(j).getRegionMatch().equals("0") && flag == false)
+							list.add(tmp.get(j));
+						// 다음으로 지역이 일치한 모임방 우선적으로 삽입
+						else if(tmp.get(j).getGenderMatch().equals("0") && tmp.get(j).getRegionMatch().equals("1") && flag == false)
+							list.add(tmp.get(j));
+						// 다음으로 일치사항 없는 (참가 불가능한) 모임방들 삽입
+						else if (flag == false)
+							list.add(tmp.get(j));
+						
+					}
+					System.out.println("====== "+(loop+1) +"회차 리스트 ====== ");
+					for (MemaDTO memaDTO : list)
+					{
+						System.out.print(memaDTO.getRestName() + ", ");
+					}
+					System.out.println("\n====================================");
+					loop++;
 				}
 				
-				for (MemaDTO memaDTO : list)
+				for (int i = 0; i < list.size()-1; i++)
 				{
-					System.out.println(memaDTO.getRestName());
+					System.out.println("list 사이즈 = " + list.size());
+					System.out.println("제거대상 = " + list.get(i).getRestName());
+					for (int j = i+1; j < list.size(); j++)
+					{
+						String openCode = list.get(i).getOpenCode();
+						
+						if(list.get(j).getOpenCode().equals(openCode))
+							list.remove(j);
+						
+						if(list.get(list.size()-1).getOpenCode().equals(openCode) && list.size() > 1 )
+							list.remove(list.size()-1);
+					}
+					
+					for (MemaDTO memaDTO : list)
+					{
+						System.out.println(memaDTO.getRestName());
+					}
+					System.out.println();
+					System.out.println();
 				}
-				System.out.println();
-				System.out.println();
 			}
+			// 생성된 총 방의 갯수가 1개 라면 정렬 생략
+			else
+				list = tmp;
 			
 			System.out.println("=========최종리스트=======");
 			for (MemaDTO memaDTO : list)
-			{
-				System.out.println(memaDTO.getRestName());
-			}
+				System.out.println(memaDTO.getRestName() + " " + memaDTO.getIsReady());
 			
 			if(sortBy.equals("memaDate"))
 				model.addAttribute("memaList", dao2.sortMemaListByDate());
@@ -329,8 +335,13 @@ public class MemaController
 		
 		ArrayList<MemaDTO> attendees = dao.mmAttendees(openCode);
 		ArrayList<UserDTO> scores = new ArrayList<UserDTO>();
+		String isConfirmed = dao.checkConfirmed(openCode);
+		
+		if(isConfirmed.equals("Confirmed") && dao.mmCountConfirmed(openCode) == 0)
+			dao.mmreCheck(openCode);
 		
 		model.addAttribute("attendees", attendees);
+		System.out.println(isConfirmed);
 		
 		
 		for (MemaDTO memaDTO : attendees)
@@ -356,6 +367,7 @@ public class MemaController
 		model.addAttribute("nickName", nickName);
 		model.addAttribute("isReady", isReady);
 		model.addAttribute("scores", scores);
+		model.addAttribute("isConfirmed", isConfirmed);
 		
 		
 		return result;
@@ -376,6 +388,60 @@ public class MemaController
 		dao.mmKickout(openCode, userCode);
 		
 		result = "redirect:mmjoinRoom.kkini?openCode="+openCode;
+		
+		return result;
+	}
+	
+	// 메메 중도퇴장
+	@RequestMapping(value = "/mmdropOut.kkini", method = RequestMethod.POST)
+	public String dropOut(Model model, String userCode, String openCode, String master, String checkType, HttpSession session)
+	{
+		String result = "redirect: mainPage.kkini";
+		
+		IMemaDAO dao = sqlSession.getMapper(IMemaDAO.class);
+		
+//		System.out.println(userCode);
+//		System.out.println(openCode);
+		
+		// 방장이 중도퇴장 할 때
+		if(session.getAttribute("nickName").equals(master))
+		{
+			System.out.println("방장 중도 퇴장");
+			System.out.println(userCode);
+			System.out.println(openCode);
+			System.out.println(master);
+			System.out.println(session.getAttribute("nickName"));
+			System.out.println(checkType);
+			// dropOut 테이블에 applyCode 삽입
+			dao.mmdropOut(userCode, openCode);
+			
+			// check 테이블에서 openCode 삭제
+			dao.mmreOpen(openCode);
+			
+			// 방장일 때는 추가로 방 삭제까지
+			Map<String, String> dataMap = new HashMap<String, String>();
+			
+			dataMap.put("openCode", openCode);
+			dataMap.put("checkType", checkType);
+			
+			dao.deleteMM(dataMap);
+		}
+		else
+		{
+			System.out.println("일반 중도 퇴장");
+			System.out.println(userCode);
+			System.out.println(openCode);
+			System.out.println(master);
+			System.out.println(session.getAttribute("nickName"));
+			System.out.println(checkType);
+			// dropOut 테이블에 applyCode 삽입
+			dao.mmdropOut(userCode, openCode);
+			
+			// check 테이블에서 openCode 삭제
+			dao.mmreOpen(openCode);
+		}
+		
+		
 		
 		return result;
 	}
@@ -462,8 +528,6 @@ public class MemaController
 			else
 			{
 				
-			
-			
 			//1. 식당 확인
 			int count = dao.existRestCount(dto);
 			
@@ -507,12 +571,17 @@ public class MemaController
 		return result;
 	}
 	
+	// 메메 퇴장하기
 	@RequestMapping(value = "/mmOut.kkini", method = RequestMethod.POST)
 	public String mmOut(String userCode, String openCode, Model model)
 	{
 		String result = "redirect: mainPage.kkini";
 		
 		IMemaDAO dao = sqlSession.getMapper(IMemaDAO.class);
+		
+		System.out.println("퇴장테스트");
+		System.out.println(userCode);
+		System.out.println(openCode);
 		
 		dao.mmOut(openCode, userCode);
 		
@@ -530,7 +599,6 @@ public class MemaController
 			dao.mmReady(openCode, userCode);
 		else
 			dao.mmUnReady(openCode, userCode);
-		
 		return result;
 	}
 	

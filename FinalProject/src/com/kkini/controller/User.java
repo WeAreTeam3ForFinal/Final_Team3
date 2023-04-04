@@ -62,11 +62,27 @@ public class User
 					model.addAttribute("roomList", roomList);
 					session.setAttribute("roomList", roomList);
 				}
+				else
+				{
+					ArrayList<MemaDTO> roomList = null;
+					model.addAttribute("roomList", roomList);
+					session.setAttribute("roomList", roomList);					
+				}
 
 				//
 				if (dao.checkOpenRoomList(user_code) != 0)
 				{
 					ArrayList<MemaDTO> openroomList = dao.getOpenRoomList(user_code);
+					model.addAttribute("openroomList", openroomList);
+					session.setAttribute("openroomList", openroomList);
+					System.out.println("생성목록 1이상");
+					System.out.println(dao.checkOpenRoomList(user_code));
+					System.out.println(user_code);
+				}
+				else
+				{
+					System.out.println("생성목록 0");
+					ArrayList<MemaDTO> openroomList = null;
 					model.addAttribute("openroomList", openroomList);
 					session.setAttribute("openroomList", openroomList);
 				}
@@ -539,6 +555,11 @@ public class User
 
 		String[] intregionsArr = intregions.split(", ");
 		String number = user_phonenumber.replaceAll("-", "");
+		
+		for (String string : intregionsArr)
+		{
+			System.out.println(string);
+		}
 
 		model.addAttribute("nickName", nickName);
 		model.addAttribute("user_id", user_id);
@@ -586,15 +607,6 @@ public class User
 		// 닉네임, 전화번호, 비밀번호 업데이트
 		dao.updatePrivateInfo(userCode, nickName, user_phonenumber, user_pw);
 
-		System.out.println(nickName);
-		System.out.println(user_addr);
-		System.out.println(user_pw);
-		System.out.println(user_phonenumber);
-
-		for (String string : user_intregions)
-		{
-			System.out.println(string);
-		}
 		return result;
 	}
 

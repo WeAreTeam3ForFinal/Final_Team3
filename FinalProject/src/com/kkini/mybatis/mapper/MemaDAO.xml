@@ -8,11 +8,30 @@
 	<!--  바로그인 유저 메마 리스트 -->
 	<select id="memaList" resultType="com.kkini.dto.MemaDTO">
 	
-	SELECT RESTNAME, REGION, FOODCTG, AGEGROUP, MAINMENU, VISITDATE, DEADLINE, PARTYMEMBERCOUNT, PARTYMASTER, 
-    	   ATTENDSCORE, MENUPRICE, ISCLOSED, OPENCODE
-	FROM MM_LIST_VIEW M2
-	WHERE ISCLOSED = 'FALSE'
-	AND (SELECT COUNT(*) FROM MM_CHECK WHERE MM_OPEN_CODE = M2.OPENCODE) <![CDATA[<]]> 1
+SELECT RESTNAME, REGION, FOODCTG, AGEGROUP, MAINMENU, VISITDATE, DEADLINE, PARTYMEMBERCOUNT, PARTYMASTER, 
+       ATTENDSCORE, MENUPRICE, ISCLOSED, M2.OPENCODE AS OPENCODE, ISFULL.ISREADY AS ISREADY
+FROM MM_LIST_VIEW M2,
+(
+    SELECT CASE WHEN FULL.MEMBER = FULL.NOP AND FULL.READY = FULL.NOP
+                THEN 'Confirmed'
+                ELSE 'Waiting'
+                END AS ISREADY
+         , FULL.OPENCODE
+    FROM
+        (
+            SELECT MO.MM_OPEN_CODE AS OPENCODE, COUNT(MA.MM_APPLY_CODE) AS MEMBER
+                 , COUNT(READY_DATE) AS READY
+                 , (SELECT NOP FROM MM_OPEN WHERE MM_OPEN_CODE = MO.MM_OPEN_CODE) AS NOP
+            FROM MM_OPEN MO, MM_APPLY MA
+            WHERE MO.MM_OPEN_CODE = MA.MM_OPEN_CODE
+              AND MO.VISIT_DATE > SYSDATE
+              AND (SELECT COUNT(MD.MM_APPLY_CODE) FROM MM_DROPOUT MD WHERE MA.MM_APPLY_CODE = MD.MM_APPLY_CODE) <![CDATA[<]]>  1
+            GROUP BY MO.MM_OPEN_CODE
+        ) FULL
+) ISFULL 
+WHERE ISCLOSED = 'FALSE'
+  AND M2.OPENCODE = ISFULL.OPENCODE
+  AND M2.OPENCODE NOT IN (SELECT MM_OPEN_CODE FROM MM_CHECK WHERE MM_CT_CODE = 'MCTC000002')
 	
 	</select>
 	
@@ -20,7 +39,7 @@
 	<select id="memaListLogin" parameterType="java.lang.String" resultType="com.kkini.dto.MemaDTO">
 	
 	SELECT RESTNAME, REGION, FOODCTG, AGEGROUP, MAINMENU, VISITDATE, DEADLINE, PARTYMEMBERCOUNT, PARTYMASTER, 
-       ATTENDSCORE, MENUPRICE, ISCLOSED, OPENCODE, GENDER
+       ATTENDSCORE, MENUPRICE, ISCLOSED, M2.OPENCODE AS OPENCODE, GENDER, ISFULL.ISREADY AS ISREADY
        , (
             SELECT COUNT(*) 
             FROM MM_LIST_VIEW M1
@@ -33,9 +52,28 @@
             WHERE M1.OPENCODE = M2.OPENCODE
               AND (M1.GENDER = #{gender} OR M1.GENDER = '무관')
          ) AS GENDERMATCH
-	FROM MM_LIST_VIEW M2
+	FROM MM_LIST_VIEW M2,
+	(
+    SELECT CASE WHEN FULL.MEMBER = FULL.NOP AND FULL.READY = FULL.NOP
+                THEN 'Confirmed'
+                ELSE 'Waiting'
+                END AS ISREADY
+         , FULL.OPENCODE
+    FROM
+	    (
+		        SELECT MO.MM_OPEN_CODE AS OPENCODE, COUNT(MA.MM_APPLY_CODE) AS MEMBER
+		             , COUNT(READY_DATE) AS READY
+		             , (SELECT NOP FROM MM_OPEN WHERE MM_OPEN_CODE = MO.MM_OPEN_CODE) AS NOP
+		        FROM MM_OPEN MO, MM_APPLY MA
+		        WHERE MO.MM_OPEN_CODE = MA.MM_OPEN_CODE
+		          AND MO.VISIT_DATE > SYSDATE
+		          AND (SELECT COUNT(MD.MM_APPLY_CODE) FROM MM_DROPOUT MD WHERE MA.MM_APPLY_CODE = MD.MM_APPLY_CODE) <![CDATA[<]]>  1
+		        GROUP BY MO.MM_OPEN_CODE
+	    ) FULL
+	) ISFULL 
 	WHERE ISCLOSED = 'FALSE'
-	AND (SELECT COUNT(*) FROM MM_CHECK WHERE MM_OPEN_CODE = M2.OPENCODE) <![CDATA[<]]> 1
+	  AND M2.OPENCODE = ISFULL.OPENCODE
+	  AND M2.OPENCODE NOT IN (SELECT MM_OPEN_CODE FROM MM_CHECK WHERE MM_CT_CODE = 'MCTC000002')
 	ORDER BY REGIONMATCH + GENDERMATCH DESC, ${genderOrder}, REGIONMATCH DESC
 	
 	</select>
@@ -148,8 +186,6 @@
 	)
 	</insert>
 	
-	
-	
 	<!-- 메마 수정시 식당이 등록되어있는지 확인 -->
 	<select id="existRestCount" parameterType="com.kkini.dto.MemaOpenDTO" resultType="java.lang.Integer">
 	SELECT COUNT(*)
@@ -165,7 +201,6 @@
 	WHERE REST_NAME LIKE #{mmRestName}
 	AND   REST_LOCATION LIKE #{mmRestLocation}
 	</select>
-	
 	
 	<!--수정시 식당테이블에 등록되어있지 않다면 식당테이블에 등록  -->
 	<insert id="addRest" parameterType="com.kkini.dto.MemaOpenDTO">
@@ -248,5 +283,50 @@
 	VALUES('MCC'||LPAD(MM_CHECK_SEQ.NEXTVAL,7,'0'),(SELECT MM_CT_CODE FROM MM_CHECK_TYPE WHERE CHECK_TYPE LIKE #{checkType} ),#{openCode} ,SYSDATE)
 	</insert>
 	
-
+	<select id="checkConfirmed" parameterType="java.lang.String" resultType="java.lang.String">
+	<!-- 메마 조인룸 확정 확인용(임시) -->
+	SELECT CASE WHEN FULL.MEMBER = FULL.NOP AND FULL.READY = FULL.NOP
+	            THEN 'Confirmed'
+	            ELSE 'Waiting'
+	            END AS ISREADY
+	FROM
+	    (
+	        SELECT MO.MM_OPEN_CODE AS OPENCODE
+	             , (SELECT COUNT(MM_APPLY_CODE) FROM MM_APPLY MA WHERE MM_OPEN_CODE = #{openCode} AND (SELECT COUNT(*) FROM MM_DROPOUT MD WHERE MD.MM_APPLY_CODE = MA.MM_APPLY_CODE) <![CDATA[<]]> 1) AS MEMBER
+	             , (SELECT COUNT(READY_DATE) FROM MM_APPLY MA WHERE MM_OPEN_CODE = #{openCode} AND (SELECT COUNT(*) FROM MM_DROPOUT MD WHERE MD.MM_APPLY_CODE = MA.MM_APPLY_CODE) <![CDATA[<]]> 1) AS READY
+	             , (SELECT NOP FROM MM_OPEN WHERE MM_OPEN_CODE = MO.MM_OPEN_CODE) AS NOP
+	        FROM MM_OPEN MO
+	        WHERE MO.MM_OPEN_CODE = #{openCode}
+	          AND MO.VISIT_DATE > SYSDATE
+	        GROUP BY MO.MM_OPEN_CODE
+	        ORDER BY MO.MM_OPEN_CODE
+	    ) FULL
+	</select>
+	
+	<!-- 중도퇴장 -->
+	<insert id="mmdropOut" parameterType="java.lang.String">
+	INSERT INTO MM_DROPOUT(MM_DROPOUT_CODE, MM_APPLY_CODE, MM_DROPOUT_DATE)
+	VALUES ('MDC'||LPAD(MM_DROPOUT_SEQ.NEXTVAL, 7, '0'),
+		    (SELECT MM_APPLY_CODE FROM MM_APPLY MA WHERE U_CODE = #{userCode} AND MM_OPEN_CODE = #{openCode} AND (SELECT COUNT(*) FROM MM_DROPOUT MD WHERE MD.MM_APPLY_CODE = MA.MM_APPLY_CODE) <![CDATA[<]]> 1),
+		    SYSDATE)
+	</insert>
+	
+	<!-- 체크테이블에서 삭제(퇴장) -->
+	<delete id="mmreOpen" parameterType="java.lang.String">
+		DELETE FROM MM_CHECK WHERE MM_OPEN_CODE = #{openCode} AND MM_CT_CODE = 'MCTC000001'
+	</delete>
+	
+	<!-- 재확정 전 검증로직  -->
+	<select id="mmCountConfirmed" parameterType="java.lang.String" resultType="java.lang.Integer">
+		SELECT COUNT(*)
+		FROM MM_CHECK
+		WHERE MM_CT_CODE = 'MCTC000001'
+	  	AND MM_OPEN_CODE = #{openCode}
+  	</select>
+  	
+	<!-- 메마 재확정(레디, 참가) -->
+	<insert id="mmreCheck" parameterType="java.lang.String">
+    	INSERT INTO MM_CHECK(MM_CHECK_CODE,MM_CT_CODE,MM_OPEN_CODE,CHECK_DATE)
+    	VALUES('MCC'||LPAD(MM_CHECK_SEQ.NEXTVAL,7,'0'),(SELECT MM_CT_CODE FROM MM_CHECK_TYPE WHERE CHECK_TYPE LIKE '확정'),#{openCode},SYSDATE)
+	</insert>
 </mapper>

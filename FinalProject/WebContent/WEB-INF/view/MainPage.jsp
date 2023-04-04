@@ -223,6 +223,7 @@
 
 				$(document).on("click", ".selectInfo", function()
 				{
+					alert($(this).next().children(".readyStatus").val());
 					$(this).next().children('button').click();
 				});
 				
@@ -230,8 +231,10 @@
 				{
 					$(this).next().children('button').click();
 				});
+				
+				initialList();
 			});
-
+	
 	function initialList()
 	{
 		$.ajax(
@@ -242,6 +245,13 @@
 			success : function(args)
 			{
 				$("#resultDiv").html(args);
+				for (var i = 0; i < $(".readyStatus").length; i++)
+					if($(".readyStatus").eq(i).val() == "Confirmed")
+					{
+						$(".mmList").eq(i).css("background-color","#EEEBEB");
+						$(".mmList").eq(i).css("pointer-events","none");
+						$(".mmList").eq(i).attr("class","col-12 col-md-6 col-lg-3 h-50 mb-4 mb-lg-3 me-3 border border-dark mmList");
+					}
 			}
 			//, beforeSend : showRequest
 			,
@@ -269,7 +279,7 @@
 </script>
 </head>
 
-<body onload="initialList()">
+<body>
 	<div>
 		<jsp:include page="LoginForm.jsp"></jsp:include>
 	</div>
@@ -463,8 +473,8 @@
 														class="bi bi-person"></i></span></a>
 												<p class="dropdown-menu">
 													출석점수 : ${attendScore} <br>
-													<br> 매너점수 : ${mannerScore } <br>
-													<br> 신뢰점수 : ${biasScore }
+													<br> 매너점수 : 5 <br>
+													<br> 신뢰점수 : 5
 												</p>
 											</div>
 											<div class="dropdown">

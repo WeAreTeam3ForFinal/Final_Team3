@@ -28,10 +28,12 @@
 	
 	<!-- 중복 지원 불가 처리 쿼리 -->
 	<select id="getMemaApplyCheck" resultType="java.util.HashMap">
-		 SELECT U_CODE
-		 FROM MM_APPLY
-		 WHERE MM_OPEN_CODE = #{openCode}
-		 AND U_CODE = #{userCode}
+		SELECT *
+		from MM_APPLY
+		WHERE NOT EXISTS (SELECT 1 FROM MM_KICKOUT WHERE MM_KICKOUT.MM_APPLY_CODE = MM_APPLY.MM_APPLY_CODE)
+		AND NOT EXISTS (SELECT 1 FROM MM_DROPOUT WHERE MM_DROPOUT.MM_APPLY_CODE = MM_APPLY.MM_APPLY_CODE)
+		AND U_CODE=#{userCode}
+		AND MM_OPEN_CODE = #{openCode}
 	</select>
 
 </mapper>

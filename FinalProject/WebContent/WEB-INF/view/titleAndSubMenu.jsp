@@ -21,6 +21,18 @@
 <!-- memaOpenForm.jsp 에서 해당파일 import 시 js 충돌로 인해 주석처리 함  -->
 <!-- <script src="assets/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>  -->
+<script type="text/javascript">
+		
+		$().ready(function()
+		{
+			$(document).on("click", ".joinRoom", function()
+			{
+				$(this).next().children('button').click();
+			});
+			
+		});
+		
+</script>
 </head>
 <body>
 <!-- 좌측 드롭다운 4 개 추가-->
@@ -208,8 +220,8 @@
 														class="bi bi-person"></i></span></a>
 												<p class="dropdown-menu">
 													출석점수 : ${attendScore} <br>
-													<br> 매너점수 : ${mannerScore } <br>
-													<br> 신뢰점수 : ${biasScore }
+													<br> 매너점수 : 5 <br>
+													<br> 신뢰점수 : 5
 												</p>
 											</div>
 											<div class="dropdown">
@@ -258,7 +270,7 @@
 									</c:choose></li>
 							</ul>
 						</div>
-						<button type="button" class="btn btn-warning btn-sm" onclick="location.href='MyPage.html'" style="float: right;">나의이력</button>
+						<button type="button" class="btn btn-warning btn-sm" onclick="location.href='MyRecord.kkini'" style="float: right;">나의이력</button>
 					</nav>
 				</div>
 

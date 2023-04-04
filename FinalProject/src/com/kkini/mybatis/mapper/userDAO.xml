@@ -123,12 +123,25 @@ WHERE U_NICKNAME = #{nickname}
 <!-- 점수 가져오기 -->
 <select id="getScore" parameterType="java.lang.String" resultType="com.kkini.dto.UserDTO">
 
-SELECT NVL(AC.ATTEND,5) AS attendScore, NVL(MBC.MANNER,5) AS mannerScore, NVL(MBC.BIAS,5) AS biasScore
-FROM U_ATTEND_SCORE AC JOIN U_MANNER_BIAS_SCORE MBC
-ON AC.USERCODE = MBC.USERCODE
-RIGHT JOIN U_PRIVATE_DATA UPD
-ON MBC.USERCODE = UPD.U_CODE
-WHERE UPD.U_CODE = #{user_code}
+SELECT NVL
+       (
+           5 
+           + SUM(CASE WHEN (SELECT COUNT(MA.MM_APPLY_CODE) FROM MM_OPEN MO WHERE MA.U_CODE = MO.U_CODE AND MA.MM_OPEN_CODE = MO.MM_OPEN_CODE AND MD.MM_APPLY_CODE = MA.MM_APPLY_CODE) > 0
+                 THEN -0.5
+                 ELSE (SELECT COUNT(MD.MM_APPLY_CODE) * -0.3 FROM DUAL)
+                 END)
+           + SUM(CASE WHEN (SELECT COUNT(MA.MM_APPLY_CODE) FROM MM_OPEN MO WHERE MA.U_CODE = MO.U_CODE AND MA.MM_OPEN_CODE = MO.MM_OPEN_CODE AND MB.MM_APPLY_CODE_T = MA.MM_APPLY_CODE) > 0
+                 THEN -0.5
+                 ELSE (SELECT COUNT(MB.MM_APPLY_CODE_T) * -0.3 FROM DUAL)
+                 END) 
+           + (COUNT(MF.MM_APPLY_CODE_T) * 0.1)
+           , 0
+       )AS ATTENDSCORE
+FROM MM_APPLY MA, MM_DROPOUT MD, MM_ABSENT MB, MM_FEEDBACK MF
+WHERE MA.U_CODE = #{userCode}
+  AND MA.MM_APPLY_CODE = MD.MM_APPLY_CODE(+)
+  AND MA.MM_APPLY_CODE = MB.MM_APPLY_CODE_T(+)
+  AND MA.MM_APPLY_CODE = MF.MM_APPLY_CODE_T(+)
 
 </select>
 
@@ -148,6 +161,7 @@ AND OPEN.MM_OPEN_CODE NOT IN(SELECT MM_OPEN_CODE
                      WHERE CT.CHECK_TYPE='삭제'
                      AND C.MM_OPEN_CODE = OPEN.MM_OPEN_CODE
                     )
+AND APPLY.MM_APPLY_CODE NOT IN (SELECT MD.MM_APPLY_CODE FROM MM_DROPOUT MD, MM_APPLY MA WHERE MD.MM_APPLY_CODE = MA.MM_APPLY_CODE AND U_CODE = #{user_code})
 </select>
 
 
@@ -167,13 +181,17 @@ AND OPEN.MM_OPEN_CODE NOT IN(SELECT MM_OPEN_CODE
                              WHERE CT.CHECK_TYPE='삭제'
                              AND C.MM_OPEN_CODE = OPEN.MM_OPEN_CODE
 							)
+AND (SELECT COUNT(*) FROM MM_DROPOUT MD, MM_APPLY MA WHERE MD.MM_APPLY_CODE = MA.MM_APPLY_CODE AND U_CODE = #{user_code}) <![CDATA[<]]> 1
 </select>
 
 
 <select id="getJoinRoomList"  parameterType="java.lang.String" resultType="com.kkini.dto.MemaDTO">
 SELECT ROOM_STATUS AS "roomStatus", VISIT_DATE AS "visitDate", REST_NAME AS "restName", OPEN_CODE AS "openCode" 
-FROM USER_MM_APPLY_VIEW
-WHERE U_CODE =#{user_code}
+FROM USER_MM_APPLY_VIEW MAV, MM_APPLY APPLY
+WHERE MAV.U_CODE = #{user_code}
+  AND OPEN_CODE = APPLY.MM_OPEN_CODE
+  AND APPLY.U_CODE = MAV.U_CODE
+  AND APPLY.MM_APPLY_CODE NOT IN (SELECT MD.MM_APPLY_CODE FROM MM_DROPOUT MD, MM_APPLY MA WHERE MD.MM_APPLY_CODE = MA.MM_APPLY_CODE AND U_CODE = #{user_code})
 </select>
 
 <select id="getOpenRoomList" parameterType="java.lang.String" resultType="com.kkini.dto.MemaDTO">
@@ -181,8 +199,10 @@ SELECT OPEN_CODE AS "openCode"
       , VISIT_DATE AS "visitDate"
       , REST_NAME AS "restName"
       , DEADLINE AS "deadline"
-FROM USER_MM_OPEN_VIEW
+FROM USER_MM_OPEN_VIEW MOV
 WHERE OPEN_USER_CODE = #{user_code}
+  AND (SELECT COUNT(*) FROM MM_CHECK MC WHERE MOV.OPEN_CODE = MC.MM_OPEN_CODE AND MM_CT_CODE = 'MCTC000002') <![CDATA[<]]> 1
+  AND (SELECT COUNT(*) FROM MM_DROPOUT MD, MM_APPLY MA WHERE MD.MM_APPLY_CODE = MA.MM_APPLY_CODE AND U_CODE = #{user_code}) <![CDATA[<]]> 1
 </select>
 
 <!-- 로그인 회원 연령 및 나이 -->
