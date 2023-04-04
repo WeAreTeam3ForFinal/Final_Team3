@@ -17,8 +17,23 @@ public class MemaDTO implements Serializable
 	private String openCode, restName, region, regionMatch, foodctg, foodCode, ageGroup, ageCode, gender, genderCode, genderMatch,
 				   visitDate, mainMenu, deadline, partyMemberCount, 
 				   nop, partyMaster, attendScore, mannerScore, biasScore, menuPrice, isClosed, openKeyword, userCode, roomStatus,
-				   applyCode, grade, attendee;
+				   applyCode, grade, attendee, isReady;
 	
+	public String getIsReady()
+	{
+		return isReady;
+	}
+
+	public void setIsReady(String isReady)
+	{
+		this.isReady = isReady;
+	}
+
+	public static long getSerialversionuid()
+	{
+		return serialVersionUID;
+	}
+
 	public String getApplyCode()
 	{
 		return applyCode;

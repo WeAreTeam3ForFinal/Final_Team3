@@ -144,6 +144,20 @@
 		left: 150px;
 	}
 	
+	#dropOut
+	{
+		position: relative; 
+		bottom: 1160px; 
+		width: 250px; 
+		height: 100%; 
+		border-radius: 10%;
+		font-weight: bold;
+		font-family: 맑은고딕;
+		font-size: 17pt;
+		border: 2px solid black;
+		left: 0px;
+	}
+	
 	#ready, #unReady
 	{
 		position: relative; 
@@ -238,6 +252,34 @@
 			
 		});
 		
+		$("#dropOut").click(function()
+		{
+			
+			// 중도퇴장여부 재확인
+			if(confirm("중도퇴장 시 참가점수 패널티가 부여됩니다."))
+			{
+				// 로그인한 회원코드
+				var userCode = $("#loginUcode").text();
+				
+				// 참가한 방 오픈코드 받아오기
+				var openCode = document.getElementsByName("openCode")[0].value;
+				
+				// 방장 닉네임
+				var master = $(".partyMaster").children(".nickName-Master").text();
+				
+				// 강퇴 처리를 위해 유저코드 파라미터 넘기기
+				var url = "mmdropOut.kkini?userCode=" + userCode + "&openCode=" + openCode +"&master=" + master; 
+				// out 버튼 부모(Form 태그) action 속성에 url 대입
+				$(this).parent().attr("action", url);
+				
+				// 서브밋
+				$(this).parent().submit();
+			}
+			else
+				return;
+			
+		});
+		
 		
 		// 레디 기능
 		$("#ready").click(function()
@@ -288,7 +330,6 @@
 			
 			$(".modal-title").text(nickName + " 님의 점수");
 			$(".modal-body").html($(this).next("button").next().html());
-			
 			$(this).next("button").click();
 						
 		});
@@ -509,8 +550,8 @@
 												</div>
 													<span id="nickName" style="display: none;"> ${attendees.attendee }</span>
 													<span id="attendScore"> 참가점수 : ${scores.attendScore } </span> <br>
-													<span id="mannerScore"> 매너점수 : ${scores.mannerScore } </span> <br>
-													<span id="biasScore"> 신뢰점수 : ${scores.biasScore } </span> <br>
+													<span id="mannerScore"> 매너점수 : 5 </span> <br>
+													<span id="biasScore"> 신뢰점수 : 5 </span> <br>
 											</c:if>
 										</c:forEach>
 								</div>
@@ -555,8 +596,8 @@
 												</div>
 													<span id="nickName" style="display: none;"> ${attendees.attendee }</span>
 													<span id="attendScore"> 참가점수 : ${scores.attendScore } </span> <br>
-													<span id="mannerScore"> 매너점수 : ${scores.mannerScore } </span> <br>
-													<span id="biasScore"> 신뢰점수 : ${scores.biasScore } </span> <br>
+													<span id="mannerScore"> 매너점수 : 5 </span> <br>
+													<span id="biasScore"> 신뢰점수 : 5 </span> <br>
 											</c:if>
 										</c:forEach>
 									</div>
@@ -606,25 +647,38 @@
 				</c:forEach>
 				
 				<form action="" method="post" style="width: 200px; height: 70px; position: relative; top: 38%; left: 38%; border-radius: 10%; text-align: center;">
-					<button class="btn btn-danger" type="button" id="out">
-						퇴장하기
-						<span id="loginUcode" style="display: none;">${sessionScope.userCode }</span>
-					</button>
-					
 					<c:choose>
-						<c:when test="${isReady == 0 }">
-							<button class="btn btn-success" type="button" id="ready">
-								레디하기
+						<c:when test="${isConfirmed eq 'Waiting' }">
+							<button class="btn btn-danger" type="button" id="out">
+								퇴장하기
+								<span id="loginUcode" style="display: none;">${sessionScope.userCode }</span>
 							</button>
 						</c:when>
 						
 						<c:otherwise>
-							<button class="btn btn-secondary" type="button" id="unReady">
-								레디해제
+							<button class="btn btn-danger" type="button" id="dropOut">
+								중도퇴장(패널티)
+								<span id="loginUcode" style="display: none;">${sessionScope.userCode }</span>
 							</button>
+							<input type="text" name="checkType" value="삭제" style="display: none;">
 						</c:otherwise>
 					</c:choose>
-					
+						
+						<c:if test="${isConfirmed eq 'Waiting' }">
+							<c:choose>
+								<c:when test="${isReady == 0 }">
+									<button class="btn btn-success" type="button" id="ready">
+										레디하기
+									</button>
+								</c:when>
+								
+								<c:otherwise>
+									<button class="btn btn-secondary" type="button" id="unReady">
+										레디해제
+									</button>
+								</c:otherwise>
+							</c:choose>
+						</c:if>
 				</form>
 		</div>
 		

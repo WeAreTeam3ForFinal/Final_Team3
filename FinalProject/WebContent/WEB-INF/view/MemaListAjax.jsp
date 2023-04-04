@@ -47,7 +47,7 @@
 	             <c:choose>
 	             	<c:when test="${memaSearchList != null }">
 			             <c:forEach var="dto" items="${memaSearchList }">
-			                <div class="col-12 col-md-6 col-lg-3 h-50 mb-4 mb-lg-3 me-3 border border-warning" style="width: 280px;">
+			                <div class="col-12 col-md-6 col-lg-3 h-50 mb-4 mb-lg-3 me-3 border border-warning mmList" style="width: 280px;">
 			                	<!-- div 스타일 속성 추가. div영역 넘어가는 해시태그 ... 처리 -->
 								<div style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;" class="selectInfo">
 								<!-- 일시, 지역, 식당명, 음식종류, 메인메뉴, 모집 연령대, 인원수 -->
@@ -62,8 +62,9 @@
 									<div class="border"></div>
 									확인용-검색
 								</div>
-									<form action="getMemaApplyInfo.kkini" method="get">
+								<form action="getMemaApplyInfo.kkini" method="get">
 									<input type="text" style="display:none;" name="openCode" value="${dto.openCode }"> <!-- value에는 각각의 개설코드 들어가야함  -->
+									<input type="text" style="display:none;" class="readyStatus" value="${dto.isReady }"> <!-- 레디상태 확인용  -->
 									<button type="submit" style="display:none;"></button>
 								</form>                	
 			                </div>
@@ -71,7 +72,7 @@
 	             	</c:when>
 	             	<c:otherwise>
 			             <c:forEach var="dto" items="${memaList }">
-			                <div class="col-12 col-md-6 col-lg-3 h-50 mb-4 mb-lg-3 me-3 border border-warning" style="width: 280px;">
+			                <div class="col-12 col-md-6 col-lg-3 h-50 mb-4 mb-lg-3 me-3 border border-warning mmList" style="width: 280px;">
 			                	<!-- div 스타일 속성 추가. div영역 넘어가는 해시태그 ... 처리 -->
 								<div style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;" class="selectInfo">
 								<!-- 일시, 지역, 식당명, 음식종류, 메인메뉴, 모집 연령대, 인원수 -->
@@ -88,6 +89,7 @@
 								</div>
 								<form action="getMemaApplyInfo.kkini" method="get">
 									<input type="text" style="display:none;" name="openCode" value="${dto.openCode }"> <!-- value에는 각각의 개설코드 들어가야함  -->
+									<input type="text" style="display:none;" class="readyStatus" value="${dto.isReady }"> <!-- 레디상태 확인용  -->
 									<button type="submit" style="display:none;"></button>
 								</form>                	
 			                </div>

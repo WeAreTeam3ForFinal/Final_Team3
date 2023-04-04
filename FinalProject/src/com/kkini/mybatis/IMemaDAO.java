@@ -105,5 +105,20 @@ public interface IMemaDAO
 	
 	//방 삭제
 	public void deleteMM(Map<String, String> openMM);
-
+	
+	// 조인룸 확정 확인(임시)
+	public String checkConfirmed(@Param("openCode") String openCode);
+	
+	// 중도퇴장
+	public void mmdropOut(@Param("userCode") String userCode, @Param("openCode") String openCode);
+	
+	// 확정테이블에서 삭제
+	public void mmreOpen(@Param("openCode") String openCode);
+	
+	// 확정테이블 삽입 전 기확정된 방인지 확인
+	public int mmCountConfirmed(@Param("openCode") String openCode);
+	
+	// 확정테이블 삽입
+	public void mmreCheck(@Param("openCode") String openCode);
+	
 }

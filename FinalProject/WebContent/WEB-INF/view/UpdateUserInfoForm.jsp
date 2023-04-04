@@ -416,14 +416,14 @@ String cp = request.getContextPath();
 												</div>
 											<div>
 												<div id="addInput">
-												<c:set var="i" value="1"></c:set>
+												<c:set var="i" value="0"></c:set>
 												<c:forEach var="intregion" items="${intregions }">
 													<input id="newInput${i }" name="user_intregions" type="text" readonly="readonly" class="form-control form-control-m rounded d-inline"
 													 style="width:150px;" value="${intregion }">
 													 <label for="newInput${i }" class="removeInput" name="newInput${i }">X&nbsp;&nbsp;&nbsp;</label>
 													 <c:set var="i" value="${i+1 }"></c:set>
 												</c:forEach>
-												<input type="text" value="${i-1 }" id="tmpIndex" style="display: none;"/>
+												<input type="text" value="${i }" id="tmpIndex" style="display: none;"/>
 												</div>
 											</div>
 											<br>
