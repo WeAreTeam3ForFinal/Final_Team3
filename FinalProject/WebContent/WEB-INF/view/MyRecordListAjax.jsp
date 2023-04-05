@@ -42,7 +42,7 @@
 			             <c:forEach var="recordList" items="${recordList }">
 			                
 			                
-			                <div class="col-12 col-md-6 col-lg-3 h-50 mb-4 mb-lg-3 me-3 border border-warning " style="width: 280px;">
+			                <div class="col-12 col-md-6 col-lg-3 h-50 mb-4 mb-lg-3 me-3 border recordList ${recordList.STATUS eq '피드백 대기' ? 'background-color: border-success' : 'border-warning'}" style="width: 280px;">
 			                	<button style="background-color: orange; border: 0">${recordList.BAR}</button>
 			                	<c:choose>
 			                	<c:when test="${recordList.GRADE=='참가'}">
@@ -52,7 +52,11 @@
 			                	<button style="background-color: blue; border: 0;color: white;">${recordList.GRADE }</button>
 			                	</c:otherwise>
 			                	</c:choose>
-			                	<button style="background-color: black; border: 0;color: white;">${recordList.STATUS }</button>
+			                	
+			                	
+			                	<button class="feedBackStatus"style="border: 0;color: white; ${recordList.STATUS eq '피드백 대기' ? 'background-color: green;' : (recordList.STATUS eq '불참' ? 'background-color: red;' : 'background-color: black;')}">${recordList.STATUS }</button>
+			                	
+			                	
 			                	<!-- div 스타일 속성 추가. div영역 넘어가는 해시태그 ... 처리 -->
 								<div style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;" class="recordRoom">
 								<!-- 일시, 지역, 식당명, 음식종류, 메인메뉴, 모집 연령대, 인원수 -->
@@ -63,7 +67,7 @@
 									<i class="bi bi-calendar-check-fill ms-3 me-3"></i><span id="mema-list-visitDate">${recordList.VISIT_DATE }</span><br>
 									<i class="fa-solid fa-utensils ms-3 me-3"></i><span id="mema-list-region">${recordList.MAIN_MENU }</span><br>
 									<div class="border"></div>
-									확인용-검색
+								
 								</div>
 								
 								

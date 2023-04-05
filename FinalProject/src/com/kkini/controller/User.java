@@ -197,7 +197,7 @@ public class User
 		// {
 
 		IUserDAO dao = sqlSession.getMapper(IUserDAO.class);
-
+		System.out.println(dto.getUser_addr());
 		// 여기서 먼저 유저가 입력한 지역데이터가 테이블에 있는지 확인하고 있다면 210줄로 아니라면 새로이 지역 테이블에 데이터를 생성해주고
 		// 210줄로 가야한다. 물론 관심지역도 전부 확인해야함
 		dto.setRegion_name(dto.getUser_addr());
@@ -208,6 +208,7 @@ public class User
 		// 유저 세부정보 테이블에 입력
 		dao.userRegister(dto);
 
+		System.out.println("sdf");
 		dto.setUser_code(dto.getUser_code_live());
 
 		// 회원코드 생성
@@ -218,6 +219,7 @@ public class User
 		// 유저 관심지역 테이블에 회원코드와 함께 회원이 입력한 관심지역 개수만큼 입력
 		for (String user_region : dto.getUser_intregions())
 		{
+			System.out.println(user_region+"  "+user_code);
 			dto.setRegion_name(user_region);
 			dao.region_InOut(dto);
 			dao.addintregion(user_region, user_code);
@@ -424,12 +426,39 @@ public class User
 		} else if (detail.equals("applying"))
 		{
 			recordList = dao.userRecord((String) session.getAttribute("userCode"));
+			
+			
 		} else if (detail.equals("feedback"))
 		{
-			recordList = dao.userRecord((String) session.getAttribute("userCode"));
+			if(sortBy.equals("none"))
+			{
+			recordList = dao.userRecord_feedback((String) session.getAttribute("userCode"));
+			}
+			
+			else
+			{
+				if(sortBy.equals("recordDate"))
+				{
+					recordList = dao.userRecord_feedbackSortDate((String) session.getAttribute("userCode"));
+				}
+				else
+				{
+					recordList = dao.userRecord_feedbackSortClose((String) session.getAttribute("userCode"));
+				}
+			}
+			
+			
 		} else if (detail.equals("dropout"))
 		{
-			recordList = dao.userRecord((String) session.getAttribute("userCode"));
+			if(sortBy.equals("none"))
+			{
+				recordList = dao.userRecord_dropout((String) session.getAttribute("userCode"));				
+			}
+			else
+			{
+				recordList = dao.userRecord_dropout((String) session.getAttribute("userCode"));				
+			}
+			
 		}
 
 		else
@@ -633,7 +662,7 @@ public class User
 
 		// 나온사람이 없을수도 안나온사람이 없을수도 있음
 
-		if (absents.length != 0)
+		if (absents != null)
 		{
 			for (String applyCodeT : absents)
 			{
@@ -644,7 +673,7 @@ public class User
 		{
 		}
 
-		if (attends.length != 0)
+		if (attends != null)
 		{
 			for (String applyCodeT : attends)
 			{

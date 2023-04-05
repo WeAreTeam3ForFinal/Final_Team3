@@ -32,6 +32,8 @@ String cp = request.getContextPath();
 	$(document).ready(
 			function()
 			{
+				
+				
 
 				$(document).on("click", ".bar", function()
 				{
@@ -161,6 +163,15 @@ String cp = request.getContextPath();
 			success : function(args)
 			{
 				$("#resultDiv").html(args);
+				for (var i = 0; i < $(".feedBackStatus").length; i++)
+					if($(".feedBackStatus").eq(i).text() == "참가완료")
+					{
+						$(".recordList").eq(i).css("background-image","url('assets/images/icons/check-mark.png')");
+						//$(".recordList").eq(i).css("background-size","cover");
+						$(".recordList").eq(i).css("background-repeat","no-repeat");
+						$(".recordList").eq(i).css("background-position","center");
+						//$(".recordList").eq(i).attr("class","col-12 col-md-6 col-lg-3 h-50 mb-4 mb-lg-3 me-3 border border-dark mmList");
+					}
 			},
 			error : function(e)
 			{

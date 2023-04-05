@@ -227,14 +227,13 @@ document.addEventListener('DOMContentLoaded',function() {
 // 개설키워드 js 끝
 
 
-<!-- 데이트피커 js -->
 $(function() {
-	$.datetimepicker.setLocale('ko');
+    $.datetimepicker.setLocale('ko');
 	
 	
 	// 최소 방문 예정일 제한(현재 날짜 및 시간으로부터 2시간 이후)
     var minDateTime = new Date();
-	var time = minDateTime.getHours()+2;
+	var time = minDateTime.getHours(); //+ 2 복구
 	minDateTime.setHours(time); 
 	//var minDate = now.getTime()+2;
 	

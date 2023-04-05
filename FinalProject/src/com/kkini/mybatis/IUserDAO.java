@@ -98,12 +98,20 @@ public interface IUserDAO
 	
 	//public List<Map<String, String>> userRecord_applying(String userCode); //나의 이력 페이지 참여완료
 	
-	//public List<Map<String, String>> userRecord_dropout(String userCode); //나의 이력 페이지 참여완료
+	public List<Map<String, String>> userRecord_dropout(String userCode); //나의 이력 페이지 불참
+	//public List<Map<String, String>> userRecord_dropoutSortDate(String userCode); //나의 이력 페이지 불참
+	//public List<Map<String, String>> userRecord_dropoutSortClose(String userCode); //나의 이력 페이지 불참
 
-	//public List<Map<String, String>> userRecord_feedback(String userCode); //나의 이력 페이지 참여완료
+	public List<Map<String, String>> userRecord_feedback(String userCode); //나의 이력 페이지 피드백 대기중
+	public List<Map<String, String>> userRecord_feedbackSortDate(String userCode); //나의 이력 페이지 피드백 대기중
+	public List<Map<String, String>> userRecord_feedbackSortClose(String userCode); //나의 이력 페이지 피드백 대기중
 	
 	public void send_feedBack(@Param("applyCodeG") String applyCodeG, @Param("applyCodeT") String applyCodeT, @Param("openCode") String openCode); //피드백 전송
 	
 	public void send_Absent(@Param("applyCodeG") String applyCodeG, @Param("applyCodeT") String applyCodeT); //피드백 전송
+	
+	public String getfeedBack_Status(@Param("userCode") String userCode, @Param("openCode") String openCode); //회원이 이 방에 대한 피드백을 진행했는지 확인
+	
+	public ArrayList<String> getfeedBack_Record(@Param("userCode") String userCode, @Param("openCode") String openCode);//진행했던 피드백 이력을 불러오기
 
 }

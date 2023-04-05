@@ -645,24 +645,12 @@ public class MemaController
 		try
 		{
 			
-			if(session.getAttribute("userCode") != null)
+			if(session.getAttribute("userCode") == null)
 			{
+			result="redirect: mainPage.kkini";
+			return result;
 			
-			IMemaDAO dao = sqlSession.getMapper(IMemaDAO.class);
-			
-			Map<String, String>roomInfo = new HashMap<String, String>();
-			
-			roomInfo = dao.mmjoinRoomInfo(openCode);
-			
-			result = "/WEB-INF/view/RecordRoom.jsp";
-			
-			}
-			else// 로그인 세션이 만료되었을경우
-			{
-				result="redirect: mainPage.kkini";
-			}
-			
-			
+			}	
 			
 		} catch (Exception e)
 		{
@@ -689,16 +677,14 @@ public class MemaController
 		
 		roomInfo = dao.mmjoinRoomInfo(openCode);
 		
+		String userCode = (String)session.getAttribute("userCode");
 		ArrayList<MemaDTO> attendees = dao.mmAttendees(openCode);
 		ArrayList<UserDTO> scores = new ArrayList<UserDTO>();
-		
 		model.addAttribute("attendees", attendees);
 		
 		
 		for (MemaDTO memaDTO : attendees)
 		{
-			
-	
 			
 			scores.add(dao2.getScore(memaDTO.getUserCode()));
 		}
@@ -708,6 +694,25 @@ public class MemaController
 		
 		int nop = Integer.parseInt(attendees.get(0).getNop());
 		
+		//피드백을 완료했는지 안했는지 조회
+		
+		if(dao2.getfeedBack_Status(userCode, openCode).equals("YES"))
+		{
+			
+			ArrayList<String> feedBack = dao2.getfeedBack_Record(userCode, openCode);
+			
+			System.out.println(feedBack.toString());
+			
+			if(feedBack.toString()=="[]")
+			{
+				model.addAttribute("feedBack", "allClear");
+			}
+			else
+			{
+				model.addAttribute("feedBack", feedBack);
+			}
+		}
+		
 		model.addAttribute("roomInfo", roomInfo);
 		model.addAttribute("nop", nop);
 		String nickName = (String)session.getAttribute("nickName");
@@ -716,7 +721,7 @@ public class MemaController
 		model.addAttribute("isReady", isReady);
 		model.addAttribute("scores", scores);
 		
-		
+		result = "/WEB-INF/view/RecordRoom.jsp";
 		return result;
 		
 	}

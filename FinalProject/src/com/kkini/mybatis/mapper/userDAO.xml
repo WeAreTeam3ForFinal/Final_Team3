@@ -5,721 +5,861 @@
 
 <mapper namespace="com.kkini.mybatis.IUserDAO">
 
-<select id="getChalist" resultType="java.util.HashMap">
-SELECT CHA_TYPE_CODE , CHA
-FROM CHA_TYPE
-ORDER BY 1
-</select>
+	<select id="getChalist" resultType="java.util.HashMap">
+		SELECT CHA_TYPE_CODE , CHA
+		FROM CHA_TYPE
+		ORDER BY 1
+	</select>
 
 
 
-<select id="getTalklist" resultType="java.util.HashMap">
-SELECT TALK_AMOUNT_CODE AS CODE , AMOUNT
-FROM TALK_AMOUNT
-ORDER BY 1
-</select>
+	<select id="getTalklist" resultType="java.util.HashMap">
+		SELECT TALK_AMOUNT_CODE AS
+		CODE , AMOUNT
+		FROM TALK_AMOUNT
+		ORDER BY 1
+	</select>
 
 
-<select id="getIntlist" resultType="java.util.HashMap">
-SELECT INTER_TYPE_CODE AS CODE, INTER
-FROM INTER_TYPE
-ORDER BY 1
-</select>
+	<select id="getIntlist" resultType="java.util.HashMap">
+		SELECT INTER_TYPE_CODE AS
+		CODE, INTER
+		FROM INTER_TYPE
+		ORDER BY 1
+	</select>
 
 
-<select id="getSpeedlist" resultType="java.util.HashMap">
-SELECT U_SPEED_CODE AS CODE, U_SPEED
-FROM EATINGSPEED
-ORDER BY 1
-</select>
+	<select id="getSpeedlist" resultType="java.util.HashMap">
+		SELECT U_SPEED_CODE AS
+		CODE, U_SPEED
+		FROM EATINGSPEED
+		ORDER BY 1
+	</select>
 
 
-<select id="userRegister" parameterType="com.kkini.dto.UserDTO" statementType="CALLABLE">
-{CALL PRC_USER_REGISTE(
-#{user_id, mode=IN, jdbcType=VARCHAR}
-, #{user_pw, mode=IN, jdbcType=VARCHAR}
-, #{user_nickname, mode=IN, jdbcType=VARCHAR}
-, #{user_phonenumber, mode=IN, jdbcType=VARCHAR}
-, #{user_addr, mode=IN, jdbcType=VARCHAR}
-, #{user_talk, mode=IN, jdbcType=VARCHAR}
-, #{user_eatSpeed, mode=IN, jdbcType=VARCHAR}
-, #{user_birth , mode=IN, jdbcType=CHAR}
-, #{user_gender, mode=IN, jdbcType=CHAR}
-, #{user_introduce, mode=IN, jdbcType=NULL}
-, #{user_code_live, mode=OUT, jdbcType=VARCHAR}
-)}
-</select>
+	<select id="userRegister" parameterType="com.kkini.dto.UserDTO"
+		statementType="CALLABLE">
+		{CALL PRC_USER_REGISTE(
+		#{user_id, mode=IN,
+		jdbcType=VARCHAR}
+		, #{user_pw, mode=IN, jdbcType=VARCHAR}
+		,
+		#{user_nickname, mode=IN, jdbcType=VARCHAR}
+		, #{user_phonenumber,
+		mode=IN, jdbcType=VARCHAR}
+		, #{user_addr, mode=IN, jdbcType=VARCHAR}
+		,
+		#{user_talk, mode=IN, jdbcType=VARCHAR}
+		, #{user_eatSpeed, mode=IN,
+		jdbcType=VARCHAR}
+		, #{user_birth , mode=IN, jdbcType=CHAR}
+		,
+		#{user_gender, mode=IN, jdbcType=CHAR}
+		, #{user_introduce, mode=IN,
+		jdbcType=NULL}
+		, #{user_code_live, mode=OUT, jdbcType=VARCHAR}
+		)}
+	</select>
 
 
-<select id="region_InOut" parameterType="com.kkini.dto.UserDTO" statementType="CALLABLE">
-{CALL PRC_INSERTREGION(
- #{region_name, mode=IN, jdbcType=VARCHAR}
-,#{region_code, mode=OUT, jdbcType=VARCHAR} 
-)}
-</select>
-
-
-
-<select id="regionSearch" parameterType="java.lang.String" resultType="java.lang.String">
-SELECT REGION_CODE
-FROM REGION
-WHERE REGION_NAME LIKE #{user_addr}
-</select>
-
-
-<select id="check" resultType="java.lang.Integer" parameterType="java.lang.String">
-SELECT COUNT(*) AS COUNT
-FROM REGION
-WHERE REGION_NAME LIKE #{region_name}
-
-</select>
+	<select id="region_InOut" parameterType="com.kkini.dto.UserDTO"
+		statementType="CALLABLE">
+		{CALL PRC_INSERTREGION(
+		#{region_name, mode=IN,
+		jdbcType=VARCHAR}
+		,#{region_code, mode=OUT, jdbcType=VARCHAR}
+		)}
+	</select>
 
 
 
-
-<insert id="addintregion" parameterType="java.lang.String">
-INSERT INTO U_ATTENTION(U_ATTENTION_CODE,REGION_CODE,U_CODE)
-VALUES('UAC'||LPAD(SEQ_U_ATTENTION_CODE.NEXTVAL,7,'0'),(SELECT REGION_CODE FROM REGION WHERE REGION_NAME=#{user_region}),#{user_code})
-</insert>
-
-<insert id="addinterest" parameterType="java.lang.String">
-INSERT INTO INTEREST(INTER_CODE, INTER_TYPE_CODE, U_CODE)
-VALUES('IC'||LPAD(SEQ_INTEREST_CODE.NEXTVAL,8,'0'),#{user_interest},#{user_code})
-</insert>
-
-<insert id="addcharacter" parameterType="java.lang.String">
-INSERT INTO CHARACTER(CHA_CTG_CODE, CHA_TYPE_CODE, U_CODE)
-VALUES('CHA'||LPAD(SEQ_CHARACTER_CODE.NEXTVAL,7,'0'),#{user_character},#{user_code})
-</insert>
+	<select id="regionSearch" parameterType="java.lang.String"
+		resultType="java.lang.String">
+		SELECT REGION_CODE
+		FROM REGION
+		WHERE REGION_NAME LIKE
+		#{user_addr}
+	</select>
 
 
-<select id="loginMember" parameterType="com.kkini.dto.UserDTO" resultType="com.kkini.dto.UserDTO">
-SELECT U_CODE AS user_code , U_NICKNAME AS user_nickname
-FROM U_PRIVATE_DATA
-WHERE U_ID=#{user_id} AND #{user_pw}=cryptpack.DECRYPT( U_PW,#{user_pw})
-</select>
+	<select id="check" resultType="java.lang.Integer"
+		parameterType="java.lang.String">
+		SELECT COUNT(*) AS COUNT
+		FROM REGION
+		WHERE REGION_NAME
+		LIKE #{region_name}
+
+	</select>
 
 
 
-<!-- 아이디 중복검사  -->
-<select id="idOverlapCheck" parameterType="java.lang.String" resultType="java.lang.Integer">
 
-SELECT COUNT(*) AS COUNT
-FROM U_PRIVATE_DATA
-WHERE U_ID = #{id}
+	<insert id="addintregion" parameterType="java.lang.String">
+		INSERT INTO
+		U_ATTENTION(U_ATTENTION_CODE,REGION_CODE,U_CODE)
+		VALUES('UAC'||LPAD(SEQ_U_ATTENTION_CODE.NEXTVAL,7,'0'),(SELECT
+		REGION_CODE FROM REGION WHERE
+		REGION_NAME=#{user_region}),#{user_code})
+	</insert>
 
-</select>
+	<insert id="addinterest" parameterType="java.lang.String">
+		INSERT INTO
+		INTEREST(INTER_CODE, INTER_TYPE_CODE, U_CODE)
+		VALUES('IC'||LPAD(SEQ_INTEREST_CODE.NEXTVAL,8,'0'),#{user_interest},#{user_code})
+	</insert>
 
-
-<!-- 닉네임 중복검사 -->
-<select id="nickNameOverlapCheck" parameterType="java.lang.String" resultType="java.lang.Integer">
-SELECT COUNT(*) AS COUNT
-FROM U_PRIVATE_DATA
-WHERE U_NICKNAME = #{nickname}
-</select>
-
-
-
-<!-- 점수 가져오기 -->
-<select id="getScore" parameterType="java.lang.String" resultType="com.kkini.dto.UserDTO">
-
-SELECT NVL
-       (
-           5 
-           + SUM(CASE WHEN (SELECT COUNT(MA.MM_APPLY_CODE) FROM MM_OPEN MO WHERE MA.U_CODE = MO.U_CODE AND MA.MM_OPEN_CODE = MO.MM_OPEN_CODE AND MD.MM_APPLY_CODE = MA.MM_APPLY_CODE) > 0
-                 THEN -0.5
-                 ELSE (SELECT COUNT(MD.MM_APPLY_CODE) * -0.3 FROM DUAL)
-                 END)
-           + SUM(CASE WHEN (SELECT COUNT(MA.MM_APPLY_CODE) FROM MM_OPEN MO WHERE MA.U_CODE = MO.U_CODE AND MA.MM_OPEN_CODE = MO.MM_OPEN_CODE AND MB.MM_APPLY_CODE_T = MA.MM_APPLY_CODE) > 0
-                 THEN -0.5
-                 ELSE (SELECT COUNT(MB.MM_APPLY_CODE_T) * -0.3 FROM DUAL)
-                 END) 
-           + (COUNT(MF.MM_APPLY_CODE_T) * 0.1)
-           , 0
-       )AS ATTENDSCORE
-FROM MM_APPLY MA, MM_DROPOUT MD, MM_ABSENT MB, MM_FEEDBACK MF
-WHERE MA.U_CODE = #{userCode}
-  AND MA.MM_APPLY_CODE = MD.MM_APPLY_CODE(+)
-  AND MA.MM_APPLY_CODE = MB.MM_APPLY_CODE_T(+)
-  AND MA.MM_APPLY_CODE = MF.MM_APPLY_CODE_T(+)
-
-</select>
-
-<select id="checkJoinRoomList" parameterType="java.lang.String" resultType="java.lang.Integer">
-SELECT COUNT(*) AS COUNT   
-FROM MM_APPLY APPLY JOIN MM_OPEN OPEN
-ON OPEN.MM_OPEN_CODE = APPLY.MM_OPEN_CODE
-WHERE APPLY.U_CODE= #{userCode}
-AND OPEN.VISIT_DATE > SYSDATE
-AND APPLY.MM_APPLY_CODE NOT IN(
-                    SELECT KICKOUT.MM_APPLY_CODE
-                    FROM MM_KICKOUT KICKOUT
-					)
-AND OPEN.MM_OPEN_CODE NOT IN(SELECT MM_OPEN_CODE
-                     FROM MM_CHECK C LEFT JOIN MM_CHECK_TYPE CT
-                     ON C.MM_CT_CODE = CT.MM_CT_CODE
-                     WHERE CT.CHECK_TYPE='삭제'
-                     AND C.MM_OPEN_CODE = OPEN.MM_OPEN_CODE
-                    )
-AND APPLY.MM_APPLY_CODE NOT IN (SELECT MD.MM_APPLY_CODE FROM MM_DROPOUT MD, MM_APPLY MA WHERE MD.MM_APPLY_CODE = MA.MM_APPLY_CODE AND U_CODE = #{user_code})
-</select>
+	<insert id="addcharacter" parameterType="java.lang.String">
+		INSERT INTO
+		CHARACTER(CHA_CTG_CODE, CHA_TYPE_CODE, U_CODE)
+		VALUES('CHA'||LPAD(SEQ_CHARACTER_CODE.NEXTVAL,7,'0'),#{user_character},#{user_code})
+	</insert>
 
 
-<select id="checkOpenRoomList"  parameterType="java.lang.String" resultType="java.lang.Integer">
-SELECT COUNT(*) AS COUNT
-FROM MM_OPEN OPEN LEFT JOIN MM_CHECK C
-ON OPEN.MM_OPEN_CODE = C.MM_OPEN_CODE
-LEFT JOIN MM_CHECK_TYPE CT
-ON C.MM_CT_CODE = CT.MM_CT_CODE
-JOIN REST
-ON OPEN.REST_CODE = REST.REST_CODE
-WHERE OPEN.U_CODE = #{user_code}
-AND OPEN.VISIT_DATE > SYSDATE
-AND OPEN.MM_OPEN_CODE NOT IN(SELECT MM_OPEN_CODE
-                             FROM MM_CHECK C LEFT JOIN MM_CHECK_TYPE CT
-                             ON C.MM_CT_CODE = CT.MM_CT_CODE
-                             WHERE CT.CHECK_TYPE='삭제'
-                             AND C.MM_OPEN_CODE = OPEN.MM_OPEN_CODE
-							)
-AND (SELECT COUNT(*) FROM MM_DROPOUT MD, MM_APPLY MA WHERE MD.MM_APPLY_CODE = MA.MM_APPLY_CODE AND U_CODE = #{user_code}) <![CDATA[<]]> 1
-</select>
+	<select id="loginMember" parameterType="com.kkini.dto.UserDTO"
+		resultType="com.kkini.dto.UserDTO">
+		SELECT U_CODE AS user_code , U_NICKNAME AS user_nickname
+		FROM U_PRIVATE_DATA
+		WHERE U_ID=#{user_id} AND
+		#{user_pw}=cryptpack.DECRYPT( U_PW,#{user_pw})
+	</select>
 
 
-<select id="getJoinRoomList"  parameterType="java.lang.String" resultType="com.kkini.dto.MemaDTO">
-SELECT ROOM_STATUS AS "roomStatus", VISIT_DATE AS "visitDate", REST_NAME AS "restName", OPEN_CODE AS "openCode" 
-FROM USER_MM_APPLY_VIEW MAV, MM_APPLY APPLY
-WHERE MAV.U_CODE = #{user_code}
-  AND OPEN_CODE = APPLY.MM_OPEN_CODE
-  AND APPLY.U_CODE = MAV.U_CODE
-  AND APPLY.MM_APPLY_CODE NOT IN (SELECT MD.MM_APPLY_CODE FROM MM_DROPOUT MD, MM_APPLY MA WHERE MD.MM_APPLY_CODE = MA.MM_APPLY_CODE AND U_CODE = #{user_code})
-</select>
 
-<select id="getOpenRoomList" parameterType="java.lang.String" resultType="com.kkini.dto.MemaDTO">
-SELECT OPEN_CODE AS "openCode"
-      , VISIT_DATE AS "visitDate"
-      , REST_NAME AS "restName"
-      , DEADLINE AS "deadline"
-FROM USER_MM_OPEN_VIEW MOV
-WHERE OPEN_USER_CODE = #{user_code}
-  AND (SELECT COUNT(*) FROM MM_CHECK MC WHERE MOV.OPEN_CODE = MC.MM_OPEN_CODE AND MM_CT_CODE = 'MCTC000002') <![CDATA[<]]> 1
-  AND (SELECT COUNT(*) FROM MM_DROPOUT MD, MM_APPLY MA WHERE MD.MM_APPLY_CODE = MA.MM_APPLY_CODE AND U_CODE = #{user_code}) <![CDATA[<]]> 1
-</select>
+	<!-- 아이디 중복검사 -->
+	<select id="idOverlapCheck" parameterType="java.lang.String"
+		resultType="java.lang.Integer">
 
-<!-- 로그인 회원 연령 및 나이 -->
-<select id ="userGenderAge" parameterType="java.lang.String" resultType="com.kkini.dto.UserDTO">
-	SELECT CASE WHEN U.BACK_SSN = '1' OR U.BACK_SSN = '3' THEN '남성' ELSE '여성' END AS user_gender
-     , CASE WHEN INSTR(U.FRONT_SSN, '0',1) != 1 
-            THEN (SUBSTR(FRONT_SSN,1,2) - TO_CHAR(SYSDATE, 'YYYY') + 1900) * -1 
-            WHEN INSTR(U.FRONT_SSN, '0',1) = 1
-            THEN (SUBSTR(FRONT_SSN,1,2) - TO_CHAR(SYSDATE, 'YYYY') + 2000) * -1 
-            END AS user_age 
-	FROM U_PRIVATE_DATA U
-	WHERE U_NICKNAME = #{nickName}
-</select>
+		SELECT COUNT(*) AS COUNT
+		FROM U_PRIVATE_DATA
+		WHERE U_ID =
+		#{id}
 
-<!-- 로그인 회원 관심지역 -->
-<select id ="userIntregions" parameterType="java.lang.String" resultType="java.lang.String">
-	SELECT CASE WHEN INSTR(L.REGION_NAME, '도 ') != 0 AND INSTR(L.REGION_NAME, '시 ') != 0 
-	                    THEN SUBSTR(L.REGION_NAME, INSTR(L.REGION_NAME, ' ')+1, INSTR(L.REGION_NAME, '구'))
-	                    WHEN INSTR(L.REGION_NAME, '광역시') != 0 
-	                    THEN REPLACE(L.REGION_NAME, '광역시', '')
-	                    WHEN INSTR(L.REGION_NAME, '특별시') != 0
-	                    THEN REPLACE(L.REGION_NAME, '특별시', '')
-	                    ELSE SUBSTR(L.REGION_NAME, INSTR(L.REGION_NAME, ' ')+1)
-	                    END AS user_intregions
-	FROM
-	    (
-	    SELECT R.REGION_NAME as REGION_NAME
-		FROM U_ATTENTION A, REGION R
-		WHERE A.U_CODE = #{userCode}
-	  	  AND A.REGION_CODE = R.REGION_CODE
-	    ) L
-</select>
-
-<!-- 마이페이지용 회원 정보 불러오기 -->
-<select id ="getUserInfo" parameterType="java.lang.String" resultType="com.kkini.dto.UserDTO">
-	SELECT U.U_ID AS USER_ID, SUBSTR(U.U_PHONE_NUMBER,0,3)||'-'||SUBSTR(U.U_PHONE_NUMBER,4,4)||'-'||SUBSTR(U.U_PHONE_NUMBER,8,4) AS USER_PHONENUMBER, U.U_INTRODUCE AS USER_INTRODUCE ,R.REGION_NAME AS USER_ADDR
-	FROM REGION R, U_PRIVATE_DATA U
-	WHERE R.REGION_CODE = U.U_REGION_CODE
-  	AND U.U_CODE = #{userCode}
-</select>
-
-<!-- 회원 성격 -->
-<select id ="getUserCha" parameterType="java.lang.String" resultType="java.lang.String">
-	SELECT CT.CHA AS CHARACTER
-	FROM CHARACTER C, CHA_TYPE CT
-	WHERE C.U_CODE = #{userCode}
-	AND C.CHA_TYPE_CODE = CT.CHA_TYPE_CODE
-</select>
+	</select>
 
 
-<!-- 회원 관심사 -->
-<select id ="getUserInt" parameterType="java.lang.String" resultType="java.lang.String">
-	SELECT IT.INTER AS USER_INTERESTS
-	FROM INTEREST I, INTER_TYPE IT
-	WHERE I.U_CODE = #{userCode}
-	  AND I.INTER_TYPE_CODE = IT.INTER_TYPE_CODE
-</select>
+	<!-- 닉네임 중복검사 -->
+	<select id="nickNameOverlapCheck"
+		parameterType="java.lang.String" resultType="java.lang.Integer">
+		SELECT COUNT(*) AS COUNT
+		FROM U_PRIVATE_DATA
+		WHERE U_NICKNAME = #{nickname}
+	</select>
 
-<!-- 회원 식사 속도 -->
-<select id ="getUserSpeed" parameterType="java.lang.String" resultType="java.lang.String">
-	SELECT E.U_SPEED AS USER_EATSPEED
-	FROM EATINGSPEED E, U_PRIVATE_DATA U
-	WHERE U.U_CODE = #{userCode}
-	  AND E.U_SPEED_CODE = U.U_SPEED_CODE
-</select>
 
-<!-- 회원 대화량 -->
-<select id ="getUserTalk" parameterType="java.lang.String" resultType="java.lang.String">
-	SELECT T.AMOUNT AS USER_TALK
-	FROM TALK_AMOUNT T, U_PRIVATE_DATA U
-	WHERE U.U_CODE = #{userCode}
-	  AND T.TALK_AMOUNT_CODE = U.TALK_AMOUNT_CODE
-</select>
 
-<!-- 자기소개 수정 -->
-<update id="updateIntroduce" parameterType="java.lang.String">
-	UPDATE U_PRIVATE_DATA
-	SET U_INTRODUCE = #{introduce}
-	WHERE U_CODE = #{userCode}
-</update>
+	<!-- 점수 가져오기 -->
+	<select id="getScore" parameterType="java.lang.String"
+		resultType="com.kkini.dto.UserDTO">
 
-<!-- 비밀번호 재확인 -->
-<select id="checkPw" parameterType="java.lang.String" resultType="java.lang.Integer">
-	SELECT COUNT(*) AS COUNT
-	FROM U_PRIVATE_DATA
-	WHERE CRYPTPACK.DECRYPT(U_PW, #{user_pw}) = #{user_pw}
-	  AND U_CODE = #{userCode}
-</select> 
+		SELECT NVL
+		(
+		5
+		+ SUM(CASE WHEN (SELECT COUNT(MA.MM_APPLY_CODE)
+		FROM MM_OPEN MO WHERE
+		MA.U_CODE = MO.U_CODE AND MA.MM_OPEN_CODE =
+		MO.MM_OPEN_CODE AND
+		MD.MM_APPLY_CODE = MA.MM_APPLY_CODE) > 0
+		THEN -0.5
+		ELSE (SELECT COUNT(MD.MM_APPLY_CODE) * -0.3 FROM DUAL)
+		END)
+		+ SUM(CASE
+		WHEN (SELECT COUNT(MA.MM_APPLY_CODE) FROM MM_OPEN MO WHERE
+		MA.U_CODE =
+		MO.U_CODE AND MA.MM_OPEN_CODE = MO.MM_OPEN_CODE AND
+		MB.MM_APPLY_CODE_T
+		= MA.MM_APPLY_CODE) > 0
+		THEN -0.5
+		ELSE (SELECT COUNT(MB.MM_APPLY_CODE_T)
+		* -0.3 FROM DUAL)
+		END)
+		+ (COUNT(MF.MM_APPLY_CODE_T) * 0.1)
+		, 0
+		)AS
+		ATTENDSCORE
+		FROM MM_APPLY MA, MM_DROPOUT MD, MM_ABSENT MB, MM_FEEDBACK
+		MF
+		WHERE MA.U_CODE = #{userCode}
+		AND MA.MM_APPLY_CODE =
+		MD.MM_APPLY_CODE(+)
+		AND MA.MM_APPLY_CODE = MB.MM_APPLY_CODE_T(+)
+		AND
+		MA.MM_APPLY_CODE = MF.MM_APPLY_CODE_T(+)
 
-<!-- 거주지 업데이트 -->
-<update id="updateAddr" parameterType="java.lang.String">
-	UPDATE U_PRIVATE_DATA
-	SET U_REGION_CODE =
-	(
-	SELECT REGION_CODE
-	FROM REGION
-	WHERE REGION_NAME = #{user_addr}
-	)
-	WHERE U_CODE = #{userCode}
-</update>
+	</select>
 
-<!-- 관심지역 삭제 -->
-<delete id="deleteIntregions">
-DELETE
-FROM U_ATTENTION
+	<select id="checkJoinRoomList" parameterType="java.lang.String"
+		resultType="java.lang.Integer">
+		SELECT COUNT(*) AS COUNT
+		FROM MM_APPLY APPLY JOIN MM_OPEN
+		OPEN
+		ON OPEN.MM_OPEN_CODE = APPLY.MM_OPEN_CODE
+		WHERE APPLY.U_CODE=
+		#{userCode}
+		AND OPEN.VISIT_DATE > SYSDATE
+		AND APPLY.MM_APPLY_CODE NOT
+		IN(
+		SELECT KICKOUT.MM_APPLY_CODE
+		FROM MM_KICKOUT KICKOUT
+		)
+		AND
+		OPEN.MM_OPEN_CODE NOT IN(SELECT MM_OPEN_CODE
+		FROM MM_CHECK C LEFT JOIN
+		MM_CHECK_TYPE CT
+		ON C.MM_CT_CODE = CT.MM_CT_CODE
+		WHERE
+		CT.CHECK_TYPE='삭제'
+		AND C.MM_OPEN_CODE = OPEN.MM_OPEN_CODE
+		)
+		AND
+		APPLY.MM_APPLY_CODE NOT IN (SELECT MD.MM_APPLY_CODE FROM MM_DROPOUT
+		MD, MM_APPLY MA WHERE MD.MM_APPLY_CODE = MA.MM_APPLY_CODE AND U_CODE =
+		#{user_code})
+	</select>
+
+
+	<select id="checkOpenRoomList" parameterType="java.lang.String"
+		resultType="java.lang.Integer">
+		SELECT COUNT(*) AS COUNT
+		FROM MM_OPEN OPEN LEFT JOIN MM_CHECK C
+		ON
+		OPEN.MM_OPEN_CODE = C.MM_OPEN_CODE
+		LEFT JOIN MM_CHECK_TYPE CT
+		ON
+		C.MM_CT_CODE = CT.MM_CT_CODE
+		JOIN REST
+		ON OPEN.REST_CODE =
+		REST.REST_CODE
+		WHERE OPEN.U_CODE = #{user_code}
+		AND OPEN.VISIT_DATE >
+		SYSDATE
+		AND OPEN.MM_OPEN_CODE NOT IN(SELECT MM_OPEN_CODE
+		FROM MM_CHECK C
+		LEFT JOIN MM_CHECK_TYPE CT
+		ON C.MM_CT_CODE = CT.MM_CT_CODE
+		WHERE
+		CT.CHECK_TYPE='삭제'
+		AND C.MM_OPEN_CODE = OPEN.MM_OPEN_CODE
+		)
+		AND (SELECT
+		COUNT(*) FROM MM_DROPOUT MD, MM_APPLY MA WHERE
+		MD.MM_APPLY_CODE =
+		MA.MM_APPLY_CODE AND U_CODE = #{user_code}) <![CDATA[<]]>
+		1
+	</select>
+
+
+	<select id="getJoinRoomList" parameterType="java.lang.String"
+		resultType="com.kkini.dto.MemaDTO">
+		SELECT ROOM_STATUS AS "roomStatus", VISIT_DATE AS
+		"visitDate", REST_NAME AS
+		"restName", OPEN_CODE AS "openCode"
+		FROM
+		USER_MM_APPLY_VIEW MAV, MM_APPLY APPLY
+		WHERE MAV.U_CODE = #{user_code}
+		AND OPEN_CODE = APPLY.MM_OPEN_CODE
+		AND APPLY.U_CODE = MAV.U_CODE
+		AND
+		APPLY.MM_APPLY_CODE NOT IN (SELECT MD.MM_APPLY_CODE FROM MM_DROPOUT
+		MD, MM_APPLY MA WHERE MD.MM_APPLY_CODE = MA.MM_APPLY_CODE AND U_CODE =
+		#{user_code})
+	</select>
+
+	<select id="getOpenRoomList" parameterType="java.lang.String"
+		resultType="com.kkini.dto.MemaDTO">
+		SELECT OPEN_CODE AS "openCode"
+		, VISIT_DATE AS "visitDate"
+		, REST_NAME
+		AS "restName"
+		, DEADLINE AS "deadline"
+		FROM USER_MM_OPEN_VIEW MOV
+		WHERE
+		OPEN_USER_CODE = #{user_code}
+		AND (SELECT COUNT(*) FROM MM_CHECK MC
+		WHERE MOV.OPEN_CODE =
+		MC.MM_OPEN_CODE AND MM_CT_CODE = 'MCTC000002') <![CDATA[<]]>
+		1
+		AND (SELECT COUNT(*) FROM MM_DROPOUT MD, MM_APPLY MA WHERE
+		MD.MM_APPLY_CODE = MA.MM_APPLY_CODE AND U_CODE = #{user_code}) <![CDATA[<]]>
+		1
+	</select>
+
+	<!-- 로그인 회원 연령 및 나이 -->
+	<select id="userGenderAge" parameterType="java.lang.String"
+		resultType="com.kkini.dto.UserDTO">
+		SELECT CASE WHEN U.BACK_SSN = '1' OR U.BACK_SSN = '3' THEN
+		'남성' ELSE '여성'
+		END AS user_gender
+		, CASE WHEN INSTR(U.FRONT_SSN, '0',1)
+		!= 1
+		THEN (SUBSTR(FRONT_SSN,1,2) - TO_CHAR(SYSDATE, 'YYYY') + 1900) *
+		-1
+		WHEN INSTR(U.FRONT_SSN, '0',1) = 1
+		THEN (SUBSTR(FRONT_SSN,1,2) -
+		TO_CHAR(SYSDATE, 'YYYY') + 2000) * -1
+		END AS user_age
+		FROM
+		U_PRIVATE_DATA U
+		WHERE U_NICKNAME = #{nickName}
+	</select>
+
+	<!-- 로그인 회원 관심지역 -->
+	<select id="userIntregions" parameterType="java.lang.String"
+		resultType="java.lang.String">
+		SELECT CASE WHEN INSTR(L.REGION_NAME, '도 ') != 0 AND
+		INSTR(L.REGION_NAME, '시
+		') != 0
+		THEN SUBSTR(L.REGION_NAME,
+		INSTR(L.REGION_NAME, ' ')+1,
+		INSTR(L.REGION_NAME, '구'))
+		WHEN
+		INSTR(L.REGION_NAME, '광역시') != 0
+		THEN REPLACE(L.REGION_NAME, '광역시', '')
+		WHEN INSTR(L.REGION_NAME, '특별시') != 0
+		THEN REPLACE(L.REGION_NAME,
+		'특별시', '')
+		ELSE SUBSTR(L.REGION_NAME, INSTR(L.REGION_NAME, ' ')+1)
+		END
+		AS user_intregions
+		FROM
+		(
+		SELECT R.REGION_NAME as REGION_NAME
+		FROM
+		U_ATTENTION A, REGION R
+		WHERE
+		A.U_CODE = #{userCode}
+		AND A.REGION_CODE =
+		R.REGION_CODE
+		) L
+	</select>
+
+	<!-- 마이페이지용 회원 정보 불러오기 -->
+	<select id="getUserInfo" parameterType="java.lang.String"
+		resultType="com.kkini.dto.UserDTO">
+		SELECT U.U_ID AS USER_ID,
+		SUBSTR(U.U_PHONE_NUMBER,0,3)||'-'||SUBSTR(U.U_PHONE_NUMBER,4,4)||'-'||SUBSTR(U.U_PHONE_NUMBER,8,4)
+		AS USER_PHONENUMBER, U.U_INTRODUCE AS USER_INTRODUCE ,R.REGION_NAME AS
+		USER_ADDR
+		FROM REGION R, U_PRIVATE_DATA U
+		WHERE R.REGION_CODE =
+		U.U_REGION_CODE
+		AND U.U_CODE = #{userCode}
+	</select>
+
+	<!-- 회원 성격 -->
+	<select id="getUserCha" parameterType="java.lang.String"
+		resultType="java.lang.String">
+		SELECT CT.CHA AS CHARACTER
+		FROM CHARACTER C, CHA_TYPE CT
+		WHERE C.U_CODE = #{userCode}
+		AND C.CHA_TYPE_CODE = CT.CHA_TYPE_CODE
+	</select>
+
+
+	<!-- 회원 관심사 -->
+	<select id="getUserInt" parameterType="java.lang.String"
+		resultType="java.lang.String">
+		SELECT IT.INTER AS USER_INTERESTS
+		FROM INTEREST I,
+		INTER_TYPE IT
+		WHERE I.U_CODE = #{userCode}
+		AND I.INTER_TYPE_CODE =
+		IT.INTER_TYPE_CODE
+	</select>
+
+	<!-- 회원 식사 속도 -->
+	<select id="getUserSpeed" parameterType="java.lang.String"
+		resultType="java.lang.String">
+		SELECT E.U_SPEED AS USER_EATSPEED
+		FROM EATINGSPEED E,
+		U_PRIVATE_DATA U
+		WHERE U.U_CODE = #{userCode}
+		AND E.U_SPEED_CODE =
+		U.U_SPEED_CODE
+	</select>
+
+	<!-- 회원 대화량 -->
+	<select id="getUserTalk" parameterType="java.lang.String"
+		resultType="java.lang.String">
+		SELECT T.AMOUNT AS USER_TALK
+		FROM TALK_AMOUNT T,
+		U_PRIVATE_DATA U
+		WHERE U.U_CODE = #{userCode}
+		AND T.TALK_AMOUNT_CODE =
+		U.TALK_AMOUNT_CODE
+	</select>
+
+	<!-- 자기소개 수정 -->
+	<update id="updateIntroduce" parameterType="java.lang.String">
+		UPDATE U_PRIVATE_DATA
+		SET U_INTRODUCE = #{introduce}
+		WHERE U_CODE = #{userCode}
+	</update>
+
+	<!-- 비밀번호 재확인 -->
+	<select id="checkPw" parameterType="java.lang.String"
+		resultType="java.lang.Integer">
+		SELECT COUNT(*) AS COUNT
+		FROM U_PRIVATE_DATA
+		WHERE
+		CRYPTPACK.DECRYPT(U_PW, #{user_pw}) = #{user_pw}
+		AND U_CODE =
+		#{userCode}
+	</select>
+
+	<!-- 거주지 업데이트 -->
+	<update id="updateAddr" parameterType="java.lang.String">
+		UPDATE U_PRIVATE_DATA
+		SET
+		U_REGION_CODE =
+		(
+		SELECT REGION_CODE
+		FROM REGION
+		WHERE REGION_NAME =
+		#{user_addr}
+		)
+		WHERE U_CODE = #{userCode}
+	</update>
+
+	<!-- 관심지역 삭제 -->
+	<delete id="deleteIntregions">
+		DELETE
+		FROM U_ATTENTION
+		WHERE U_CODE = #{userCode}
+	</delete>
+
+	<!-- 닉네임, 전화번호, 비밀번호 업데이트 -->
+	<update id="updatePrivateInfo" parameterType="java.lang.String">
+		UPDATE
+		U_PRIVATE_DATA
+		SET U_PW = CRYPTPACK.ENCRYPT(#{user_pw}, #{user_pw})
+		,
+		U_PHONE_NUMBER = #{user_phonenumber}
+		, U_NICKNAME = #{nickName}
+		WHERE
+		U_CODE = #{userCode}
+	</update>
+
+	<!-- 카운트 리전(임시) -->
+	<select id="countRegion" parameterType="java.lang.String"
+		resultType="java.lang.Integer">
+		SELECT COUNT(*)
+		FROM REGION
+		WHERE REGION_NAME = #{region}
+	</select>
+
+	<!-- 지역 생성(임시) -->
+	<insert id="createRegion" parameterType="java.lang.String">
+		INSERT INTO
+		REGION(REGION_CODE,REGION_NAME)
+		VALUES('RC'||LPAD(SEQ_REGION.NEXTVAL,8,'0'),#{region})
+	</insert>
+
+
+	<!-- 유저 개인 이력 전체 조회 -->
+	<select id="userRecord" parameterType="java.lang.String"
+		resultType="java.util.HashMap">
+		SELECT MAIN_MENU AS "MAIN_MENU"
+		, PERSONAL_PRICE AS "PERSONAL_PRICE"
+		, REST_NAME AS "REST_NAME"
+		, REST_LOCATION AS "REST_LOCATION"
+		, OPEN_KEYWORD AS "OPEN_KEYWORD"
+		, VISIT_DATE AS "VISIT_DATE"
+		, FOOD_CASE AS "FOOD_CASE"
+		, MENU_PRICE AS "MENU_PRICE"
+		, OPEN_CODE AS "openCode"
+		, TO_CHAR(GRADE) AS "GRADE"
+       , TO_CHAR(BAR) AS "BAR"
+		, STATUS AS "STATUS"
+		FROM MM_RECORD_ROOM
+		WHERE U_CODE = #{userCode}
+	</select>
+
+
+
+	<!-- 유저 개인 이력 개설순 정렬조회 -->
+	<select id="userRecordSortDate" parameterType="java.lang.String"
+		resultType="java.util.HashMap">
+		SELECT MAIN_MENU AS "MAIN_MENU"
+		, PERSONAL_PRICE AS "PERSONAL_PRICE"
+		, REST_NAME AS "REST_NAME"
+		, REST_LOCATION AS "REST_LOCATION"
+		, OPEN_KEYWORD AS "OPEN_KEYWORD"
+		, VISIT_DATE AS "VISIT_DATE"
+		, FOOD_CASE AS "FOOD_CASE"
+		, MENU_PRICE AS "MENU_PRICE"
+		, OPEN_CODE AS "openCode"
+		, TO_CHAR(GRADE) AS "GRADE"
+       , TO_CHAR(BAR) AS "BAR"
+		, STATUS AS "STATUS"
+		FROM MM_RECORD_ROOM
+		WHERE U_CODE = #{userCode}
+		ORDER BY OPEN_CODE DESC
+	</select>
+
+
+	<!-- 유저 개인 이력 마감순 조회 -->
+	<select id="userRecordSortClose"
+		parameterType="java.lang.String" resultType="java.util.HashMap">
+		SELECT MAIN_MENU AS
+		"MAIN_MENU"
+		, PERSONAL_PRICE AS "PERSONAL_PRICE"
+		, REST_NAME AS "REST_NAME"
+		, REST_LOCATION AS "REST_LOCATION"
+		, OPEN_KEYWORD AS "OPEN_KEYWORD"
+		, VISIT_DATE AS "VISIT_DATE"
+		, FOOD_CASE AS "FOOD_CASE"
+		, MENU_PRICE AS "MENU_PRICE"
+		, OPEN_CODE AS "openCode"
+		, TO_CHAR(GRADE) AS "GRADE"
+       , TO_CHAR(BAR) AS "BAR"
+		, STATUS AS "STATUS"
+		FROM MM_RECORD_ROOM
+		WHERE U_CODE = #{userCode}
+		AND TO_DATE(VISIT_DATE) -SYSDATE >0
+		ORDER BY SYSDATE - TO_DATE(VISIT_DATE)
+	</select>
+
+
+
+	<!-- 참가중 개인 이력 전체 조회 -->
+	<select id="userRecord_join" parameterType="java.lang.String"
+		resultType="java.util.HashMap">	
+SELECT MAIN_MENU AS "MAIN_MENU"
+       , PERSONAL_PRICE AS "PERSONAL_PRICE"
+       , REST_NAME AS "REST_NAME"
+       , REST_LOCATION AS "REST_LOCATION"
+       , OPEN_KEYWORD AS "OPEN_KEYWORD"
+       , VISIT_DATE AS "VISIT_DATE"
+       , FOOD_CASE AS "FOOD_CASE"
+       , MENU_PRICE AS "MENU_PRICE"
+       , OPEN_CODE AS "openCode"
+       , GRADE AS "GRADE"
+       , BAR AS "BAR"
+       , STATUS AS "STATUS"
+FROM MM_RECORD_ROOM
 WHERE U_CODE = #{userCode}
-</delete>
+   AND STATUS='참가중'
+	</select>
 
-<!-- 닉네임, 전화번호, 비밀번호 업데이트 -->
-<update id="updatePrivateInfo" parameterType="java.lang.String">
-	UPDATE U_PRIVATE_DATA
-	SET  U_PW = CRYPTPACK.ENCRYPT(#{user_pw}, #{user_pw})
-	     , U_PHONE_NUMBER = #{user_phonenumber}
-	     , U_NICKNAME = #{nickName}
-	WHERE U_CODE = #{userCode}
-</update>
+	<select id="userRecord_joinSortDate"
+		parameterType="java.lang.String" resultType="java.util.HashMap">		
+SELECT MAIN_MENU AS "MAIN_MENU"
+       , PERSONAL_PRICE AS "PERSONAL_PRICE"
+       , REST_NAME AS "REST_NAME"
+       , REST_LOCATION AS "REST_LOCATION"
+       , OPEN_KEYWORD AS "OPEN_KEYWORD"
+       , VISIT_DATE AS "VISIT_DATE"
+       , FOOD_CASE AS "FOOD_CASE"
+       , MENU_PRICE AS "MENU_PRICE"
+       , OPEN_CODE AS "openCode"
+       , GRADE AS "GRADE"
+       , BAR AS "BAR"
+       , STATUS AS "STATUS"
+		FROM MM_RECORD_ROOM
+		WHERE U_CODE = #{userCode}
+  		AND STATUS='참가중'
+  		ORDER BY OPEN_CODE
+	</select>
 
-<!-- 카운트 리전(임시) -->
-<select id="countRegion" parameterType="java.lang.String" resultType="java.lang.Integer">
-	SELECT COUNT(*)
-	FROM REGION
-	WHERE REGION_NAME = #{region}
-</select>
-
-<!-- 지역 생성(임시) -->
-<insert id="createRegion" parameterType="java.lang.String">
-	INSERT INTO REGION(REGION_CODE,REGION_NAME)
-	VALUES('RC'||LPAD(SEQ_REGION.NEXTVAL,8,'0'),#{region})
-</insert>
-
-
-<!-- 유저 개인 이력  전체 조회  -->
-<select id="userRecord" parameterType="java.lang.String" resultType="java.util.HashMap">
-SELECT MM_OPEN.MAIN_MENU AS "MAIN_MENU", ROUND(MM_OPEN.MAIN_MENU_PRICE/(SELECT COUNT(*) FROM MM_JOINROOM_MEMBER_VIEW WHERE OPENCODE=MM_OPEN.MM_OPEN_CODE )) AS "PERSONAL_PRICE"
-      , REST.REST_NAME AS "REST_NAME", REST.REST_LOCATION AS "REST_LOCATION", MM_OPEN.OPEN_KEYWORD AS "OPEN_KEYWORD", TO_CHAR(MM_OPEN.VISIT_DATE,'YYYY-MM-DD HH24:MI') AS "VISIT_DATE"
-      , FOOD.FOOD_CASE AS "FOOD_CASE", MM_OPEN.MAIN_MENU_PRICE AS "MENU_PRICE" ,MM_OPEN.MM_OPEN_CODE AS "openCode"
-      , (CASE WHEN MM_APPLY.U_CODE = MM_OPEN.U_CODE THEN '개설' ELSE '참가' END) AS "GRADE"
-      , '메뉴메이트' AS "BAR"
-      , (CASE WHEN MM_OPEN.VISIT_DATE > SYSDATE THEN '참가중'
-             WHEN MM_OPEN.VISIT_DATE <![CDATA[<]]> SYSDATE AND NOT EXISTS(SELECT 1 FROM MM_ABSENT WHERE MM_ABSENT.MM_APPLY_CODE_T = MM_APPLY.MM_APPLY_CODE) THEN '참가완료'
-             WHEN MM_OPEN.VISIT_DATE <![CDATA[<]]> SYSDATE AND EXISTS(SELECT 1 FROM MM_ABSENT WHERE MM_ABSENT.MM_APPLY_CODE_T = MM_APPLY.MM_APPLY_CODE) THEN '불참'
-             ELSE '오류발생' END) AS "STATUS"
-             
-FROM MM_OPEN JOIN MM_APPLY
-ON MM_OPEN.MM_OPEN_CODE = MM_APPLY.MM_OPEN_CODE
-JOIN GENDER
-ON MM_OPEN.GENDER_CODE = GENDER.GENDER_CODE
-JOIN AGE_GROUP AGE
-ON MM_OPEN.AGE_GROUP_CODE = AGE.AGE_GROUP_CODE
-JOIN U_PRIVATE_DATA U_DATA
-ON MM_OPEN.U_CODE = U_DATA.U_CODE
-JOIN REST
-ON MM_OPEN.REST_CODE = REST.REST_CODE
-JOIN FOOD_CTG FOOD
-ON MM_OPEN.FOOD_CTG_CODE = FOOD.FOOD_CTG_CODE
-WHERE NOT EXISTS (SELECT 1 FROM MM_KICKOUT WHERE MM_KICKOUT.MM_APPLY_CODE = MM_APPLY.MM_APPLY_CODE)
-AND NOT EXISTS (SELECT 1 FROM MM_DROPOUT WHERE MM_DROPOUT.MM_APPLY_CODE = MM_APPLY.MM_APPLY_CODE)
-AND NOT EXISTS (SELECT 1 FROM MM_CHECK WHERE MM_CHECK.MM_OPEN_CODE = MM_OPEN.MM_OPEN_CODE AND MM_CHECK.MM_CT_CODE LIKE (SELECT MM_CT_CODE FROM MM_CHECK_TYPE WHERE CHECK_TYPE='삭제' ))
-AND MM_APPLY.U_CODE = #{userCode}
-</select>
+	<select id="userRecord_joinSortClose"
+		parameterType="java.lang.String" resultType="java.util.HashMap">
+SELECT MAIN_MENU AS "MAIN_MENU"
+       , PERSONAL_PRICE AS "PERSONAL_PRICE"
+       , REST_NAME AS "REST_NAME"
+       , REST_LOCATION AS "REST_LOCATION"
+       , OPEN_KEYWORD AS "OPEN_KEYWORD"
+       , VISIT_DATE AS "VISIT_DATE"
+       , FOOD_CASE AS "FOOD_CASE"
+       , MENU_PRICE AS "MENU_PRICE"
+       , OPEN_CODE AS "openCode"
+       , GRADE AS "GRADE"
+       , BAR AS "BAR"
+       , STATUS AS "STATUS"
+		FROM MM_RECORD_ROOM
+		WHERE U_CODE = #{userCode}
+  		AND STATUS='참가중'
+		ORDER BY VISIT_DATE
+	</select>
 
 
 
-<!-- 유저 개인 이력  개설순 정렬조회  -->
-<select id="userRecordSortDate" parameterType="java.lang.String" resultType="java.util.HashMap">
-SELECT MM_OPEN.MAIN_MENU AS "MAIN_MENU", ROUND(MM_OPEN.MAIN_MENU_PRICE/(SELECT COUNT(*) FROM MM_JOINROOM_MEMBER_VIEW WHERE OPENCODE=MM_OPEN.MM_OPEN_CODE )) AS "PERSONAL_PRICE"
-      , REST.REST_NAME AS "REST_NAME", REST.REST_LOCATION AS "REST_LOCATION", MM_OPEN.OPEN_KEYWORD AS "OPEN_KEYWORD", TO_CHAR(MM_OPEN.VISIT_DATE,'YYYY-MM-DD HH24:MI') AS "VISIT_DATE"
-      , FOOD.FOOD_CASE AS "FOOD_CASE", MM_OPEN.MAIN_MENU_PRICE AS "MENU_PRICE" ,MM_OPEN.MM_OPEN_CODE AS "openCode"
-      , (CASE WHEN MM_APPLY.U_CODE = MM_OPEN.U_CODE THEN '개설' ELSE '참가' END) AS "GRADE"
-      , '메뉴메이트' AS "BAR"
-      , (CASE WHEN MM_OPEN.VISIT_DATE > SYSDATE THEN '참가중'
-             WHEN MM_OPEN.VISIT_DATE <![CDATA[<]]> SYSDATE AND NOT EXISTS(SELECT 1 FROM MM_ABSENT WHERE MM_ABSENT.MM_APPLY_CODE_T = MM_APPLY.MM_APPLY_CODE) THEN '참가완료'
-             WHEN MM_OPEN.VISIT_DATE <![CDATA[<]]> SYSDATE AND EXISTS(SELECT 1 FROM MM_ABSENT WHERE MM_ABSENT.MM_APPLY_CODE_T = MM_APPLY.MM_APPLY_CODE) THEN '불참'
-             ELSE '오류발생' END) AS "STATUS"
-FROM MM_OPEN JOIN MM_APPLY
-ON MM_OPEN.MM_OPEN_CODE = MM_APPLY.MM_OPEN_CODE
-JOIN GENDER
-ON MM_OPEN.GENDER_CODE = GENDER.GENDER_CODE
-JOIN AGE_GROUP AGE
-ON MM_OPEN.AGE_GROUP_CODE = AGE.AGE_GROUP_CODE
-JOIN U_PRIVATE_DATA U_DATA
-ON MM_OPEN.U_CODE = U_DATA.U_CODE
-JOIN REST
-ON MM_OPEN.REST_CODE = REST.REST_CODE
-JOIN FOOD_CTG FOOD
-ON MM_OPEN.FOOD_CTG_CODE = FOOD.FOOD_CTG_CODE
-WHERE NOT EXISTS (SELECT 1 FROM MM_KICKOUT WHERE MM_KICKOUT.MM_APPLY_CODE = MM_APPLY.MM_APPLY_CODE)
-AND NOT EXISTS (SELECT 1 FROM MM_DROPOUT WHERE MM_DROPOUT.MM_APPLY_CODE = MM_APPLY.MM_APPLY_CODE)
-AND NOT EXISTS (SELECT 1 FROM MM_CHECK WHERE MM_CHECK.MM_OPEN_CODE = MM_OPEN.MM_OPEN_CODE AND MM_CHECK.MM_CT_CODE LIKE (SELECT MM_CT_CODE FROM MM_CHECK_TYPE WHERE CHECK_TYPE='삭제' ))
-AND MM_APPLY.U_CODE = #{userCode}
-ORDER BY MM_OPEN.MM_OPEN_CODE DESC
-</select>
+	<!-- 참여완료 개인 이력 전체 조회 -->
+	<select id="userRecord_complete"
+		parameterType="java.lang.String" resultType="java.util.HashMap">
+		SELECT MAIN_MENU AS "MAIN_MENU"
+       , PERSONAL_PRICE AS "PERSONAL_PRICE"
+       , REST_NAME AS "REST_NAME"
+       , REST_LOCATION AS "REST_LOCATION"
+       , OPEN_KEYWORD AS "OPEN_KEYWORD"
+       , VISIT_DATE AS "VISIT_DATE"
+       , FOOD_CASE AS "FOOD_CASE"
+       , MENU_PRICE AS "MENU_PRICE"
+       , OPEN_CODE AS "openCode"
+       , GRADE AS "GRADE"
+       , BAR AS "BAR"
+       , STATUS AS "STATUS"
+		FROM MM_RECORD_ROOM
+		WHERE U_CODE = #{userCode}
+  		AND STATUS='참가완료'
+	</select>
+
+	<select id="userRecord_completeSortDate"
+		parameterType="java.lang.String" resultType="java.util.HashMap">
+		SELECT MAIN_MENU AS "MAIN_MENU"
+       , PERSONAL_PRICE AS "PERSONAL_PRICE"
+       , REST_NAME AS "REST_NAME"
+       , REST_LOCATION AS "REST_LOCATION"
+       , OPEN_KEYWORD AS "OPEN_KEYWORD"
+       , VISIT_DATE AS "VISIT_DATE"
+       , FOOD_CASE AS "FOOD_CASE"
+       , MENU_PRICE AS "MENU_PRICE"
+       , OPEN_CODE AS "openCode"
+       , GRADE AS "GRADE"
+       , BAR AS "BAR"
+       , STATUS AS "STATUS"
+		FROM MM_RECORD_ROOM
+		WHERE U_CODE = #{userCode}
+  		AND STATUS='참가완료'
+  		ORDER BY OPEN_CODE
+	</select>
 
 
-<!-- 유저 개인 이력  마감순 조회 --> 
-<select id="userRecordSortClose" parameterType="java.lang.String" resultType="java.util.HashMap">
-SELECT MM_OPEN.MAIN_MENU AS "MAIN_MENU", ROUND(MM_OPEN.MAIN_MENU_PRICE/(SELECT COUNT(*) FROM MM_JOINROOM_MEMBER_VIEW WHERE OPENCODE=MM_OPEN.MM_OPEN_CODE )) AS "PERSONAL_PRICE"
-      , REST.REST_NAME AS "REST_NAME", REST.REST_LOCATION AS "REST_LOCATION", MM_OPEN.OPEN_KEYWORD AS "OPEN_KEYWORD", TO_CHAR(MM_OPEN.VISIT_DATE,'YYYY-MM-DD HH24:MI') AS "VISIT_DATE"
-      , FOOD.FOOD_CASE AS "FOOD_CASE", MM_OPEN.MAIN_MENU_PRICE AS "MENU_PRICE" ,MM_OPEN.MM_OPEN_CODE AS "openCode"
-       , (CASE WHEN MM_APPLY.U_CODE = MM_OPEN.U_CODE THEN '개설' ELSE '참가' END) AS "GRADE"
-      , '메뉴메이트' AS "BAR"
-      , (CASE WHEN MM_OPEN.VISIT_DATE > SYSDATE THEN '참가중'
-             WHEN MM_OPEN.VISIT_DATE <![CDATA[<]]> SYSDATE AND NOT EXISTS(SELECT 1 FROM MM_ABSENT WHERE MM_ABSENT.MM_APPLY_CODE_T = MM_APPLY.MM_APPLY_CODE) THEN '참가완료'
-             WHEN MM_OPEN.VISIT_DATE <![CDATA[<]]> SYSDATE AND EXISTS(SELECT 1 FROM MM_ABSENT WHERE MM_ABSENT.MM_APPLY_CODE_T = MM_APPLY.MM_APPLY_CODE) THEN '불참'
-             ELSE '오류발생' END) AS "STATUS"
-FROM MM_OPEN JOIN MM_APPLY
-ON MM_OPEN.MM_OPEN_CODE = MM_APPLY.MM_OPEN_CODE
-JOIN GENDER
-ON MM_OPEN.GENDER_CODE = GENDER.GENDER_CODE
-JOIN AGE_GROUP AGE
-ON MM_OPEN.AGE_GROUP_CODE = AGE.AGE_GROUP_CODE
-JOIN U_PRIVATE_DATA U_DATA
-ON MM_OPEN.U_CODE = U_DATA.U_CODE
-JOIN REST
-ON MM_OPEN.REST_CODE = REST.REST_CODE
-JOIN FOOD_CTG FOOD
-ON MM_OPEN.FOOD_CTG_CODE = FOOD.FOOD_CTG_CODE
-WHERE NOT EXISTS (SELECT 1 FROM MM_KICKOUT WHERE MM_KICKOUT.MM_APPLY_CODE = MM_APPLY.MM_APPLY_CODE)
-AND NOT EXISTS (SELECT 1 FROM MM_DROPOUT WHERE MM_DROPOUT.MM_APPLY_CODE = MM_APPLY.MM_APPLY_CODE)
-AND NOT EXISTS (SELECT 1 FROM MM_CHECK WHERE MM_CHECK.MM_OPEN_CODE = MM_OPEN.MM_OPEN_CODE AND MM_CHECK.MM_CT_CODE LIKE (SELECT MM_CT_CODE FROM MM_CHECK_TYPE WHERE CHECK_TYPE='삭제' ))
-AND MM_APPLY.U_CODE = #{userCode}
-AND TO_DATE(MM_OPEN.VISIT_DATE) - SYSDATE >0
-ORDER BY SYSDATE - TO_DATE(MM_OPEN.VISIT_DATE)
-</select>
-
-
- 
-<!-- 참가중 개인 이력 전체 조회 -->
-<select id="userRecord_join" parameterType="java.lang.String" resultType="java.util.HashMap">
-SELECT  MM_OPEN.MAIN_MENU AS "MAIN_MENU", ROUND(MM_OPEN.MAIN_MENU_PRICE/(SELECT COUNT(*) FROM MM_JOINROOM_MEMBER_VIEW WHERE OPENCODE=MM_OPEN.MM_OPEN_CODE )) AS "PERSONAL_PRICE"
-      , REST.REST_NAME AS "REST_NAME", REST.REST_LOCATION AS "REST_LOCATION", MM_OPEN.OPEN_KEYWORD AS "OPEN_KEYWORD", TO_CHAR(MM_OPEN.VISIT_DATE,'YYYY-MM-DD HH24:MI') AS "VISIT_DATE"
-      , FOOD.FOOD_CASE AS "FOOD_CASE", MM_OPEN.MAIN_MENU_PRICE AS "MENU_PRICE" ,MM_OPEN.MM_OPEN_CODE AS "openCode"
-       , (CASE WHEN MM_APPLY.U_CODE = MM_OPEN.U_CODE THEN '개설' ELSE '참가' END) AS "GRADE"
-      , '메뉴메이트' AS "BAR"
-      , (CASE WHEN MM_OPEN.VISIT_DATE > SYSDATE THEN '참가중'
-             WHEN MM_OPEN.VISIT_DATE <![CDATA[<]]> SYSDATE AND NOT EXISTS(SELECT 1 FROM MM_ABSENT WHERE MM_ABSENT.MM_APPLY_CODE_T = MM_APPLY.MM_APPLY_CODE) THEN '참가완료'
-             WHEN MM_OPEN.VISIT_DATE <![CDATA[<]]> SYSDATE AND EXISTS(SELECT 1 FROM MM_ABSENT WHERE MM_ABSENT.MM_APPLY_CODE_T = MM_APPLY.MM_APPLY_CODE) THEN '불참'
-             ELSE '오류발생' END) AS "STATUS"
-FROM MM_OPEN JOIN MM_APPLY
-ON MM_OPEN.MM_OPEN_CODE = MM_APPLY.MM_OPEN_CODE
-JOIN GENDER
-ON MM_OPEN.GENDER_CODE = GENDER.GENDER_CODE
-JOIN AGE_GROUP AGE
-ON MM_OPEN.AGE_GROUP_CODE = AGE.AGE_GROUP_CODE
-JOIN REST
-ON MM_OPEN.REST_CODE = REST.REST_CODE
-JOIN FOOD_CTG FOOD
-ON MM_OPEN.FOOD_CTG_CODE = FOOD.FOOD_CTG_CODE
-WHERE NOT EXISTS (SELECT 1 FROM MM_KICKOUT WHERE MM_KICKOUT.MM_APPLY_CODE = MM_APPLY.MM_APPLY_CODE)
-AND NOT EXISTS (SELECT 1 FROM MM_DROPOUT WHERE MM_DROPOUT.MM_APPLY_CODE = MM_APPLY.MM_APPLY_CODE)
-AND NOT EXISTS (SELECT 1 FROM MM_CHECK WHERE MM_CHECK.MM_OPEN_CODE = MM_OPEN.MM_OPEN_CODE AND MM_CHECK.MM_CT_CODE LIKE (SELECT MM_CT_CODE FROM MM_CHECK_TYPE WHERE CHECK_TYPE='삭제' ))
-AND MM_OPEN.VISIT_DATE > SYSDATE
-AND MM_APPLY.U_CODE = #{userCode}
-</select>
-
-<select id="userRecord_joinSortDate" parameterType="java.lang.String" resultType="java.util.HashMap">
-SELECT  MM_OPEN.MAIN_MENU AS "MAIN_MENU", ROUND(MM_OPEN.MAIN_MENU_PRICE/(SELECT COUNT(*) FROM MM_JOINROOM_MEMBER_VIEW WHERE OPENCODE=MM_OPEN.MM_OPEN_CODE )) AS "PERSONAL_PRICE"
-      , REST.REST_NAME AS "REST_NAME", REST.REST_LOCATION AS "REST_LOCATION", MM_OPEN.OPEN_KEYWORD AS "OPEN_KEYWORD", TO_CHAR(MM_OPEN.VISIT_DATE,'YYYY-MM-DD HH24:MI') AS "VISIT_DATE"
-      , FOOD.FOOD_CASE AS "FOOD_CASE", MM_OPEN.MAIN_MENU_PRICE AS "MENU_PRICE" ,MM_OPEN.MM_OPEN_CODE AS "openCode"
-       , (CASE WHEN MM_APPLY.U_CODE = MM_OPEN.U_CODE THEN '개설' ELSE '참가' END) AS "GRADE"
-      , '메뉴메이트' AS "BAR"
-      , (CASE WHEN MM_OPEN.VISIT_DATE > SYSDATE THEN '참가중'
-             WHEN MM_OPEN.VISIT_DATE <![CDATA[<]]> SYSDATE AND NOT EXISTS(SELECT 1 FROM MM_ABSENT WHERE MM_ABSENT.MM_APPLY_CODE_T = MM_APPLY.MM_APPLY_CODE) THEN '참가완료'
-             WHEN MM_OPEN.VISIT_DATE <![CDATA[<]]> SYSDATE AND EXISTS(SELECT 1 FROM MM_ABSENT WHERE MM_ABSENT.MM_APPLY_CODE_T = MM_APPLY.MM_APPLY_CODE) THEN '불참'
-             ELSE '오류발생' END) AS "STATUS"
-FROM MM_OPEN JOIN MM_APPLY
-ON MM_OPEN.MM_OPEN_CODE = MM_APPLY.MM_OPEN_CODE
-JOIN GENDER
-ON MM_OPEN.GENDER_CODE = GENDER.GENDER_CODE
-JOIN AGE_GROUP AGE
-ON MM_OPEN.AGE_GROUP_CODE = AGE.AGE_GROUP_CODE
-JOIN REST
-ON MM_OPEN.REST_CODE = REST.REST_CODE
-JOIN FOOD_CTG FOOD
-ON MM_OPEN.FOOD_CTG_CODE = FOOD.FOOD_CTG_CODE
-WHERE NOT EXISTS (SELECT 1 FROM MM_KICKOUT WHERE MM_KICKOUT.MM_APPLY_CODE = MM_APPLY.MM_APPLY_CODE)
-AND NOT EXISTS (SELECT 1 FROM MM_DROPOUT WHERE MM_DROPOUT.MM_APPLY_CODE = MM_APPLY.MM_APPLY_CODE)
-AND NOT EXISTS (SELECT 1 FROM MM_CHECK WHERE MM_CHECK.MM_OPEN_CODE = MM_OPEN.MM_OPEN_CODE AND MM_CHECK.MM_CT_CODE LIKE (SELECT MM_CT_CODE FROM MM_CHECK_TYPE WHERE CHECK_TYPE='삭제' ))
-AND MM_OPEN.VISIT_DATE > SYSDATE
-AND MM_APPLY.U_CODE = #{userCode}
-ORDER BY MM_OPEN.MM_OPEN_CODE DESC
-</select>
-
-<select id="userRecord_joinSortClose" parameterType="java.lang.String" resultType="java.util.HashMap">
-SELECT  MM_OPEN.MAIN_MENU AS "MAIN_MENU", ROUND(MM_OPEN.MAIN_MENU_PRICE/(SELECT COUNT(*) FROM MM_JOINROOM_MEMBER_VIEW WHERE OPENCODE=MM_OPEN.MM_OPEN_CODE )) AS "PERSONAL_PRICE"
-      , REST.REST_NAME AS "REST_NAME", REST.REST_LOCATION AS "REST_LOCATION", MM_OPEN.OPEN_KEYWORD AS "OPEN_KEYWORD", TO_CHAR(MM_OPEN.VISIT_DATE,'YYYY-MM-DD HH24:MI') AS "VISIT_DATE"
-      , FOOD.FOOD_CASE AS "FOOD_CASE", MM_OPEN.MAIN_MENU_PRICE AS "MENU_PRICE" ,MM_OPEN.MM_OPEN_CODE AS "openCode"
-       , (CASE WHEN MM_APPLY.U_CODE = MM_OPEN.U_CODE THEN '개설' ELSE '참가' END) AS "GRADE"
-      , '메뉴메이트' AS "BAR"
-      , (CASE WHEN MM_OPEN.VISIT_DATE > SYSDATE THEN '참가중'
-             WHEN MM_OPEN.VISIT_DATE <![CDATA[<]]> SYSDATE AND NOT EXISTS(SELECT 1 FROM MM_ABSENT WHERE MM_ABSENT.MM_APPLY_CODE_T = MM_APPLY.MM_APPLY_CODE) THEN '참가완료'
-             WHEN MM_OPEN.VISIT_DATE <![CDATA[<]]> SYSDATE AND EXISTS(SELECT 1 FROM MM_ABSENT WHERE MM_ABSENT.MM_APPLY_CODE_T = MM_APPLY.MM_APPLY_CODE) THEN '불참'
-             ELSE '오류발생' END) AS "STATUS"
-FROM MM_OPEN JOIN MM_APPLY
-ON MM_OPEN.MM_OPEN_CODE = MM_APPLY.MM_OPEN_CODE
-JOIN GENDER
-ON MM_OPEN.GENDER_CODE = GENDER.GENDER_CODE
-JOIN AGE_GROUP AGE
-ON MM_OPEN.AGE_GROUP_CODE = AGE.AGE_GROUP_CODE
-JOIN REST
-ON MM_OPEN.REST_CODE = REST.REST_CODE
-JOIN FOOD_CTG FOOD
-ON MM_OPEN.FOOD_CTG_CODE = FOOD.FOOD_CTG_CODE
-WHERE NOT EXISTS (SELECT 1 FROM MM_KICKOUT WHERE MM_KICKOUT.MM_APPLY_CODE = MM_APPLY.MM_APPLY_CODE)
-AND NOT EXISTS (SELECT 1 FROM MM_DROPOUT WHERE MM_DROPOUT.MM_APPLY_CODE = MM_APPLY.MM_APPLY_CODE)
-AND NOT EXISTS (SELECT 1 FROM MM_CHECK WHERE MM_CHECK.MM_OPEN_CODE = MM_OPEN.MM_OPEN_CODE AND MM_CHECK.MM_CT_CODE LIKE (SELECT MM_CT_CODE FROM MM_CHECK_TYPE WHERE CHECK_TYPE='삭제' ))
-AND MM_OPEN.VISIT_DATE > SYSDATE
-AND MM_APPLY.U_CODE = #{userCode}
-ORDER BY SYSDATE - TO_DATE(MM_OPEN.VISIT_DATE)
-</select>
+	<select id="userRecord_completeSortClose"
+		parameterType="java.lang.String" resultType="java.util.HashMap">
+		SELECT MAIN_MENU AS "MAIN_MENU"
+       , PERSONAL_PRICE AS "PERSONAL_PRICE"
+       , REST_NAME AS "REST_NAME"
+       , REST_LOCATION AS "REST_LOCATION"
+       , OPEN_KEYWORD AS "OPEN_KEYWORD"
+       , VISIT_DATE AS "VISIT_DATE"
+       , FOOD_CASE AS "FOOD_CASE"
+       , MENU_PRICE AS "MENU_PRICE"
+       , OPEN_CODE AS "openCode"
+       , GRADE AS "GRADE"
+       , BAR AS "BAR"
+       , STATUS AS "STATUS"
+		FROM MM_RECORD_ROOM
+		WHERE U_CODE = #{userCode}
+  		AND STATUS='참가완료'
+  		ORDER BY VISIT_DATE
+	</select>
 
 
 
-<!-- 참여완료 개인 이력 전체 조회 -->
-<select id="userRecord_complete" parameterType="java.lang.String" resultType="java.util.HashMap">
-SELECT  MM_OPEN.MAIN_MENU AS "MAIN_MENU", ROUND(MM_OPEN.MAIN_MENU_PRICE/(SELECT COUNT(*) FROM MM_JOINROOM_MEMBER_VIEW WHERE OPENCODE=MM_OPEN.MM_OPEN_CODE )) AS "PERSONAL_PRICE"
-      , REST.REST_NAME AS "REST_NAME", REST.REST_LOCATION AS "REST_LOCATION", MM_OPEN.OPEN_KEYWORD AS "OPEN_KEYWORD", TO_CHAR(MM_OPEN.VISIT_DATE,'YYYY-MM-DD HH24:MI') AS "VISIT_DATE"
-      , FOOD.FOOD_CASE AS "FOOD_CASE", MM_OPEN.MAIN_MENU_PRICE AS "MENU_PRICE" ,MM_OPEN.MM_OPEN_CODE AS "openCode"
-      , (CASE WHEN MM_APPLY.U_CODE = MM_OPEN.U_CODE THEN '개설' ELSE '참가' END) AS "GRADE"
-      , '메뉴메이트' AS "BAR"
-      , (CASE WHEN MM_OPEN.VISIT_DATE > SYSDATE THEN '참가중'
-             WHEN MM_OPEN.VISIT_DATE <![CDATA[<]]> SYSDATE AND NOT EXISTS(SELECT 1 FROM MM_ABSENT WHERE MM_ABSENT.MM_APPLY_CODE_T = MM_APPLY.MM_APPLY_CODE) THEN '참가완료'
-             WHEN MM_OPEN.VISIT_DATE <![CDATA[<]]> SYSDATE AND EXISTS(SELECT 1 FROM MM_ABSENT WHERE MM_ABSENT.MM_APPLY_CODE_T = MM_APPLY.MM_APPLY_CODE) THEN '불참'
-             ELSE '오류발생' END) AS "STATUS"
-FROM MM_OPEN JOIN MM_APPLY
-ON MM_OPEN.MM_OPEN_CODE = MM_APPLY.MM_OPEN_CODE
-JOIN GENDER
-ON MM_OPEN.GENDER_CODE = GENDER.GENDER_CODE
-JOIN AGE_GROUP AGE
-ON MM_OPEN.AGE_GROUP_CODE = AGE.AGE_GROUP_CODE
-JOIN REST
-ON MM_OPEN.REST_CODE = REST.REST_CODE
-JOIN FOOD_CTG FOOD
-ON MM_OPEN.FOOD_CTG_CODE = FOOD.FOOD_CTG_CODE
-WHERE NOT EXISTS (SELECT 1 FROM MM_KICKOUT WHERE MM_KICKOUT.MM_APPLY_CODE = MM_APPLY.MM_APPLY_CODE)
-AND NOT EXISTS (SELECT 1 FROM MM_DROPOUT WHERE MM_DROPOUT.MM_APPLY_CODE = MM_APPLY.MM_APPLY_CODE)
-AND EXISTS (SELECT 1 FROM MM_CHECK WHERE MM_CHECK.MM_OPEN_CODE = MM_OPEN.MM_OPEN_CODE AND MM_CHECK.MM_CT_CODE LIKE (SELECT MM_CT_CODE FROM MM_CHECK_TYPE WHERE CHECK_TYPE='확정' ))
-AND NOT EXISTS(SELECT 1 FROM MM_ABSENT WHERE MM_ABSENT.MM_APPLY_CODE_T = MM_APPLY.MM_APPLY_CODE)
-AND SYSDATE > MM_OPEN.VISIT_DATE
-AND MM_APPLY.U_CODE = #{userCode}
-</select>
+	<!-- 개설 개인 이력 전체 조회 -->
+	<select id="userRecord_opened" parameterType="java.lang.String"
+		resultType="java.util.HashMap">
+	SELECT MAIN_MENU AS "MAIN_MENU"
+       , PERSONAL_PRICE AS "PERSONAL_PRICE"
+       , REST_NAME AS "REST_NAME"
+       , REST_LOCATION AS "REST_LOCATION"
+       , OPEN_KEYWORD AS "OPEN_KEYWORD"
+       , VISIT_DATE AS "VISIT_DATE"
+       , FOOD_CASE AS "FOOD_CASE"
+       , MENU_PRICE AS "MENU_PRICE"
+       , OPEN_CODE AS "openCode"
+       , GRADE AS "GRADE"
+       , BAR AS "BAR"
+       , STATUS AS "STATUS"
+		FROM MM_RECORD_ROOM
+		WHERE U_CODE = #{userCode}
+  		AND GRADE='개설'
+	</select>
 
-<select id="userRecord_completeSortDate" parameterType="java.lang.String" resultType="java.util.HashMap">
-SELECT  MM_OPEN.MAIN_MENU AS "MAIN_MENU", ROUND(MM_OPEN.MAIN_MENU_PRICE/(SELECT COUNT(*) FROM MM_JOINROOM_MEMBER_VIEW WHERE OPENCODE=MM_OPEN.MM_OPEN_CODE )) AS "PERSONAL_PRICE"
-      , REST.REST_NAME AS "REST_NAME", REST.REST_LOCATION AS "REST_LOCATION", MM_OPEN.OPEN_KEYWORD AS "OPEN_KEYWORD", TO_CHAR(MM_OPEN.VISIT_DATE,'YYYY-MM-DD HH24:MI') AS "VISIT_DATE"
-      , FOOD.FOOD_CASE AS "FOOD_CASE", MM_OPEN.MAIN_MENU_PRICE AS "MENU_PRICE" ,MM_OPEN.MM_OPEN_CODE AS "openCode"
-       , (CASE WHEN MM_APPLY.U_CODE = MM_OPEN.U_CODE THEN '개설' ELSE '참가' END) AS "GRADE"
-      , '메뉴메이트' AS "BAR"
-      , (CASE WHEN MM_OPEN.VISIT_DATE > SYSDATE THEN '참가중'
-             WHEN MM_OPEN.VISIT_DATE <![CDATA[<]]> SYSDATE AND NOT EXISTS(SELECT 1 FROM MM_ABSENT WHERE MM_ABSENT.MM_APPLY_CODE_T = MM_APPLY.MM_APPLY_CODE) THEN '참가완료'
-             WHEN MM_OPEN.VISIT_DATE <![CDATA[<]]> SYSDATE AND EXISTS(SELECT 1 FROM MM_ABSENT WHERE MM_ABSENT.MM_APPLY_CODE_T = MM_APPLY.MM_APPLY_CODE) THEN '불참'
-             ELSE '오류발생' END) AS "STATUS"
-FROM MM_OPEN JOIN MM_APPLY
-ON MM_OPEN.MM_OPEN_CODE = MM_APPLY.MM_OPEN_CODE
-JOIN GENDER
-ON MM_OPEN.GENDER_CODE = GENDER.GENDER_CODE
-JOIN AGE_GROUP AGE
-ON MM_OPEN.AGE_GROUP_CODE = AGE.AGE_GROUP_CODE
-JOIN REST
-ON MM_OPEN.REST_CODE = REST.REST_CODE
-JOIN FOOD_CTG FOOD
-ON MM_OPEN.FOOD_CTG_CODE = FOOD.FOOD_CTG_CODE
-WHERE NOT EXISTS (SELECT 1 FROM MM_KICKOUT WHERE MM_KICKOUT.MM_APPLY_CODE = MM_APPLY.MM_APPLY_CODE)
-AND NOT EXISTS (SELECT 1 FROM MM_DROPOUT WHERE MM_DROPOUT.MM_APPLY_CODE = MM_APPLY.MM_APPLY_CODE)
-AND EXISTS (SELECT 1 FROM MM_CHECK WHERE MM_CHECK.MM_OPEN_CODE = MM_OPEN.MM_OPEN_CODE AND MM_CHECK.MM_CT_CODE LIKE (SELECT MM_CT_CODE FROM MM_CHECK_TYPE WHERE CHECK_TYPE='확정' ))
-AND NOT EXISTS(SELECT 1 FROM MM_ABSENT WHERE MM_ABSENT.MM_APPLY_CODE_T = MM_APPLY.MM_APPLY_CODE)
-AND SYSDATE > MM_OPEN.VISIT_DATE
-AND MM_APPLY.U_CODE = #{userCode}
-ORDER BY MM_OPEN.MM_OPEN_CODE DESC
-</select>
+	<select id="userRecord_openedSortDate"
+		parameterType="java.lang.String" resultType="java.util.HashMap">
+	SELECT MAIN_MENU AS "MAIN_MENU"
+       , PERSONAL_PRICE AS "PERSONAL_PRICE"
+       , REST_NAME AS "REST_NAME"
+       , REST_LOCATION AS "REST_LOCATION"
+       , OPEN_KEYWORD AS "OPEN_KEYWORD"
+       , VISIT_DATE AS "VISIT_DATE"
+       , FOOD_CASE AS "FOOD_CASE"
+       , MENU_PRICE AS "MENU_PRICE"
+       , OPEN_CODE AS "openCode"
+       , GRADE AS "GRADE"
+       , BAR AS "BAR"
+       , STATUS AS "STATUS"
+		FROM MM_RECORD_ROOM
+		WHERE U_CODE = #{userCode}
+  		AND GRADE='개설'
+  		ORDER BY OPEN_CODE
+	</select>
 
+	<select id="userRecord_openedSortClose"
+		parameterType="java.lang.String" resultType="java.util.HashMap">
+	SELECT MAIN_MENU AS "MAIN_MENU"
+       , PERSONAL_PRICE AS "PERSONAL_PRICE"
+       , REST_NAME AS "REST_NAME"
+       , REST_LOCATION AS "REST_LOCATION"
+       , OPEN_KEYWORD AS "OPEN_KEYWORD"
+       , VISIT_DATE AS "VISIT_DATE"
+       , FOOD_CASE AS "FOOD_CASE"
+       , MENU_PRICE AS "MENU_PRICE"
+       , OPEN_CODE AS "openCode"
+       , GRADE AS "GRADE"
+       , BAR AS "BAR"
+       , STATUS AS "STATUS"
+		FROM MM_RECORD_ROOM
+		WHERE U_CODE = #{userCode}
+  		AND GRADE='개설'
+  		ORDER BY VISIT_DATE
+	</select>
+	
+	
+	<!-- 불참 -->
+	
+	<select id="userRecord_dropout"  parameterType="java.lang.String" resultType="java.util.HashMap">
+		SELECT MAIN_MENU AS "MAIN_MENU"
+       , PERSONAL_PRICE AS "PERSONAL_PRICE"
+       , REST_NAME AS "REST_NAME"
+       , REST_LOCATION AS "REST_LOCATION"
+       , OPEN_KEYWORD AS "OPEN_KEYWORD"
+       , VISIT_DATE AS "VISIT_DATE"
+       , FOOD_CASE AS "FOOD_CASE"
+       , MENU_PRICE AS "MENU_PRICE"
+       , OPEN_CODE AS "openCode"
+       , GRADE AS "GRADE"
+       , BAR AS "BAR"
+       , STATUS AS "STATUS"
+		FROM MM_RECORD_ROOM
+		WHERE U_CODE = #{userCode}
+  		AND STATUS='불참'
+	</select>
+	
+	
+	
+	
+	<!-- 피드백 대기중 -->
+	
+	<select id="userRecord_feedback" parameterType="java.lang.String" resultType="java.util.HashMap">
+		
+	SELECT MAIN_MENU AS "MAIN_MENU"
+       , PERSONAL_PRICE AS "PERSONAL_PRICE"
+       , REST_NAME AS "REST_NAME"
+       , REST_LOCATION AS "REST_LOCATION"
+       , OPEN_KEYWORD AS "OPEN_KEYWORD"
+       , VISIT_DATE AS "VISIT_DATE"
+       , FOOD_CASE AS "FOOD_CASE"
+       , MENU_PRICE AS "MENU_PRICE"
+       , OPEN_CODE AS "openCode"
+       , GRADE AS "GRADE"
+       , BAR AS "BAR"
+       , STATUS AS "STATUS"
+		FROM MM_RECORD_ROOM
+		WHERE U_CODE = #{userCode}
+  		AND STATUS='피드백 대기'
+	</select>
+	
+	
+	<select id="userRecord_feedbackSortDate" parameterType="java.lang.String" resultType="java.util.HashMap">
+		
+	SELECT MAIN_MENU AS "MAIN_MENU"
+       , PERSONAL_PRICE AS "PERSONAL_PRICE"
+       , REST_NAME AS "REST_NAME"
+       , REST_LOCATION AS "REST_LOCATION"
+       , OPEN_KEYWORD AS "OPEN_KEYWORD"
+       , VISIT_DATE AS "VISIT_DATE"
+       , FOOD_CASE AS "FOOD_CASE"
+       , MENU_PRICE AS "MENU_PRICE"
+       , OPEN_CODE AS "openCode"
+       , GRADE AS "GRADE"
+       , BAR AS "BAR"
+       , STATUS AS "STATUS"
+		FROM MM_RECORD_ROOM
+		WHERE U_CODE = 'UC00000078'
+  		AND STATUS=#{userCode}
+  		ORDER BY VISIT_DATE
+  		ORDER BY OPEN_CODE
+	</select>
+	
+	<select id="userRecord_feedbackSortClose" parameterType="java.lang.String" resultType="java.util.HashMap">
+		
+	SELECT MAIN_MENU AS "MAIN_MENU"
+       , PERSONAL_PRICE AS "PERSONAL_PRICE"
+       , REST_NAME AS "REST_NAME"
+       , REST_LOCATION AS "REST_LOCATION"
+       , OPEN_KEYWORD AS "OPEN_KEYWORD"
+       , VISIT_DATE AS "VISIT_DATE"
+       , FOOD_CASE AS "FOOD_CASE"
+       , MENU_PRICE AS "MENU_PRICE"
+       , OPEN_CODE AS "openCode"
+       , GRADE AS "GRADE"
+       , BAR AS "BAR"
+       , STATUS AS "STATUS"
+		FROM MM_RECORD_ROOM
+		WHERE U_CODE = #{userCode}
+  		AND STATUS='피드백 대기'
+  		ORDER BY VISIT_DATE
+	</select>
 
-<select id="userRecord_completeSortClose" parameterType="java.lang.String" resultType="java.util.HashMap">
-SELECT  MM_OPEN.MAIN_MENU AS "MAIN_MENU", ROUND(MM_OPEN.MAIN_MENU_PRICE/(SELECT COUNT(*) FROM MM_JOINROOM_MEMBER_VIEW WHERE OPENCODE=MM_OPEN.MM_OPEN_CODE )) AS "PERSONAL_PRICE"
-      , REST.REST_NAME AS "REST_NAME", REST.REST_LOCATION AS "REST_LOCATION", MM_OPEN.OPEN_KEYWORD AS "OPEN_KEYWORD", TO_CHAR(MM_OPEN.VISIT_DATE,'YYYY-MM-DD HH24:MI') AS "VISIT_DATE"
-      , FOOD.FOOD_CASE AS "FOOD_CASE", MM_OPEN.MAIN_MENU_PRICE AS "MENU_PRICE" ,MM_OPEN.MM_OPEN_CODE AS "openCode"
-       , (CASE WHEN MM_APPLY.U_CODE = MM_OPEN.U_CODE THEN '개설' ELSE '참가' END) AS "GRADE"
-      , '메뉴메이트' AS "BAR"
-      , (CASE WHEN MM_OPEN.VISIT_DATE > SYSDATE THEN '참가중'
-             WHEN MM_OPEN.VISIT_DATE <![CDATA[<]]> SYSDATE AND NOT EXISTS(SELECT 1 FROM MM_ABSENT WHERE MM_ABSENT.MM_APPLY_CODE_T = MM_APPLY.MM_APPLY_CODE) THEN '참가완료'
-             WHEN MM_OPEN.VISIT_DATE <![CDATA[<]]> SYSDATE AND EXISTS(SELECT 1 FROM MM_ABSENT WHERE MM_ABSENT.MM_APPLY_CODE_T = MM_APPLY.MM_APPLY_CODE) THEN '불참'
-             ELSE '오류발생' END) AS "STATUS"
-FROM MM_OPEN JOIN MM_APPLY
-ON MM_OPEN.MM_OPEN_CODE = MM_APPLY.MM_OPEN_CODE
-JOIN GENDER
-ON MM_OPEN.GENDER_CODE = GENDER.GENDER_CODE
-JOIN AGE_GROUP AGE
-ON MM_OPEN.AGE_GROUP_CODE = AGE.AGE_GROUP_CODE
-JOIN REST
-ON MM_OPEN.REST_CODE = REST.REST_CODE
-JOIN FOOD_CTG FOOD
-ON MM_OPEN.FOOD_CTG_CODE = FOOD.FOOD_CTG_CODE
-WHERE NOT EXISTS (SELECT 1 FROM MM_KICKOUT WHERE MM_KICKOUT.MM_APPLY_CODE = MM_APPLY.MM_APPLY_CODE)
-AND NOT EXISTS (SELECT 1 FROM MM_DROPOUT WHERE MM_DROPOUT.MM_APPLY_CODE = MM_APPLY.MM_APPLY_CODE)
-AND EXISTS (SELECT 1 FROM MM_CHECK WHERE MM_CHECK.MM_OPEN_CODE = MM_OPEN.MM_OPEN_CODE AND MM_CHECK.MM_CT_CODE LIKE (SELECT MM_CT_CODE FROM MM_CHECK_TYPE WHERE CHECK_TYPE='확정' ))
-AND NOT EXISTS(SELECT 1 FROM MM_ABSENT WHERE MM_ABSENT.MM_APPLY_CODE_T = MM_APPLY.MM_APPLY_CODE)
-AND SYSDATE > MM_OPEN.VISIT_DATE
-AND MM_APPLY.U_CODE = #{userCode}
-ORDER BY SYSDATE - TO_DATE(MM_OPEN.VISIT_DATE)
-</select>
+	<!-- 식사속도, 대화량 업데이트 -->
+	<update id="updateSpeedTalk" parameterType="java.lang.String">
+		UPDATE U_PRIVATE_DATA
+		SET TALK_AMOUNT_CODE = #{user_talk}, U_SPEED_CODE = #{user_eatSpeed}
+		WHERE U_CODE = #{userCode}
+	</update>
 
+	<!-- 수정을 위한 기존 성격 삭제 -->
+	<delete id="deleteCha" parameterType="java.lang.String">
+		DELETE
+		FROM CHARACTER
+		WHERE
+		U_CODE = #{userCode}
+	</delete>
+	<!-- 수정을 위한 기존 관심사 삭제 -->
+	<delete id="deleteInt" parameterType="java.lang.String">
+		DELETE
+		FROM INTEREST
+		WHERE
+		U_CODE = #{userCode}
+	</delete>
 
-
-<!-- 개설 개인 이력 전체 조회 -->
-<select id="userRecord_opened" parameterType="java.lang.String" resultType="java.util.HashMap">
-SELECT MM_OPEN.MAIN_MENU AS "MAIN_MENU", ROUND(MM_OPEN.MAIN_MENU_PRICE/(SELECT COUNT(*) FROM MM_JOINROOM_MEMBER_VIEW WHERE OPENCODE=MM_OPEN.MM_OPEN_CODE )) AS "PERSONAL_PRICE"
-      , REST.REST_NAME AS "REST_NAME", REST.REST_LOCATION AS "REST_LOCATION", MM_OPEN.OPEN_KEYWORD AS "OPEN_KEYWORD", TO_CHAR(MM_OPEN.VISIT_DATE,'YYYY-MM-DD HH24:MI') AS "VISIT_DATE"
-      , FOOD.FOOD_CASE AS "FOOD_CASE", MM_OPEN.MAIN_MENU_PRICE AS "MENU_PRICE" ,MM_OPEN.MM_OPEN_CODE AS "openCode"
-       , (CASE WHEN MM_APPLY.U_CODE = MM_OPEN.U_CODE THEN '개설' ELSE '참가' END) AS "GRADE"
-      , '메뉴메이트' AS "BAR"
-      , (CASE WHEN MM_OPEN.VISIT_DATE > SYSDATE THEN '참가중'
-             WHEN MM_OPEN.VISIT_DATE <![CDATA[<]]> SYSDATE AND NOT EXISTS(SELECT 1 FROM MM_ABSENT WHERE MM_ABSENT.MM_APPLY_CODE_T = MM_APPLY.MM_APPLY_CODE) THEN '참가완료'
-             WHEN MM_OPEN.VISIT_DATE <![CDATA[<]]> SYSDATE AND EXISTS(SELECT 1 FROM MM_ABSENT WHERE MM_ABSENT.MM_APPLY_CODE_T = MM_APPLY.MM_APPLY_CODE) THEN '불참'
-             ELSE '오류발생' END) AS "STATUS"
-FROM MM_OPEN JOIN MM_APPLY
-ON MM_OPEN.MM_OPEN_CODE = MM_APPLY.MM_OPEN_CODE
-JOIN GENDER
-ON MM_OPEN.GENDER_CODE = GENDER.GENDER_CODE
-JOIN AGE_GROUP AGE
-ON MM_OPEN.AGE_GROUP_CODE = AGE.AGE_GROUP_CODE
-JOIN REST
-ON MM_OPEN.REST_CODE = REST.REST_CODE
-JOIN FOOD_CTG FOOD
-ON MM_OPEN.FOOD_CTG_CODE = FOOD.FOOD_CTG_CODE
-WHERE NOT EXISTS (SELECT 1 FROM MM_KICKOUT WHERE MM_KICKOUT.MM_APPLY_CODE = MM_APPLY.MM_APPLY_CODE)
-AND NOT EXISTS (SELECT 1 FROM MM_DROPOUT WHERE MM_DROPOUT.MM_APPLY_CODE = MM_APPLY.MM_APPLY_CODE)
-AND NOT EXISTS (SELECT 1 FROM MM_CHECK WHERE MM_CHECK.MM_OPEN_CODE = MM_OPEN.MM_OPEN_CODE AND MM_CHECK.MM_CT_CODE LIKE (SELECT MM_CT_CODE FROM MM_CHECK_TYPE WHERE CHECK_TYPE='삭제' ))
-AND MM_OPEN.U_CODE = #{userCode}
-AND MM_APPLY.U_CODE = #{userCode}
-</select>
-
-<select id="userRecord_openedSortDate" parameterType="java.lang.String" resultType="java.util.HashMap">
-SELECT MM_OPEN.MAIN_MENU AS "MAIN_MENU", ROUND(MM_OPEN.MAIN_MENU_PRICE/(SELECT COUNT(*) FROM MM_JOINROOM_MEMBER_VIEW WHERE OPENCODE=MM_OPEN.MM_OPEN_CODE )) AS "PERSONAL_PRICE"
-      , REST.REST_NAME AS "REST_NAME", REST.REST_LOCATION AS "REST_LOCATION", MM_OPEN.OPEN_KEYWORD AS "OPEN_KEYWORD", TO_CHAR(MM_OPEN.VISIT_DATE,'YYYY-MM-DD HH24:MI') AS "VISIT_DATE"
-      , FOOD.FOOD_CASE AS "FOOD_CASE", MM_OPEN.MAIN_MENU_PRICE AS "MENU_PRICE" ,MM_OPEN.MM_OPEN_CODE AS "openCode"
-       , (CASE WHEN MM_APPLY.U_CODE = MM_OPEN.U_CODE THEN '개설' ELSE '참가' END) AS "GRADE"
-      , '메뉴메이트' AS "BAR"
-      , (CASE WHEN MM_OPEN.VISIT_DATE > SYSDATE THEN '참가중'
-             WHEN MM_OPEN.VISIT_DATE <![CDATA[<]]> SYSDATE AND NOT EXISTS(SELECT 1 FROM MM_ABSENT WHERE MM_ABSENT.MM_APPLY_CODE_T = MM_APPLY.MM_APPLY_CODE) THEN '참가완료'
-             WHEN MM_OPEN.VISIT_DATE <![CDATA[<]]> SYSDATE AND EXISTS(SELECT 1 FROM MM_ABSENT WHERE MM_ABSENT.MM_APPLY_CODE_T = MM_APPLY.MM_APPLY_CODE) THEN '불참'
-             ELSE '오류발생' END) AS "STATUS"
-FROM MM_OPEN JOIN MM_APPLY
-ON MM_OPEN.MM_OPEN_CODE = MM_APPLY.MM_OPEN_CODE
-JOIN GENDER
-ON MM_OPEN.GENDER_CODE = GENDER.GENDER_CODE
-JOIN AGE_GROUP AGE
-ON MM_OPEN.AGE_GROUP_CODE = AGE.AGE_GROUP_CODE
-JOIN REST
-ON MM_OPEN.REST_CODE = REST.REST_CODE
-JOIN FOOD_CTG FOOD
-ON MM_OPEN.FOOD_CTG_CODE = FOOD.FOOD_CTG_CODE
-WHERE NOT EXISTS (SELECT 1 FROM MM_KICKOUT WHERE MM_KICKOUT.MM_APPLY_CODE = MM_APPLY.MM_APPLY_CODE)
-AND NOT EXISTS (SELECT 1 FROM MM_DROPOUT WHERE MM_DROPOUT.MM_APPLY_CODE = MM_APPLY.MM_APPLY_CODE)
-AND NOT EXISTS (SELECT 1 FROM MM_CHECK WHERE MM_CHECK.MM_OPEN_CODE = MM_OPEN.MM_OPEN_CODE AND MM_CHECK.MM_CT_CODE LIKE (SELECT MM_CT_CODE FROM MM_CHECK_TYPE WHERE CHECK_TYPE='삭제' ))
-AND MM_OPEN.U_CODE = #{userCode}
-AND MM_APPLY.U_CODE = #{userCode}
-ORDER BY MM_OPEN.MM_OPEN_CODE DESC
-</select>
-
-<select id="userRecord_openedSortClose" parameterType="java.lang.String" resultType="java.util.HashMap">
-SELECT MM_OPEN.MAIN_MENU AS "MAIN_MENU", ROUND(MM_OPEN.MAIN_MENU_PRICE/(SELECT COUNT(*) FROM MM_JOINROOM_MEMBER_VIEW WHERE OPENCODE=MM_OPEN.MM_OPEN_CODE )) AS "PERSONAL_PRICE"
-      , REST.REST_NAME AS "REST_NAME", REST.REST_LOCATION AS "REST_LOCATION", MM_OPEN.OPEN_KEYWORD AS "OPEN_KEYWORD", TO_CHAR(MM_OPEN.VISIT_DATE,'YYYY-MM-DD HH24:MI') AS "VISIT_DATE"
-      , FOOD.FOOD_CASE AS "FOOD_CASE", MM_OPEN.MAIN_MENU_PRICE AS "MENU_PRICE" ,MM_OPEN.MM_OPEN_CODE AS "openCode"
-      , (CASE WHEN MM_APPLY.U_CODE = MM_OPEN.U_CODE THEN '개설' ELSE '참가' END) AS "GRADE"
-      , '메뉴메이트' AS "BAR"
-      , (CASE WHEN MM_OPEN.VISIT_DATE > SYSDATE THEN '참가중'
-             WHEN MM_OPEN.VISIT_DATE <![CDATA[<]]> SYSDATE AND NOT EXISTS(SELECT 1 FROM MM_ABSENT WHERE MM_ABSENT.MM_APPLY_CODE_T = MM_APPLY.MM_APPLY_CODE) THEN '참가완료'
-             WHEN MM_OPEN.VISIT_DATE <![CDATA[<]]> SYSDATE AND EXISTS(SELECT 1 FROM MM_ABSENT WHERE MM_ABSENT.MM_APPLY_CODE_T = MM_APPLY.MM_APPLY_CODE) THEN '불참'
-             ELSE '오류발생' END) AS "STATUS"
-FROM MM_OPEN JOIN MM_APPLY
-ON MM_OPEN.MM_OPEN_CODE = MM_APPLY.MM_OPEN_CODE
-JOIN GENDER
-ON MM_OPEN.GENDER_CODE = GENDER.GENDER_CODE
-JOIN AGE_GROUP AGE
-ON MM_OPEN.AGE_GROUP_CODE = AGE.AGE_GROUP_CODE
-JOIN REST
-ON MM_OPEN.REST_CODE = REST.REST_CODE
-JOIN FOOD_CTG FOOD
-ON MM_OPEN.FOOD_CTG_CODE = FOOD.FOOD_CTG_CODE
-WHERE NOT EXISTS (SELECT 1 FROM MM_KICKOUT WHERE MM_KICKOUT.MM_APPLY_CODE = MM_APPLY.MM_APPLY_CODE)
-AND NOT EXISTS (SELECT 1 FROM MM_DROPOUT WHERE MM_DROPOUT.MM_APPLY_CODE = MM_APPLY.MM_APPLY_CODE)
-AND NOT EXISTS (SELECT 1 FROM MM_CHECK WHERE MM_CHECK.MM_OPEN_CODE = MM_OPEN.MM_OPEN_CODE AND MM_CHECK.MM_CT_CODE LIKE (SELECT MM_CT_CODE FROM MM_CHECK_TYPE WHERE CHECK_TYPE='삭제' ))
-AND MM_OPEN.U_CODE = #{userCode}
-AND MM_APPLY.U_CODE = #{userCode}
-AND TO_DATE(MM_OPEN.VISIT_DATE) - SYSDATE >0
-ORDER BY SYSDATE - TO_DATE(MM_OPEN.VISIT_DATE)
-</select>
-
-<!-- 식사속도, 대화량 업데이트 -->
-<update id="updateSpeedTalk" parameterType="java.lang.String">
-	UPDATE U_PRIVATE_DATA
-	SET TALK_AMOUNT_CODE = #{user_talk}, U_SPEED_CODE = #{user_eatSpeed}
-	WHERE U_CODE = #{userCode}
-</update>
-
-<!-- 수정을 위한 기존 성격 삭제 -->
-<delete id="deleteCha" parameterType="java.lang.String">
-	DELETE 
-	FROM CHARACTER
-	WHERE U_CODE = #{userCode}
-</delete>
-<!-- 수정을 위한 기존 관심사 삭제 -->
-<delete id="deleteInt" parameterType="java.lang.String">
-	DELETE 
-	FROM INTEREST
-	WHERE U_CODE = #{userCode}
-</delete>
-
-<insert id="send_feedBack" parameterType="java.lang.String">
-INSERT INTO MM_FEEDBACK(MM_FEEDBACK_CODE, MM_APPLY_CODE_T, MM_APPLY_CODE_G, MM_OPEN_CODE)
-VALUES('MFC'||LPAD(SEQ_FEEDBACK.NEXTVAL,7,'0'),#{applyCodeT} ,#{applyCodeG} ,#{openCode})
-</insert>
+	<insert id="send_feedBack" parameterType="java.lang.String">
+		INSERT INTO
+		MM_FEEDBACK(MM_FEEDBACK_CODE, MM_APPLY_CODE_T, MM_APPLY_CODE_G,
+		MM_OPEN_CODE)
+		VALUES('MFC'||LPAD(SEQ_FEEDBACK.NEXTVAL,7,'0'),#{applyCodeT}
+		,#{applyCodeG} ,#{openCode})
+	</insert>
 
 
-<insert id="send_Absent" parameterType="java.lang.String">
-INSERT INTO MM_ABSENT(MM_ABSENT_CODE, MM_APPLY_CODE_T, MM_APPLY_CODE_G, MM_ABSENT_DATE)
-VALUES('MAC'||LPAD(SEQ_ABSENT.NEXTVAL,7,'0'),#{applyCodeT} ,#{applyCodeG},SYSDATE)
-</insert>
+	<insert id="send_Absent" parameterType="java.lang.String">
+		INSERT INTO
+		MM_ABSENT(MM_ABSENT_CODE, MM_APPLY_CODE_T, MM_APPLY_CODE_G,
+		MM_ABSENT_DATE)
+		VALUES('MAC'||LPAD(SEQ_ABSENT.NEXTVAL,7,'0'),#{applyCodeT}
+		,#{applyCodeG},SYSDATE)
+	</insert>
+
+
+	<!--개인 피드백 상황 조회 -->
+	<select id="getfeedBack_Status" parameterType="java.lang.String"
+		resultType="java.lang.String">
+		SELECT (CASE WHEN (NOP_CURRENT -1) = (SELECT COUNT(*) FROM
+		MM_FEEDBACK
+		WHERE MM_FEEDBACK.MM_APPLY_CODE_G = (SELECT MM_APPLY_CODE
+		FROM MM_APPLY
+		WHERE MM_APPLY.U_CODE=#{userCode} AND
+		MM_APPLY.MM_OPEN_CODE=#{openCode})
+		AND MM_FEEDBACK.MM_OPEN_CODE =
+		#{openCode})
+		THEN 'YES' ELSE 'NO' END
+		) AS "FEEDBACK_STATUS"
+		FROM
+		MM_JOINROOM_INFO
+		WHERE OPEN_CODE = #{openCode}
+	</select>
+
+	<!-- 개인 피드백 이력 조회 -->
+	<select id="getfeedBack_Record" parameterType="java.lang.String"
+		resultType="java.lang.String">
+		SELECT MM_APPLY_CODE_T
+		FROM MM_ABSENT
+		WHERE
+		MM_ABSENT.MM_APPLY_CODE_G = (SELECT MM_APPLY_CODE FROM MM_APPLY WHERE
+		MM_APPLY.U_CODE=#{userCode} AND MM_APPLY.MM_OPEN_CODE=#{openCode})
+	</select>
+
 
 </mapper>

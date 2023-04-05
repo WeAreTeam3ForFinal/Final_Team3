@@ -4,7 +4,6 @@
 	request.setCharacterEncoding("UTF-8");
 String cp = request.getContextPath();
 String openCode = request.getParameter("openCode");
-
 %>
 <!DOCTYPE html>
 <html>
@@ -177,52 +176,48 @@ String openCode = request.getParameter("openCode");
 			$(".callModal").click();
 		});
 
-	
-	
-	$("#feedBack-complete").click(function()
-	{
-		$("#feedBackForm").submit();
-		
-	});
+		$("#feedBack-complete").click(function()
+		{
+			$("#feedBackForm").submit();
+
+		});
 
 	});
-	
-	
+
 	function check_yes(obj)
 	{
 		$(obj).attr("src", "assets/images/icons/check-green.png");
-		$(obj).next().attr("src","assets/images/icons/x-black.png");
-		$(obj).next().next().attr("name","attend");
-		
+		$(obj).next().attr("src", "assets/images/icons/x-black.png");
+		$(obj).next().next().attr("name", "attend");
+
 	}
-	
+
 	function check_no(obj)
 	{
 		$(obj).attr("src", "assets/images/icons/x-red.png");
-		$(obj).prev().attr("src","assets/images/icons/check-black.png");
-		$(obj).next().attr("name","absent");
-		
+		$(obj).prev().attr("src", "assets/images/icons/check-black.png");
+		$(obj).next().attr("name", "absent");
+
 	}
-	
+
 	function friendSend(obj)
 	{
 		//alert($(obj).text());
-		$(obj).next().css("display","none");
-		$(obj).css("width","110px");
+		$(obj).next().css("display", "none");
+		$(obj).css("width", "110px");
 		$(obj).removeClass("btn-success");
 		$(obj).addClass("btn-primary");
 		$(obj).text("친구요청 전송");
-		
+
 	}
-	
+
 	function blockSend(obj)
 	{
-		$(obj).prev().css("display","none");
-		$(obj).css("width","90px");
+		$(obj).prev().css("display", "none");
+		$(obj).css("width", "90px");
 		$(obj).text("차단 완료");
-		
+
 	}
-	
 </script>
 
 
@@ -340,7 +335,8 @@ String openCode = request.getParameter("openCode");
 
 			<!-- 모달 코드 영역 -->
 			<div class="modal fade" id="miniProfile" tabindex="-1"
-				data-bs-backdrop="static" aria-labelledby="miniProfileLabel" aria-hidden="true">
+				${not empty feedBack ? '' : "data-bs-backdrop= 'static'" } aria-labelledby="miniProfileLabel"
+				aria-hidden="true">
 				<div class="modal-dialog modal-dialog-centered">
 					<div class="modal-content">
 						<div class="modal-header">
@@ -350,109 +346,162 @@ String openCode = request.getParameter("openCode");
 						</div>
 						<div class="modal-body">
 							<form action="feedBack.kkini" method="post" id="feedBackForm">
-							<input type="hidden" value="<%=openCode %>" name="openCode">
-							<div style="display: flex; flex-direction: row; height: 200px;">
-								<div style="flex-grow: 1; width: 30%;">
-								<br>
-									<c:forEach var="attendees" items="${attendees}">
+								<input type="hidden" value="<%=openCode%>" name="openCode">
+								<div style="display: flex; flex-direction: row; height: 200px;">
+									<div style="flex-grow: 1; width: 30%;">
+										<br>
+										<c:forEach var="attendees" items="${attendees}">
 
-										<c:choose>
+											<c:choose>
 
-											<c:when
-												test="${attendees.userCode eq sessionScope.userCode }">
-												<input type="hidden" style="display: none;" name="applyCodeU" value="${attendees.applyCode}">
-												
-											</c:when>
+												<c:when
+													test="${attendees.userCode eq sessionScope.userCode }">
+													<input type="hidden" style="display: none;"
+														name="applyCodeU" value="${attendees.applyCode}">
 
-											<c:otherwise>
-												<c:choose>
-													<c:when test="${attendees.grade != '일반' }">
-														<img src="assets/images/crown.png" alt=""
-															style="width: 25px;" id="crown" />
-														<img src="assets/images/tmp.jpg" alt=""
-															style="width: 50px; height: 50px;" class="profile" />
+												</c:when>
+
+												<c:otherwise>
+													<c:choose>
+														<c:when test="${attendees.grade != '일반' }">
+															<img src="assets/images/crown.png" alt=""
+																style="width: 25px;" id="crown" />
+															<img src="assets/images/tmp.jpg" alt=""
+																style="width: 50px; height: 50px;" class="profile" />
 												${attendees.attendee}    
 												<br>
-													</c:when>
+														</c:when>
 
-													<c:otherwise>
-														<img src="assets/images/tmp1.jpg" alt=""
-															style="width: 50px; height: 50px;" class="profile" />
+														<c:otherwise>
+															<img src="assets/images/tmp1.jpg" alt=""
+																style="width: 50px; height: 50px;" class="profile" />
 												${attendees.attendee}
 												  <br>
-														<!-- 해야할거 차단은 바로 들어가게 불참투표도 바로 들어가게 바꾸고 불참 처리된 인원은 피드백 불가능하게 교체
+															<!-- 해야할거 차단은 바로 들어가게 불참투표도 바로 들어가게 바꾸고 불참 처리된 인원은 피드백 불가능하게 교체
 												이후 의의신청도 만들어야 할듯  div 세로분할 알아보기 -->
-													</c:otherwise>
-												</c:choose>
-											</c:otherwise>
-										</c:choose>
+														</c:otherwise>
+													</c:choose>
+												</c:otherwise>
+											</c:choose>
 
 
-									</c:forEach>
+										</c:forEach>
 
-									<!-- 해야할거 차단은 바로 들어가게 불참투표도 바로 들어가게 바꾸고 불참 처리된 인원은 피드백 불가능하게 교체
+										<!-- 해야할거 차단은 바로 들어가게 불참투표도 바로 들어가게 바꾸고 불참 처리된 인원은 피드백 불가능하게 교체
 												이후 의의신청도 만들어야 할듯  div 세로분할 알아보기 -->
+									</div>
+
+
+									<div style="flex-grow: 1;">
+										<span style="font-size: small; font-weight: bold;">출석
+											여부</span> <br>
+										<c:forEach var="attendees" items="${attendees}">
+
+											<c:choose>
+												<c:when
+													test="${attendees.userCode eq sessionScope.userCode }">
+
+												</c:when>
+
+												<c:otherwise>
+
+													<!-- choose써서 -->
+
+													<c:choose>
+
+														<c:when test="${not empty feedBack}">
+															
+															<c:choose>
+																
+																<c:when test="${feedBack eq allClear }">
+																
+																
+																<img src="assets/images/icons/check-green.png" alt=""
+																		style="width: 25px;">
+																	<%-- <input type="hidden" value="${attendees.applyCode}"> --%>
+																	
+																	
+																	<span style="line-height: 290%;"><br></span>
+																</c:when>
+															
+															<c:otherwise>
+														
+															<c:forEach items="${feedBack }" var="feedBack">
+															<c:choose> 
+																	
+																<c:when test="${attendees.applyCode eq feedBack}">
+																	<img src="assets/images/icons/x-red.png" alt=""
+																		style="width: 25px;">
+																	<span style="line-height: 290%;"><br></span>
+																</c:when>
+																	
+																<c:otherwise>
+																	<img src="assets/images/icons/check-green.png" alt=""
+																		style="width: 25px;">
+																	<%-- <input type="hidden" value="${attendees.applyCode}"> --%>
+																	
+																	
+																	<span style="line-height: 290%;"><br></span>
+
+																</c:otherwise>
+				
+																		</c:choose>
+																	</c:forEach>
+																</c:otherwise>
+															</c:choose>
+														</c:when>
+		
+														<c:otherwise>
+															<img src="assets/images/icons/check-black.png" alt=""
+																style="width: 25px;" onclick="check_yes(this)">
+															<img src="assets/images/icons/x-black.png" alt=""
+																style="width: 25px;" onclick="check_no(this)">
+															<input type="hidden" value="${attendees.applyCode}">
+
+
+															<span style="line-height: 290%;"><br></span>
+														</c:otherwise>
+
+													</c:choose>
+												</c:otherwise>
+											</c:choose>
+
+										</c:forEach>
+
+									</div>
+
+
+									<div style="flex-grow: 1;">
+										<br>
+										<c:forEach var="attendees" items="${attendees}">
+											<c:choose>
+												<c:when
+													test="${attendees.userCode eq sessionScope.userCode }">
+
+												</c:when>
+
+												<c:otherwise>
+
+													<button class="btn btn-success" type="button"
+														style="width: 90px; height: 38px; font-size: small;"
+														onclick="friendSend(this)">친구요청</button>
+													<button class="btn btn-danger" type="button"
+														style="width: 60px; height: 38px; font-size: small;"
+														onclick="blockSend(this)">차단</button>
+													<input type="hidden" value="${attendees.userCode}">
+
+													<span style="line-height: 290%;"><br></span>
+
+												</c:otherwise>
+											</c:choose>
+										</c:forEach>
+									</div>
 								</div>
-
-
-								<div style="flex-grow: 1;">
-								<span style="font-size: small; font-weight: bold;">출석 여부</span>
-								<br>
-									<c:forEach var="attendees" items="${attendees}">
-
-										<c:choose>
-											<c:when
-												test="${attendees.userCode eq sessionScope.userCode }">
-
-											</c:when>
-
-											<c:otherwise>
-												<img src="assets/images/icons/check-black.png" alt=""
-													style="width: 25px;" onclick="check_yes(this)">
-												<img src="assets/images/icons/x-black.png" alt=""
-													style="width: 25px;" onclick="check_no(this)">
-												<input type="hidden" value="${attendees.applyCode}">
-
-
-												<span style="line-height: 290%;"><br></span>
-											</c:otherwise>
-										</c:choose>
-
-									</c:forEach>
-
-								</div>
-
-
-								<div style="flex-grow: 1;">
-								<br>
-									<c:forEach var="attendees" items="${attendees}">
-										<c:choose>
-											<c:when
-												test="${attendees.userCode eq sessionScope.userCode }">
-
-											</c:when>
-
-											<c:otherwise>
-
-												<button class="btn btn-success" type="button"
-													style="width: 90px; height: 38px; font-size: small;"
-													onclick="friendSend(this)">친구요청</button>
-												<button class="btn btn-danger" type="button"
-													style="width: 60px; height: 38px; font-size: small;"
-													onclick="blockSend(this)">차단</button>
-												<input type="hidden" value="${attendees.userCode}">
-
-												<span style="line-height: 290%;"><br></span>
-
-											</c:otherwise>
-										</c:choose>
-									</c:forEach>
-								</div>
-							</div>
-						</form>
+							</form>
 						</div>
 						<div class="modal-footer">
-							<button class="btn btn-danger" data-bs-dismiss="modal" id="feedBack-complete">확인</button>
+							<button class="btn btn-danger" data-bs-dismiss="modal"
+								id="feedBack-complete">확인</button>
 						</div>
 					</div>
 				</div>
@@ -601,7 +650,7 @@ String openCode = request.getParameter("openCode");
 				</c:forEach>
 
 				<button class="btn btn-primary feedback"
-					style="width: 200px; height: 70px; position: absolute ; top: 60%; left: 58%; border-radius: 10%; text-align: center;">출석
+					style="width: 200px; height: 70px; position: absolute; top: 60%; left: 58%; border-radius: 10%; text-align: center;">출석
 					확인</button>
 			</div>
 
