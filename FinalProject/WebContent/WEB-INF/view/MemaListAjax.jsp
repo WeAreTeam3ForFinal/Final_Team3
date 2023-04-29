@@ -91,6 +91,9 @@
 									<input type="text" style="display:none;" name="openCode" value="${dto.openCode }"> <!-- value에는 각각의 개설코드 들어가야함  -->
 									<input type="text" style="display:none;" class="readyStatus" value="${dto.isReady }"> <!-- 레디상태 확인용  -->
 									<button type="submit" style="display:none;"></button>
+	             		<c:if test="${empty memaList }">
+	             			<span style="text-align: center; font-size: 17pt; font-weight: bold; color: gray;">개설된 모임이 없습니다.</span>
+	             		</c:if>
 								</form>                	
 			                </div>
 			             </c:forEach>
