@@ -659,7 +659,6 @@ public class MemaController
 		}
 		
 		
-		
 		model.addAttribute("openCode", openCode);
 		
 //		System.out.println(openCode);
